@@ -8,14 +8,14 @@
 #' of \code{ds.select} (or as default same name as input object) which is written to the serverside.
 #' @importFrom tidyselect eval_select
 #' @importFrom rlang set_names
+#' @importFrom dplyr
 #' @export
 #'
 selectDS <- function(.data, expr){
 
   ds_data <- eval(parse(text=.data), envir = parent.frame())
-
-  pos <- eval_select(expr, data = ds_data)
-  out <- rlang::set_names(ds_data[pos], names(pos))
+  pos <- eval_select(expr, data = .data)
+  out <- rlang::set_names(.data[pos], names(pos))
   return(out)
 
 }
