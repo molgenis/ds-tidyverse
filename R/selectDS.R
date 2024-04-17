@@ -12,10 +12,11 @@
 #' @export
 #'
 selectDS <- function(.data, expr){
-
   ds_data <- eval(parse(text=.data), envir = parent.frame())
-  pos <- eval_select(expr, data = .data)
-  out <- rlang::set_names(.data[pos], names(pos))
+  expr_replaced <- str_replace_all(expr, fixed("$LB$"), "(")
+  expr_replaced <- str_replace_all(expr_replaced, fixed("$RB$"), ")")
+  expr_replaced <- str_replace_all(expr_replaced, fixed("$QUOTE$"), "'")
+  out <- dplyr::select(ds_data, eval(str2expression(expr_replaced)))
   return(out)
 
 }
