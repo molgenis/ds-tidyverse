@@ -12,22 +12,11 @@
 #' @export
 #'
 selectDS <- function(.data, expr){
-
   ds_data <- eval(parse(text=.data), envir = parent.frame())
-  expr_replaced <- str_replace_all(expr, fixed("$LB$"), "(")
-  expr_replaced <- str_replace_all(expr_replaced, fixed("$RB$"), ")")
-  expr_replaced <- str_replace_all(expr_replaced, fixed("$QUOTE$"), "'")
-  expr_replaced <- str_replace_all(expr_replaced, fixed("$COMMA$"), ",")
-  expr_replaced <- str_replace_all(expr_replaced, fixed("$SPACE$"), " ")
-  expr_replaced <- str_replace_all(expr_replaced, fixed("c("), "") # Better regex
-  expr_replaced <- str_sub(expr_replaced, end = -2)
-
-  expr_split <- str_split(expr_replaced, fixed(","))
-
-  out <- expr_split[[1]] %>%
-    map(~dplyr::select(ds_data, eval(str2expression(.x)))) %>%
-    bind_cols() ## Here we loop over each element of the select_expression and stick all the subsets together
-
+  out <- .decode_tidy_eval(expr, .getEncodeKey())
+  out <- .remove_list(out)
+  # out <- .remove_spaces(out)
+  select_expr <- rlang::parse_exprs( out )
+  out <- ds_data %>% select( !!!select_expr )
   return(out)
-
 }
