@@ -14,9 +14,8 @@
 selectDS <- function(.data, expr){
   ds_data <- eval(parse(text=.data), envir = parent.frame())
   out <- .decode_tidy_eval(expr, .getEncodeKey())
-  out <- .remove_list(out) ## Do this client side?
-  full_out <- paste0(.data, " %>% dplyr::select(", out, ")")
-  select_expr <- rlang::parse_expr( full_out )
-  out <- eval_tidy(select_expr)
+  string_to_eval <- paste0(.data, " %>% dplyr::select(", out, ")")
+  string_as_expr <- rlang::parse_expr( string_to_eval )
+  out <- eval_tidy(string_as_expr)
   return(out)
 }
