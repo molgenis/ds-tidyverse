@@ -11,11 +11,11 @@
 #' @importFrom dplyr
 #' @export
 #'
-selectDS <- function(.data, expr){
-  ds_data <- eval(parse(text=.data), envir = parent.frame())
+selectDS <- function(.data, expr) {
+  ds_data <- eval(parse(text = .data), envir = parent.frame())
   out <- .decode_tidy_eval(expr, .getEncodeKey())
   string_to_eval <- paste0(.data, " %>% dplyr::select(", out, ")")
-  string_as_expr <- rlang::parse_expr( string_to_eval )
+  string_as_expr <- rlang::parse_expr(string_to_eval)
   out <- eval_tidy(string_as_expr)
   return(out)
 }

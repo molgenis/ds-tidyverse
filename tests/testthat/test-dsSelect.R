@@ -1,8 +1,8 @@
 library(testthat)
 
-test_string <- function(string){
-  select_expr <- rlang::parse_exprs( string )
-  out <- mtcars %>% select( !!!select_expr)
+test_string <- function(string) {
+  select_expr <- rlang::parse_exprs(string)
+  out <- mtcars %>% select(!!!select_expr)
   return(out)
 }
 
@@ -77,16 +77,13 @@ test_that("String with '-' works", {
 })
 
 ### FAIL
-select_expr <- rlang::parse_exprs( c("disp,drat,qsec,all_of(c('mpg','cyl'))") )
-dplyr::select(mtcars, disp,drat,qsec,all_of(c('mpg','cyl')))
+select_expr <- rlang::parse_exprs(c("disp,drat,qsec,all_of(c('mpg','cyl'))"))
+dplyr::select(mtcars, disp, drat, qsec, all_of(c("mpg", "cyl")))
 
 
-select_expr <- rlang::parse_exprs( c("c(disp,drat,qsec)") )
+select_expr <- rlang::parse_exprs(c("c(disp,drat,qsec)"))
 
 test_that("String with simple column names works", {
   out <- test_string(c("c(disp,drat,qsec)"))
   expect_equal(colnames(out), c("disp", "drat", "qsec"))
 })
-
-
-
