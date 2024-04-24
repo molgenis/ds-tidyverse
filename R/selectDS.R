@@ -16,4 +16,4 @@ selectDS <- function(.data, expr) {
   tidy_select_args <- .decode_tidy_eval(expr, .getEncodeKey())
   out <- .execute_tidyverse_function(.data, "select", tidy_select_args)
   return(out)
-  }
+}

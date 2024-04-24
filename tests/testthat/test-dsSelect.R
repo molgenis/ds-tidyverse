@@ -76,12 +76,28 @@ test_that("String with '-' works", {
   expect_equal(colnames(out), c("cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", "gear", "carb"))
 })
 
+test_that("String with 'where()' works", {
+  out <- test_string("where(is.numeric)")
+  expect_equal(colnames(out), c("mpg", "cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", "gear", "carb"))
+})
+
+
 ### FAIL
+test_that("String with '= works", {
+  out <- test_string("test = mpg")
+  expect_equal(colnames(out), "mpg")
+})
+
+select_expr <- rlang::parse_exprs(c("test = mpg"))
+
+
 select_expr <- rlang::parse_exprs(c("disp,drat,qsec,all_of(c('mpg','cyl'))"))
+select_expr <- rlang::parse_exprs(c("disp,drat,qsec,all_of(c('mpg','cyl'))"))
+
 dplyr::select(mtcars, disp, drat, qsec, all_of(c("mpg", "cyl")))
 
-
 select_expr <- rlang::parse_exprs(c("c(disp,drat,qsec)"))
+select_expr <- rlang::parse_exprs(c("disp,drat,qsec"))
 
 test_that("String with simple column names works", {
   out <- test_string(c("c(disp,drat,qsec)"))
