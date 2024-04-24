@@ -18,7 +18,7 @@
 #' @return The decoded string.
 #' @importFrom stringr str_replace_all fixed
 #' @noRd
-.decode_tidy_eval <- function(input_string, encode_key){
+.decode_tidy_eval <- function(input_string, encode_key) {
   encode_vec <- setNames(encode_key$input, encode_key$output)
   output_string <- str_replace_all(input_string, fixed(encode_vec))
   return(output_string)
@@ -31,7 +31,7 @@
 #' @param tidy_select_args The arguments for the Tidyverse function passed through the R parser.
 #' @return A string representing the Tidyverse function and its arguments.
 #' @noRd
-.make_tidyselect_arg <- function(.data, fun, tidy_select_args){
+.make_tidyselect_arg <- function(.data, fun, tidy_select_args) {
   tidy_arg_string <- paste0(.data, " %>% dplyr::", fun, "(", tidy_select_args, ")")
   return(tidy_arg_string)
 }
@@ -45,7 +45,7 @@
 #' @importFrom rlang parse_expr
 #' @importFrom rlang eval_tidy
 #' @noRd
-.execute_tidyverse_function <- function(.data, fun, tidy_select_args){
+.execute_tidyverse_function <- function(.data, fun, tidy_select_args) {
   tidy_string <- .make_tidyselect_arg(.data, fun, tidy_select_args)
   string_as_expr <- rlang::parse_expr(tidy_string)
   object_out <- eval_tidy(string_as_expr)
