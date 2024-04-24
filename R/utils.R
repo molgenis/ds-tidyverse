@@ -2,7 +2,7 @@
 
   encode_list <- list(
     input = c("list", "(", ")", "\"", ",", " ", "c", ":", "!", "&", "|", "\n"),
-    output = c("$LIST$", "$LB", "$RB$", "$QUOTE$", "$COMMA$", "$SPACE$", "$C$", "$COLON$", "$EXCL$", "$AND$", "$OR$", "$N$")
+    output = c("$LIST$", "$LB$", "$RB$", "$QUOTE$", "$COMMA$", "$SPACE$", "$C$", "$COLON$", "$EXCL$", "$AND$", "$OR$", "$N$")
   )
   return(encode_list)
 }
@@ -66,4 +66,3 @@
   out <- eval_tidy(string_as_expr)
   return(out)
 }
-
