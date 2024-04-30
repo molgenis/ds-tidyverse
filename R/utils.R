@@ -1,55 +1,3 @@
-#' Evaluates and parses the server-side data object.
-#'
-#' @param .data Character representing the server-side data object to be parsed.
-#' @return The parsed data object.
-#' @noRd
-.parse_data <- function(.data){
-  ds_data <- eval(parse(text = .data))
-  return(ds_data)
-}
-
-#' Check if the specified data object is of class 'data.frame' or 'tbl_df'.
-#'
-#' @param .data Character specifying the data object to be checked.
-#' @importFrom cli cli_abort
-#' @noRd
-.check_data_class <- function(.data){
-  ds_data <- .parse_data(.data)
-  ds_class <- class(ds_data)
-  if(!ds_class %in% c("data.frame", "tbl_df")){
-    cli_abort(
-      c(
-        "The serverside object '{(.data)}' specified in `.data` must be a dataframe or tibble",
-        "x" = "'{(.data)}' is class {ds_class}"
-      )
-    )
-  }
-}
-
-#' Check if the specified data object exists.
-#'
-#' @param .data Character specifying the data object to be checked.
-#' @importFrom cli cli_abort
-#' @noRd
-.check_data_exists <- function(.data){
-  obj_exists <- exists(.data)
-  if(!obj_exists){
-    cli_abort("The serverside object '{(.data)}' specified in `.data` does not exist")
-  }
-}
-
-#' Check Data
-#'
-#' This function performs checks on the specified data object, including existence and class.
-#'
-#' @param .data The data object to be checked.
-#'
-#' @export
-.check_data <- function(.data){
-  .check_data_exists(.data)
-  .check_data_class(.data)
-}
-
 #' Generate an encoding key which is used for encoding and decoding strings to pass the R parser
 #'
 #' @return A list containing the encoding key, with 'input' specifying the characters to be encoded
@@ -57,11 +5,12 @@
 #' @noRd
 .getEncodeKey <- function() {
   encode_list <- list(
-    input = c("list", "(", ")", "\"", ",", " ", "c", ":", "!", "&", "|"),
-    output = c("$LIST$", "$LB$", "$RB$", "$QUOTE$", "$COMMA$", "$SPACE$", "$C$", "$COLON$", "$EXCL$", "$AND$", "$OR$")
+    input = c("(", ")", "\"", ",", " ", ":", "!", "&", "|", "'", "[", "]", "="),
+    output = c("$LB$", "$RB$", "$QUOTE$", "$COMMA$", "$SPACE$", "$COLON$", "$EXCL$", "$AND$", "$OR$", "$APO$", "$LSQ$", "$RSQ", "$EQU$")
   )
   return(encode_list)
 }
+
 
 #' Decode a string using the provided encoding key.
 #'
@@ -83,10 +32,36 @@
 #' @param fun Character describing the Tidyverse function to be executed.
 #' @param tidy_select_args The arguments for the Tidyverse function passed through the R parser.
 #' @return A string representing the Tidyverse function and its arguments.
+#' @importFrom stringr str_detect
 #' @noRd
 .make_tidyselect_arg <- function(.data, fun, tidy_select_args) {
   tidy_arg_string <- paste0(.data, " %>% dplyr::", fun, "(", tidy_select_args, ")")
   return(tidy_arg_string)
+}
+
+#' Evaluate an expression and handle errors gracefully.
+#'
+#' @param string_as_expr An expression to be evaluated.
+#' @param .data The data environment in which the expression should be evaluated.
+#' @importFrom cli cli_abort
+#' @return The result of evaluating the expression, or an error message if evaluation fails.
+#' @noRd
+.tidy_eval_handle_errors <- function(string_as_expr, .data){
+  object_out <- tryCatch(
+    eval_tidy(string_as_expr),
+    error = function(e) {
+      cli_abort(
+        c("x" = "`selectDS` returned the following error:", "i" = conditionMessage(e)), call = NULL
+      )
+    }
+  )
+
+  return(object_out)
+}
+
+.permitted_tidy_fun <- function(){
+  permitted <- c("select")
+  return(permitted)
 }
 
 #' Execute a Tidyverse function on a data object with specified arguments.
@@ -99,8 +74,21 @@
 #' @importFrom rlang eval_tidy
 #' @noRd
 .execute_tidyverse_function <- function(.data, fun, tidy_select_args) {
+
+  permitted <- .permitted_tidy_fun()
+  if(!fun %in% permitted){
+    cli_abort(
+      c("You must only use permitted tidyverse functions within DataSHIELD",
+        "i" = "Permitted functions are {permitted}",
+        "x" = "You have attempted to pass {fun}"
+        ))
+  }
+
   tidy_string <- .make_tidyselect_arg(.data, fun, tidy_select_args)
   string_as_expr <- rlang::parse_expr(tidy_string)
-  object_out <- eval_tidy(string_as_expr)
-  return(object_out)
-}
+  data <- .tidy_eval_handle_errors(string_as_expr, .data)
+  return(data)
+  }
+
+
+
