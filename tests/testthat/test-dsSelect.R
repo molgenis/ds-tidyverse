@@ -1,105 +1,197 @@
-library(testthat)
+library(dplyr)
+library(DSLite)
+library(dsBaseClient)
 
-test_string <- function(string) {
-  select_expr <- rlang::parse_exprs(string)
-  out <- mtcars %>% select(!!!select_expr)
-  return(out)
+test_that(".make_tidyselect_arg creates argument to pass to `eval_tidy", {
+  input_string <- "asd, qwe, starts_with('test')"
+  expected_string <- "test %>% dplyr::select(asd, qwe, starts_with('test'))"
+  observed_string <- .make_tidyselect_arg(.data = "test", fun = "select", tidy_select_args = input_string)
+  expect_equal(expected_string, observed_string)
+})
+
+test_that(".make_tidyselect_arg fails with correct message if attempt to use non permitted tidyverse serverside command", {
+  expect_snapshot(
+    .execute_tidyverse_function("mtcars", "filter", mtcars_random_arg),
+    error = TRUE)
+})
+
+mtcars_good_arg <- "mpg, cyl, starts_with('g'), ends_with('b')"
+mtcars_good_str <- .make_tidyselect_arg(.data = "mtcars", fun = "select", tidy_select_args = mtcars_good_arg)
+mtcars_good_expr <- rlang::parse_expr(mtcars_good_str)
+
+test_that(".tidy_eval_handle_errors works where data and object exists", {
+  observed <- .tidy_eval_handle_errors(mtcars_good_expr, "mtcars")
+  expect_equal(colnames(observed), c("mpg", "cyl", "gear", "carb"))
+})
+
+mtcars_good_arg <- "mpg, cyl, starts_with('g'), ends_with('b')"
+mtcars_wrong_data_str <- .make_tidyselect_arg(.data = "data_not_here", fun = "select", tidy_select_args = mtcars_good_arg)
+mtcars_wrong_data_expr <- rlang::parse_expr(mtcars_wrong_data_str)
+
+test_that(".tidy_eval_handle_errors fails with correct message if object doesn't exist", {
+  expect_snapshot(
+    .tidy_eval_handle_errors(mtcars_wrong_data_expr, "data_not_here"),
+    error = TRUE)
+})
+
+mtcars_missing_col_arg <-  "all_of('test_col'), mpg, cyl, starts_with('g'), ends_with('b')"
+mtcars_missing_col_str <- .make_tidyselect_arg(.data = "mtcars", fun = "select", tidy_select_args = mtcars_missing_col_arg)
+mtcars_missing_col_expr <- rlang::parse_expr(mtcars_missing_col_str)
+
+test_that(".tidy_eval_handle_errors fails with correct message if column doesn't exist", {
+  expect_snapshot(
+    .tidy_eval_handle_errors(mtcars_missing_col_expr, "mtcars"),
+    error = TRUE)
+})
+
+mtcars_random_arg <-  "filter('mpg'), mpg, cyl, starts_with('g'), ends_with('b')"
+mtcars_random_str <- .make_tidyselect_arg(.data = "mtcars", fun = "select", tidy_select_args = mtcars_random_arg)
+mtcars_random_expr <- rlang::parse_expr(mtcars_random_str)
+
+test_that(".tidy_eval_handle_errors fails with correct message when unrecognised function passed", {
+  expect_snapshot(
+    .tidy_eval_handle_errors(mtcars_random_expr, "mtcars"),
+    error = TRUE)
+})
+
+test_that(".execute_tidyverse_function passes where data and column exist", {
+  observed <- .execute_tidyverse_function("mtcars", "select", mtcars_good_arg)
+  expect_equal(colnames(observed), c("mpg", "cyl", "gear", "carb"))
+})
+
+test_that(".execute_tidyverse_function fails with correct message when data doesn't exist", {
+  expect_snapshot(
+    .execute_tidyverse_function("data_not_there", "select", mtcars_good_arg),
+    error = TRUE)
+})
+
+test_that(".execute_tidyverse_function fails with correct message when unrecognised function passed", {
+  expect_snapshot(
+    .execute_tidyverse_function("mtcars", "select", mtcars_random_arg),
+    error = TRUE)
+})
+
+logindata.dslite.cnsim <- setupCNSIMTest()
+dslite.server$config(defaultDSConfiguration(include=c("dsBase", "dsTidyverse", "dsDanger")))
+dslite.server$assignMethod("selectDS", "selectDS")
+datasources <- datashield.login(logindata.dslite.cnsim, assign=TRUE)
+
+.encode_tidy_eval <- function(input_string, encode_key) {
+  encode_vec <- set_names(encode_key$output, encode_key$input)
+  output_string <- str_replace_all(input_string, fixed(encode_vec))
 }
 
-test_that("String with : works in select", {
-  out <- test_string("mpg:drat")
-  expect_equal(colnames(out), c("mpg", "cyl", "disp", "hp", "drat"))
+.wrap_assign_call <- function(tidy_select_as_string){
+  args_encoded <- .encode_tidy_eval(tidy_select_as_string, .getEncodeKey())
+  cally <- call("selectDS", "mtcars", args_encoded)
+  datashield.assign(datasources, "test", cally)
+}
+
+.check_cols_as_expected <- function(expected){
+  observed <- ds.colnames("test")[[1]]
+  expected <- expected
+  expect_equal(observed, expected)
+}
+
+.wrap_assign_call_no_data <- function(tidy_select_as_string){
+  args_encoded <- .encode_tidy_eval(tidy_select_as_string, .getEncodeKey())
+  cally <- call("selectDS", "asdasd", args_encoded)
+  datashield.assign(datasources, "test", cally)
+}
+
+test_that("selectDS fails with correct error message ", {
+  expect_snapshot(
+    .wrap_assign_call_no_data("mpg:drat"),
+    error = TRUE)
 })
 
-test_that("String with 'starts_with()' works", {
-  out <- test_string("starts_with('m')")
-  expect_equal(colnames(out), "mpg")
+test_that("selectDS correctly passes : ", {
+  select_arg <- "mpg:drat"
+  .wrap_assign_call(select_arg)
+  .check_cols_as_expected( c("mpg", "cyl", "disp", "hp", "drat"))
 })
 
-test_that("String with 'ends_with()' works", {
-  out <- test_string("ends_with('m')")
-  expect_equal(colnames(out), "am")
+test_that(".execute_tidyverse_function correctly passes `starts_with`", {
+  select_arg <- "starts_with('m')"
+  .wrap_assign_call(select_arg)
+  .check_cols_as_expected("mpg")
 })
 
-test_that("String with 'matches()' works", {
-  out <- test_string("matches('[aeiou]')")
-  expect_equal(colnames(out), c("disp", "drat", "qsec", "am", "gear", "carb"))
+test_that(".execute_tidyverse_function correctly passes `ends_with`", {
+  select_arg <- "ends_with('m')"
+  .wrap_assign_call(select_arg)
+  .check_cols_as_expected("am")
 })
 
-test_that("String with 'everything()' works", {
-  out <- test_string("everything()")
-  expect_equal(colnames(out), colnames(mtcars))
+test_that(".execute_tidyverse_function correctly passes `matches`", {
+  select_arg <- "matches('[aeiou]')"
+  .wrap_assign_call(select_arg)
+  .check_cols_as_expected(c("disp", "drat", "qsec", "am", "gear", "carb"))
 })
 
-test_that("String with 'last_col()' works", {
-  out <- test_string("last_col()")
-  expect_equal(colnames(out), "carb")
+test_that(".execute_tidyverse_function correctly passes `everything`", {
+  select_arg <- "everything()"
+  .wrap_assign_call(select_arg)
+  .check_cols_as_expected(colnames(mtcars))
 })
 
-test_that("String with 'group_cols()' works", {
-  out <- test_string("group_cols()")
-  expect_equal(colnames(out), character(0))
+test_that(".execute_tidyverse_function correctly passes `last_col`", {
+  select_arg <- "last_col()"
+  .wrap_assign_call(select_arg)
+  .check_cols_as_expected("carb")
 })
 
-test_that("String with 'contains()' works", {
-  out <- test_string("contains('ra')")
-  expect_equal(colnames(out), "drat")
+test_that(".execute_tidyverse_function correctly passes `group_cols`", {
+  select_arg <- "group_cols()"
+  .wrap_assign_call(select_arg)
+  .check_cols_as_expected(character(0))
 })
 
-test_that("Strings with '&' work", {
-  out <- test_string("starts_with('c') & ends_with('b')")
-  expect_equal(colnames(out), "carb")
+test_that(".execute_tidyverse_function correctly passes strings with '&'", {
+  select_arg <- "starts_with('c') & ends_with('b')"
+  .wrap_assign_call(select_arg)
+  .check_cols_as_expected("carb")
 })
 
-test_that("String with '|' work", {
-  out <- test_string("starts_with('c') | ends_with('b')")
-  expect_equal(colnames(out), c("cyl", "carb"))
+test_that(".execute_tidyverse_function correctly passes strings with '!'", {
+  select_arg <- "!mpg"
+  .wrap_assign_call(select_arg)
+  .check_cols_as_expected(c("cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", "gear", "carb"))
 })
 
-test_that("String with 'all_of' work", {
-  out <- test_string("all_of(c('mpg','cyl'))")
-  expect_equal(colnames(out), c("mpg", "cyl"))
+test_that(".execute_tidyverse_function correctly passes strings with '|'", {
+  select_arg <- "starts_with('c') | ends_with('b')"
+  .wrap_assign_call(select_arg)
+  .check_cols_as_expected(c("cyl", "carb"))
 })
 
-test_that("String with 'any_of' work", {
-  out <- test_string("all_of(c('mpg','cyl'))")
-  expect_equal(colnames(out), c("mpg", "cyl"))
+test_that(".execute_tidyverse_function correctly passes `strings with `all_of`", {
+  select_arg <- "all_of(c('mpg','cyl'))"
+  .wrap_assign_call(select_arg)
+  .check_cols_as_expected(c("mpg", "cyl"))
 })
 
-test_that("Complex strings work", {
-  out <- test_string("(starts_with('c') & ends_with('b')) | contains('ra') | gear:carb")
-  expect_equal(colnames(out), c("carb", "drat", "gear"))
+test_that(".execute_tidyverse_function correctly passes strings with `any_of`", {
+  select_arg <- "any_of(c('mpg','cyl'))"
+  .wrap_assign_call(select_arg)
+  .check_cols_as_expected(c("mpg", "cyl"))
 })
 
-test_that("String with '-' works", {
-  out <- test_string("-mpg")
-  expect_equal(colnames(out), c("cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", "gear", "carb"))
+test_that(".execute_tidyverse_function correctly passes complex strings", {
+  select_arg <- "(starts_with('c') & ends_with('b')) | contains('ra') | gear:carb"
+  .wrap_assign_call(select_arg)
+  .check_cols_as_expected(c("carb", "drat", "gear"))
 })
 
-test_that("String with 'where()' works", {
-  out <- test_string("where(is.numeric)")
-  expect_equal(colnames(out), c("mpg", "cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", "gear", "carb"))
+test_that(".execute_tidyverse_function correctly passes strings with `where`", {
+  select_arg <- "where(is.numeric)"
+  .wrap_assign_call(select_arg)
+  .check_cols_as_expected(colnames(mtcars))
 })
 
-
-### FAIL
-test_that("String with '= works", {
-  out <- test_string("test = mpg")
-  expect_equal(colnames(out), "mpg")
+test_that(".execute_tidyverse_function correctly passes strings with '='", {
+  select_arg <- "test = mpg"
+  .wrap_assign_call(select_arg)
+  .check_cols_as_expected("test")
 })
 
-select_expr <- rlang::parse_exprs(c("test = mpg"))
-
-
-select_expr <- rlang::parse_exprs(c("disp,drat,qsec,all_of(c('mpg','cyl'))"))
-select_expr <- rlang::parse_exprs(c("disp,drat,qsec,all_of(c('mpg','cyl'))"))
-
-dplyr::select(mtcars, disp, drat, qsec, all_of(c("mpg", "cyl")))
-
-select_expr <- rlang::parse_exprs(c("c(disp,drat,qsec)"))
-select_expr <- rlang::parse_exprs(c("disp,drat,qsec"))
-
-test_that("String with simple column names works", {
-  out <- test_string(c("c(disp,drat,qsec)"))
-  expect_equal(colnames(out), c("disp", "drat", "qsec"))
-})
