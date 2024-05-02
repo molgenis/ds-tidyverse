@@ -81,7 +81,8 @@
       c("You must only use permitted tidyverse functions within DataSHIELD",
         "i" = "Permitted functions are {permitted}",
         "x" = "You have attempted to pass {fun}"
-        ))
+        ),
+      call = NULL)
   }
 
   tidy_string <- .make_tidyselect_arg(.data, fun, tidy_select_args)

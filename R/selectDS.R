@@ -6,9 +6,6 @@
 #' @param expr Diffused expression of dotdotdot passed to ds.select
 #' @return the object specified by the \code{newobj} argument
 #' of \code{ds.select} (or as default same name as input object) which is written to the serverside.
-#' @importFrom tidyselect eval_select
-#' @importFrom rlang set_names
-#' @importFrom dplyr
 #' @export
 #'
 selectDS <- function(.data, expr) {
