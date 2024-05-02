@@ -13,4 +13,3 @@ Authors@R:
 Maintainer: Tim Cadman <t.j.cadman@umcg.nl>
 Description: DataSHIELD serverside implementation of Tidyverse packages.
 License: LGPL (>= 2.1)
-n tests, fixed errors in encoding)
