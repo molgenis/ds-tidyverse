@@ -53,11 +53,3 @@
       x `selectDS` returned the following error:
       i i In argument: `filter("mpg")`. Caused by error in `UseMethod()`: ! no applicable method for 'filter' applied to an object of class "character"
 
-# selectDS fails with correct error message 
-
-    Code
-      .wrap_assign_call_no_data("mpg:drat")
-    Condition
-      Error:
-      ! There are some DataSHIELD errors, list them with datashield.errors()
-
