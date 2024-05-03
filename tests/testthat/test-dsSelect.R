@@ -100,12 +100,13 @@ test_that(".execute_tidyverse_function fails with correct message when unrecogni
   datashield.assign(conns, "test", cally)
 }
 
-test_that("selectDS fails with correct error message ", {
-  expect_snapshot(
-    .wrap_assign_call_no_data("mpg:drat"),
-    error = TRUE)
-}) ## Wait until DSI updated
-
+# test_that("ds.select fails with correct error message if data not present ", {
+#   expect_snapshot(
+#     ds.select(
+#       .data = "datanotthere",
+#       tidy_select = list(mpg:drat),
+#       newobj = "nodata"))
+#   })## Wait until DSI updated
 
 test_that("selectDS correctly passes : ", {
   ds.select(
