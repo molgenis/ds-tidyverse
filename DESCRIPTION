@@ -25,5 +25,9 @@ Suggests:
     tibble, 
     dplyr, 
     DSLite, 
-    dsBaseClient
+    dsBaseClient, 
+    dsBase,
+    dsTidyverseClient, 
+    DSI, 
+    purrr
 Config/testthat/edition: 3
