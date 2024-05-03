@@ -3,7 +3,7 @@
     Code
       .execute_tidyverse_function("mtcars", "filter", mtcars_random_arg)
     Condition
-      Error in `.execute_tidyverse_function()`:
+      Error:
       ! You must only use permitted tidyverse functions within DataSHIELD
       i Permitted functions are select
       x You have attempted to pass filter
