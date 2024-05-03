@@ -46,12 +46,13 @@
 #' @importFrom cli cli_abort
 #' @return The result of evaluating the expression, or an error message if evaluation fails.
 #' @noRd
-.tidy_eval_handle_errors <- function(string_as_expr, .data){
+.tidy_eval_handle_errors <- function(string_as_expr, .data) {
   object_out <- tryCatch(
     eval_tidy(string_as_expr),
     error = function(e) {
       cli_abort(
-        c("x" = "`selectDS` returned the following error:", "i" = conditionMessage(e)), call = NULL
+        c("x" = "`selectDS` returned the following error:", "i" = conditionMessage(e)),
+        call = NULL
       )
     }
   )
@@ -59,7 +60,7 @@
   return(object_out)
 }
 
-.permitted_tidy_fun <- function(){
+.permitted_tidy_fun <- function() {
   permitted <- c("select")
   return(permitted)
 }
@@ -74,22 +75,19 @@
 #' @importFrom rlang eval_tidy
 #' @noRd
 .execute_tidyverse_function <- function(.data, fun, tidy_select_args) {
-
   permitted <- .permitted_tidy_fun()
-  if(!fun %in% permitted){
+  if (!fun %in% permitted) {
     cli_abort(
       c("You must only use permitted tidyverse functions within DataSHIELD",
         "i" = "Permitted functions are {permitted}",
         "x" = "You have attempted to pass {fun}"
-        ),
-      call = NULL)
+      ),
+      call = NULL
+    )
   }
 
   tidy_string <- .make_tidyselect_arg(.data, fun, tidy_select_args)
   string_as_expr <- rlang::parse_expr(tidy_string)
   data <- .tidy_eval_handle_errors(string_as_expr, .data)
   return(data)
-  }
-
-
-
+}
