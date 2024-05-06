@@ -1,10 +1,6 @@
 library(dplyr)
-library(DSLite)
-library(dsBaseClient)
 library(purrr)
 library(cli)
-library(DSI)
-library(dsTidyverseClient)
 
 test_that(".make_tidyselect_arg creates argument to pass to `eval_tidy", {
   input_string <- "asd, qwe, starts_with('test')"
@@ -80,15 +76,3 @@ test_that(".execute_tidyverse_function fails with correct message when unrecogni
     error = TRUE
   )
 })
-
-.check_cols_as_expected <- function(expected, df) {
-  observed <- ds.colnames(df)[[1]]
-  expected <- expected
-  expect_equal(observed, expected)
-}
-
-.wrap_assign_call_no_data <- function(tidy_select_as_string) {
-  args_encoded <- .encode_tidy_eval(tidy_select_as_string, .getEncodeKey())
-  cally <- call("selectDS", "asdasd", args_encoded)
-  datashield.assign(conns, "test", cally)
-}

@@ -24,10 +24,6 @@ Suggests:
     testthat (>= 3.0.0), 
     tibble, 
     dplyr, 
-    DSLite, 
-    dsBaseClient, 
     dsBase,
-    dsTidyverseClient, 
-    DSI, 
     purrr
 Config/testthat/edition: 3
