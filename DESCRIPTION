@@ -1,5 +1,6 @@
 Package: dsTidyverse
 Type: Package
+<<<<<<< HEAD
 Title: DataSHIELD Tidyverse Serverside Package
 Version: 0.1.0
 Authors@R:
