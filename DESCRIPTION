@@ -1,6 +1,6 @@
 Package: dsTidyverse
 Type: Package
-Title: DataSHIELD Tidyverse serverside package
+Title: DataSHIELD Tidyverse Serverside Package
 Version: 0.1.0
 Authors@R:
     c(
@@ -13,3 +13,21 @@ Authors@R:
 Maintainer: Tim Cadman <t.j.cadman@umcg.nl>
 Description: DataSHIELD serverside implementation of Tidyverse packages.
 License: LGPL (>= 2.1)
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.1
+Imports:
+  rlang,
+  stringr, 
+  cli
+Suggests: 
+    testthat (>= 3.0.0), 
+    tibble, 
+    dplyr, 
+    DSLite, 
+    dsBaseClient, 
+    dsBase,
+    dsTidyverseClient, 
+    DSI, 
+    purrr
+Config/testthat/edition: 3
