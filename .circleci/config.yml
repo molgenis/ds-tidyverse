@@ -48,7 +48,7 @@ jobs:
         command: |
           install2.r --skipinstalled --repo https://cloud.r-project.org devtools pkgdown markdown rmarkdown fields metafor meta panelaggregation rlang stringr cli covr git2r DSLite
           install2.r --skipinstalled --repo https://cran.obiba.org/ dsBaseClient
-          install2.r --skipinstalled --repo https://github.com/molgenis/ds-tidyverse-client dsTidyverseClient
+          installGithub.r --skipinstalled --repo https://github.com/molgenis/ds-tidyverse-client dsTidyverseClient
           Rscript -e "git2r::config(user.email = 'molgenis+ci@gmail.com', user.name = 'MOLGENIS Jenkins')"
 
     - save_cache:
