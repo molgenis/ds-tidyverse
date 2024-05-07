@@ -1,12 +1,12 @@
-# .make_tidyselect_arg fails with correct message if attempt to use non permitted tidyverse serverside command
+# .make_tidyselect_arg fails with correct message if attempt to use non permitted tidyverse serverside command [ansi]
 
     Code
       .execute_tidyverse_function("mtcars", "filter", mtcars_random_arg)
     Condition
-      Error:
-      ! You must only use permitted tidyverse functions within DataSHIELD
-      i Permitted functions are select
-      x You have attempted to pass filter
+      [1m[33mError[39m:[22m
+      [1m[22m[33m![39m You must only use permitted tidyverse functions within DataSHIELD
+      [36mi[39m Permitted functions are select
+      [31mx[39m You have attempted to pass filter
 
 # .tidy_eval_handle_errors fails with correct message if object doesn't exist
 
