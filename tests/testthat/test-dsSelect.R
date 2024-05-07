@@ -11,9 +11,8 @@ test_that(".make_tidyselect_arg creates argument to pass to `eval_tidy", {
 
 test_that(".make_tidyselect_arg fails with correct message if attempt to use non permitted tidyverse serverside command", {
   expect_error(
-    object = .execute_tidyverse_function("mtcars", "filter", mtcars_random_arg),
-    regexp = "\\b(permitted\\s+tidyverse\\s+functions\\s+within\\DataSHIELD)|Permitted\\s+functions\\s+are\\s+select|You\\s+have\\s+attempted\\s+to\\s+pass\\s+filter)\\b",
-    fixed = F)
+    .execute_tidyverse_function("mtcars", "filter", mtcars_random_arg),
+    "\\b(permitted\\s+tidyverse\\s+functions\\s+within\\DataSHIELD)|Permitted\\s+functions\\s+are\\s+select|You\\s+have\\s+attempted\\s+to\\s+pass\\s+filter)\\b")
 })
 
 mtcars_good_arg <- "mpg, cyl, starts_with('g'), ends_with('b')"
@@ -30,9 +29,9 @@ mtcars_wrong_data_str <- .make_tidyselect_arg(.data = "data_not_here", fun = "se
 mtcars_wrong_data_expr <- rlang::parse_expr(mtcars_wrong_data_str)
 
 test_that(".tidy_eval_handle_errors fails with correct message if object doesn't exist", {
-  expect_snapshot(
+  expect_error(
     .tidy_eval_handle_errors(mtcars_wrong_data_expr, "data_not_here"),
-    error = TRUE
+    "`selectDS`\\s+returned\\s+the\\s+following\\s+error:|object\\s+'mtcars_wrong_data_expr'\\s+not\\s+found"
   )
 })
 
@@ -41,9 +40,9 @@ mtcars_missing_col_str <- .make_tidyselect_arg(.data = "mtcars", fun = "select",
 mtcars_missing_col_expr <- rlang::parse_expr(mtcars_missing_col_str)
 
 test_that(".tidy_eval_handle_errors fails with correct message if column doesn't exist", {
-  expect_snapshot(
+  expect_error(
     .tidy_eval_handle_errors(mtcars_missing_col_expr, "mtcars"),
-    error = TRUE
+    "`selectDS`\\s+returned\\s+the\\s+following\\s+error:|object\\s+'mtcars_missing_col_expr'\\s+not\\s+found"
   )
 })
 
@@ -52,9 +51,9 @@ mtcars_random_str <- .make_tidyselect_arg(.data = "mtcars", fun = "select", tidy
 mtcars_random_expr <- rlang::parse_expr(mtcars_random_str)
 
 test_that(".tidy_eval_handle_errors fails with correct message when unrecognised function passed", {
-  expect_snapshot(
+  expect_error(
     .tidy_eval_handle_errors(mtcars_random_expr, "mtcars"),
-    error = TRUE
+    "`selectDS`\\s+returned\\s+the\\s+following\\s+error:|object\\s+'mtcars_random_expr'\\s+not\\s+found"
   )
 })
 
@@ -64,15 +63,15 @@ test_that(".execute_tidyverse_function passes where data and column exist", {
 })
 
 test_that(".execute_tidyverse_function fails with correct message when data doesn't exist", {
-  expect_snapshot(
+  expect_error(
     .execute_tidyverse_function("data_not_there", "select", mtcars_good_arg),
-    error = TRUE
+    "`selectDS`\\s+returned\\s+the\\s+following\\s+error:|object\\s+'data_not_there'\\s+not\\s+found"
   )
 })
 
 test_that(".execute_tidyverse_function fails with correct message when unrecognised function passed", {
-  expect_snapshot(
+  expect_error(
     .execute_tidyverse_function("mtcars", "select", mtcars_random_arg),
-    error = TRUE
+    "`selectDS`\\s+returned\\s+the\\s+following\\s+error:|no\\s+applicable\\s+method\\s+for\\s+'filter'"
   )
 })
