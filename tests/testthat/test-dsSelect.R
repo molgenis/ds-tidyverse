@@ -9,10 +9,11 @@ test_that(".make_tidyselect_arg creates argument to pass to `eval_tidy", {
   expect_equal(expected_string, observed_string)
 })
 
-test_that_cli(configs = "ansi", ".make_tidyselect_arg fails with correct message if attempt to use non permitted tidyverse serverside command", {
-  expect_snapshot(
-    .execute_tidyverse_function("mtcars", "filter", mtcars_random_arg),
-    error = TRUE)
+test_that(".make_tidyselect_arg fails with correct message if attempt to use non permitted tidyverse serverside command", {
+  expect_error(
+    object = .execute_tidyverse_function("mtcars", "filter", mtcars_random_arg),
+    regexp = "\\b(permitted\\s+tidyverse\\s+functions\\s+within\\DataSHIELD)|Permitted\\s+functions\\s+are\\s+select|You\\s+have\\s+attempted\\s+to\\s+pass\\s+filter)\\b",
+    fixed = F)
 })
 
 mtcars_good_arg <- "mpg, cyl, starts_with('g'), ends_with('b')"
