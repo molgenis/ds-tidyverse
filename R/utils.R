@@ -141,7 +141,7 @@ dsListDisclosureSettingsTidyVerse <- function() {
 #' @importFrom dplyr %>%
 #' @importFrom purrr map
 #' @return A named list of disclosure settings.
-#' @noRd
+#' @export
 dsListDisclosureSettings <- function() {
   privacy_options <- .list_privacy_settings()
 
