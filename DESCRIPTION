@@ -23,7 +23,11 @@ Imports:
   dplyr, 
   purrr
 Suggests: 
-    testthat (>= 3.0.0), 
-    tibble,
-    dsBase
+  testthat (>= 3.0.0), 
+  tibble,
+  dsBase
+AggregateMethods:
+  dsListDisclosureSettings
+AssignMethods:
+  dsSelect
 Config/testthat/edition: 3
