@@ -29,5 +29,5 @@ Suggests:
 AggregateMethods:
   dsListDisclosureSettings
 AssignMethods:
-  dsSelect
+  selectDS
 Config/testthat/edition: 3
