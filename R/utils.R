@@ -61,7 +61,7 @@
 }
 
 .permitted_tidy_fun <- function() {
-  permitted <- c("select")
+  permitted <- c("select", "rename")
   return(permitted)
 }
 
