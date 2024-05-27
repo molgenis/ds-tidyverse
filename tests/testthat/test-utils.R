@@ -25,3 +25,18 @@ test_that(".decode_tidy_eval correctly decodes an encoded string passed via the 
   decoded_string <- .decode_tidy_eval(encoded_string, .getEncodeKey())
   expect_equal(decoded_string, expected_string)
 })
+
+
+test_that(".make_tidyselect_arg passes if select is passed", {
+  select_good_arg <- "mpg, cyl, starts_with('g'), ends_with('b')"
+  expect_silent(
+    .execute_tidyverse_function("mtcars", "select", select_good_arg)
+  )
+})
+
+test_that(".make_tidyselect_arg passes if select is passed", {
+  rename_good_arg <- "new_name_1 = mpg, new_name_2 = drat"
+  expect_silent(
+    .execute_tidyverse_function("mtcars", "rename", rename_good_arg)
+  )
+})
