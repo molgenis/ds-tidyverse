@@ -3,7 +3,7 @@
 #' @return A list containing the encoding key, with 'input' specifying the characters to be encoded
 #' and 'output' specifying their corresponding encoded values.
 #' @noRd
-.getEncodeKey <- function() {
+.get_encode_dictionary <- function() {
   encode_list <- list(
     input = c("(", ")", "\"", ",", " ", ":", "!", "&", "|", "'", "[", "]", "="),
     output = c("$LB$", "$RB$", "$QUOTE$", "$COMMA$", "$SPACE$", "$COLON$", "$EXCL$", "$AND$", "$OR$", "$APO$", "$LSQ$", "$RSQ", "$EQU$")
@@ -61,7 +61,7 @@
 }
 
 .permitted_tidy_fun <- function() {
-  permitted <- c("select")
+  permitted <- c("select", "rename")
   return(permitted)
 }
 
@@ -88,8 +88,7 @@
 
   tidy_string <- .make_tidyselect_arg(.data, fun, tidy_select_args)
   string_as_expr <- rlang::parse_expr(tidy_string)
-  data <- .tidy_eval_handle_errors(string_as_expr, .data)
-  return(data)
+  return(.tidy_eval_handle_errors(string_as_expr, .data))
 }
 
 #' List Disclosure Settings
@@ -98,7 +97,7 @@
 #' @importFrom purrr map
 #' @return A named list of disclosure settings.
 #' @export
-dsListDisclosureSettings <- function() {
+dsListDisclosureSettingsTidyVerse <- function() {
   privacy_options <- .list_privacy_settings()
 
   out <- privacy_options %>%
@@ -113,12 +112,13 @@ dsListDisclosureSettings <- function() {
 #' @return A character vector containing privacy settings.
 #' @noRd
 .list_privacy_settings <- function() {
-  privacy_settings <- c(
+  return(
+    c(
     "datashield.privacyControlLevel", "nfilter.tab", "nfilter.subset",
     "nfilter.glm", "nfilter.string", "nfilter.stringShort", "nfilter.kNN",
     "nfilter.levels.density", "nfilter.levels.max", "nfilter.noise"
+    )
   )
-  return(privacy_settings)
 }
 
 #' Set Privacy Option
