@@ -142,7 +142,7 @@ dsListDisclosureSettingsTidyVerse <- function() {
 #' @importFrom purrr map
 #' @return A named list of disclosure settings.
 #' @export
-dsListDisclosureSettings <- function() {
+dsListDisclosureSettingsTidyVerse <- function() {
   privacy_options <- .list_privacy_settings()
 
   out <- privacy_options %>%
@@ -157,12 +157,13 @@ dsListDisclosureSettings <- function() {
 #' @return A character vector containing privacy settings.
 #' @noRd
 .list_privacy_settings <- function() {
-  privacy_settings <- c(
+  return(
+    c(
     "datashield.privacyControlLevel", "nfilter.tab", "nfilter.subset",
     "nfilter.glm", "nfilter.string", "nfilter.stringShort", "nfilter.kNN",
     "nfilter.levels.density", "nfilter.levels.max", "nfilter.noise"
+    )
   )
-  return(privacy_settings)
 }
 
 #' Set Privacy Option
