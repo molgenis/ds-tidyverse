@@ -46,9 +46,7 @@ jobs:
     - run:
         name: Install R deps takes 15min, but no worries we skipinstalled from cache when this PR has installed them before
         command: |
-          Rscript -e 'install.packages("docopt")'
-          Rscript -e 'library(docopt)'
-          install2.r --skipinstalled --repo https://cloud.r-project.org devtools pkgdown markdown rmarkdown rlang stringr cli covr git2r dplyr purrr DSI DSLite
+          Rscript -e 'install.packages(c("devtools", "pkgdown", "markdown", "rmarkdown", "rlang", "stringr", "cli", "covr", "git2r", "dplyr", "purrr", "DSI", "DSLite"))'
           install2.r --skipinstalled --repo https://cran.obiba.org/ dsBase
           Rscript -e "git2r::config(user.email = 'molgenis+ci@gmail.com', user.name = 'MOLGENIS Jenkins')"
 
