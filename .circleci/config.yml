@@ -46,7 +46,7 @@ jobs:
     - run:
         name: Install R deps takes 15min, but no worries we skipinstalled from cache when this PR has installed them before
         command: |
-          Rscript -e 'install.packages(c("devtools", "pkgdown", "markdown", "rmarkdown", "rlang", "stringr", "cli", "covr", "git2r", "dplyr", "purrr", "DSI", "DSLite", "RANN", "lme4", "reshape2", "polycor", "gamlss", "gamlss.dist", "mice", "childsds", "lme4", "Matrix"))'
+          Rscript -e 'install.packages(c("devtools", "pkgdown", "markdown", "rmarkdown", "rlang", "stringr", "cli", "covr", "git2r", "dplyr", "purrr", "DSI", "DSLite", "RANN", "lme4", "reshape2", "polycor", "gamlss", "gamlss.dist", "mice", "childsds", "lme4", "Matrix", "stringi"))'
           Rscript -e 'install.packages("dsBase", repos = "https://cran.obiba.org/")'
           Rscript -e "git2r::config(user.email = 'molgenis+ci@gmail.com', user.name = 'MOLGENIS Jenkins')"
 
