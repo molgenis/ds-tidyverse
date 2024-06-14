@@ -45,10 +45,7 @@ test_that(".make_tidyselect_arg passes if select is passed", {
 
 
 options(datashield.env = environment())
-dslite.server <- DSLite::newDSLiteServer(tables = list(mtcars = mtcars))
-data("logindata.dslite.cnsim")
-logindata.dslite.cnsim <- logindata.dslite.cnsim %>%
-  mutate(table = "mtcars")
+logindata.dslite.cnsim <- setupCNSIMTest()
 dslite.server$aggregateMethod("dsListDisclosureSettings", "dsTidyverse::dsListDisclosureSettings")
 conns <- datashield.login(logins = logindata.dslite.cnsim, assign = F)
 
