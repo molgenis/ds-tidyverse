@@ -127,7 +127,7 @@ dsListDisclosureSettingsTidyVerse <- function() {
 #' @return The value of the specified privacy setting.
 #'
 #' @keywords internal
-#'
+#' @noRd
 .set_privacy_option <- function(setting) {
   out <- getOption(setting)
   if (is.null(out)) {
