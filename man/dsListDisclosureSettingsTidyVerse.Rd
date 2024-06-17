@@ -6,11 +6,18 @@
 Outputs a list of disclosure settings}
 \usage{
 dsListDisclosureSettingsTidyVerse()
+
+dsListDisclosureSettingsTidyVerse()
 }
 \value{
 A named list of disclosure settings.
+
+A named list of disclosure settings.
 }
 \description{
+List Disclosure Settings
+Outputs a list of disclosure settings
+
 List Disclosure Settings
 Outputs a list of disclosure settings
 }
