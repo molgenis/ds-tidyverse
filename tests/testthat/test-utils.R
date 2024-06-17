@@ -127,3 +127,44 @@ test_that(".set_privacy_option works with or without values specified in options
 
 }
 )
+
+test_that(".list_privacy_settings returns correct string", {
+  expect_equal(
+    .list_privacy_settings(),
+    c(
+      "datashield.privacyControlLevel", "nfilter.tab", "nfilter.subset",
+      "nfilter.glm", "nfilter.string", "nfilter.stringShort", "nfilter.kNN",
+      "nfilter.levels.density", "nfilter.levels.max", "nfilter.noise"
+    )
+  )
+})
+
+test_that("dsListDisclosureSettingsTidyVerse returns correct settings", {
+
+options(datashield.privacyControlLevel = "test_privacy")
+options(nfilter.tab = 9)
+options(nfilter.subset = 9)
+options(nfilter.glm = 0.99)
+options(nfilter.string = 99)
+options(nfilter.stringShort = 19)
+options(nfilter.kNN = 9)
+options(nfilter.levels.density = 0.99)
+options(nfilter.levels.max = 29)
+options(nfilter.noise = 0.99)
+
+expected <- list(
+  datashield.privacyControlLevel = "test_privacy",
+  nfilter.tab = 9,
+  nfilter.subset = 9,
+  nfilter.glm = 0.99,
+  nfilter.string = 99,
+  nfilter.stringShort = 19,
+  nfilter.kNN = 9,
+  nfilter.levels.density = 0.99,
+  nfilter.levels.max = 29,
+  nfilter.noise = 0.99)
+
+expect_equal(dsListDisclosureSettingsTidyVerse(), expected)
+})
+
+
