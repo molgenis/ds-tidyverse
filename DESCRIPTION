@@ -31,4 +31,5 @@ AggregateMethods:
   dsListDisclosureSettingsTidyVerse
 AssignMethods:
   selectDS
+  renameDS
 Config/testthat/edition: 3
