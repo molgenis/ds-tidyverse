@@ -46,12 +46,12 @@
 #' @importFrom cli cli_abort
 #' @return The result of evaluating the expression, or an error message if evaluation fails.
 #' @noRd
-.tidy_eval_handle_errors <- function(string_as_expr, .data) {
+.tidy_eval_handle_errors <- function(fun, string_as_expr, .data) {
   object_out <- tryCatch(
     eval_tidy(string_as_expr),
     error = function(e) {
       cli_abort(
-        c("x" = "`selectDS` returned the following error:", "i" = conditionMessage(e)),
+        c("x" = "`{fun}DS` returned the following error:", "i" = conditionMessage(e)),
         call = NULL
       )
     }
@@ -88,7 +88,7 @@
 
   tidy_string <- .make_tidyselect_arg(.data, fun, tidy_select_args)
   string_as_expr <- rlang::parse_expr(tidy_string)
-  return(.tidy_eval_handle_errors(string_as_expr, .data))
+  return(.tidy_eval_handle_errors(fun, string_as_expr, .data))
 }
 
 #' List Disclosure Settings
