@@ -20,7 +20,7 @@ mtcars_good_str <- .make_tidyselect_arg(.data = "mtcars", fun = "select", tidy_s
 mtcars_good_expr <- rlang::parse_expr(mtcars_good_str)
 
 test_that(".tidy_eval_handle_errors works where data and object exists", {
-  observed <- .tidy_eval_handle_errors(mtcars_good_expr, "mtcars")
+  observed <- .tidy_eval_handle_errors("select", mtcars_good_expr, "mtcars")
   expect_equal(colnames(observed), c("mpg", "cyl", "gear", "carb"))
 })
 
@@ -30,7 +30,7 @@ mtcars_wrong_data_expr <- rlang::parse_expr(mtcars_wrong_data_str)
 
 test_that(".tidy_eval_handle_errors fails with correct message if object doesn't exist", {
   expect_error(
-    .tidy_eval_handle_errors(mtcars_wrong_data_expr, "data_not_here"),
+    .tidy_eval_handle_errors("select", mtcars_wrong_data_expr, "data_not_here"),
     "`selectDS`\\s+returned\\s+the\\s+following\\s+error:|object\\s+'mtcars_wrong_data_expr'\\s+not\\s+found"
   )
 })
@@ -41,7 +41,7 @@ mtcars_missing_col_expr <- rlang::parse_expr(mtcars_missing_col_str)
 
 test_that(".tidy_eval_handle_errors fails with correct message if column doesn't exist", {
   expect_error(
-    .tidy_eval_handle_errors(mtcars_missing_col_expr, "mtcars"),
+    .tidy_eval_handle_errors("select", mtcars_missing_col_expr, "mtcars"),
     "`selectDS`\\s+returned\\s+the\\s+following\\s+error:|object\\s+'mtcars_missing_col_expr'\\s+not\\s+found"
   )
 })
@@ -52,7 +52,7 @@ mtcars_random_expr <- rlang::parse_expr(mtcars_random_str)
 
 test_that(".tidy_eval_handle_errors fails with correct message when unrecognised function passed", {
   expect_error(
-    .tidy_eval_handle_errors(mtcars_random_expr, "mtcars"),
+    .tidy_eval_handle_errors("select", mtcars_random_expr, "mtcars"),
     "`selectDS`\\s+returned\\s+the\\s+following\\s+error:|object\\s+'mtcars_random_expr'\\s+not\\s+found"
   )
 })
