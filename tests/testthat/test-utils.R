@@ -104,7 +104,6 @@ logindata.dslite.cnsim <- setupCNSIMTest()
 dslite.server$aggregateMethod("dsListDisclosureSettings", "dsTidyverse::dsListDisclosureSettings")
 conns <- datashield.login(logins = logindata.dslite.cnsim, assign = F)
 
-
 test_that(".set_privacy_option works with or without values specified in options", {
 
   expect_equal(
