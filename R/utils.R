@@ -5,11 +5,13 @@
 #' @noRd
 .get_encode_dictionary <- function() {
   encode_list <- list(
-    input = c("(", ")", "\"", ",", " ", ":", "!", "&", "|", "'", "[", "]", "="),
-    output = c("$LB$", "$RB$", "$QUOTE$", "$COMMA$", "$SPACE$", "$COLON$", "$EXCL$", "$AND$", "$OR$", "$APO$", "$LSQ$", "$RSQ", "$EQU$")
+    input = c("(", ")", "\"", ",", " ", ":", "!", "&", "|", "'", "[", "]", "=", "+", "-", "*", "/", "^"),
+    output = c("$LB$", "$RB$", "$QUOTE$", "$COMMA$", "$SPACE$", "$COLON$", "$EXCL$", "$AND$", "$OR$",
+               "$APO$", "$LSQ$", "$RSQ", "$EQU$", "$ADD$", "$SUB$", "$MULT$", "$DIVIDE$", "$POWER$")
   )
   return(encode_list)
 }
+
 
 
 #' Decode a string using the provided encoding key.
@@ -34,8 +36,13 @@
 #' @return A string representing the Tidyverse function and its arguments.
 #' @importFrom stringr str_detect
 #' @noRd
-.make_tidyselect_arg <- function(.data, fun, tidy_select_args) {
-  tidy_arg_string <- paste0(.data, " %>% dplyr::", fun, "(", tidy_select_args, ")")
+.make_tidyselect_arg <- function(.data, fun, tidy_select_args, other_args) {
+  if(is.null(other_args)) {
+    tidy_arg_string <- paste0(.data, " %>% dplyr::", fun, "(", tidy_select_args, ")")
+  } else {
+    tidy_arg_string <- paste0(.data, " %>% dplyr::", fun, "(", tidy_select_args, ", ", other_args, ")")
+  }
+
   return(tidy_arg_string)
 }
 
@@ -61,7 +68,7 @@
 }
 
 .permitted_tidy_fun <- function() {
-  permitted <- c("select", "rename")
+  permitted <- c("select", "rename", "mutate")
   return(permitted)
 }
 
@@ -74,7 +81,7 @@
 #' @importFrom rlang parse_expr
 #' @importFrom rlang eval_tidy
 #' @noRd
-.execute_tidyverse_function <- function(.data, fun, tidy_select_args) {
+.execute_tidyverse_function <- function(.data, fun, tidy_select_args, other_args) {
   permitted <- .permitted_tidy_fun()
   if (!fun %in% permitted) {
     cli_abort(
@@ -85,8 +92,7 @@
       call = NULL
     )
   }
-
-  tidy_string <- .make_tidyselect_arg(.data, fun, tidy_select_args)
+  tidy_string <- .make_tidyselect_arg(.data, fun, tidy_select_args, other_args)
   string_as_expr <- rlang::parse_expr(tidy_string)
   return(.tidy_eval_handle_errors(fun, string_as_expr, .data))
 }
@@ -179,5 +185,52 @@ dsListDisclosureSettingsTidyVerse <- function() {
     out <- getOption(paste0("default.", setting))
   }
   return(out)
+}
+
+#' Paste Character Arguments
+#'
+#' This function takes any number of arguments and returns a formatted string
+#' that includes the argument names and their corresponding values.
+#'
+#' @param ... Any number of arguments.
+#' @return A character string with the argument names and values.
+#' @importFrom purrr map imap set_names
+#' @noRd
+paste_character_args <- function(...) {
+  arg_values <- list(...) %>% purrr::map(deparse)
+  call_stack <- sys.call()
+  arg_names <- as.character(call_stack)[-1]
+  arg_values <- purrr::set_names(arg_values, arg_names)
+  args_formatted <- arg_values %>% purrr::imap(~paste0(.y, " = ", .x))
+  args_as_vector <- paste(unlist(args_formatted), collapse = ", ")
+  return(args_as_vector)
+}
+
+#' Check tidyverse disclosure Settings
+#'
+#' @param df.name A character string specifying the name of the dataframe.
+#' @param tidy_select A tidy selection specification of columns.
+#' @param datasources A list of Opal connection objects obtained after logging into the Opal servers.
+#' @return None. This function is used for its side effects of checking disclosure settings.
+#' @noRd
+.check_tidy_disclosure <- function(df.name, tidy_select, datasources) {
+  disc_settings <- datashield.aggregate(datasources, call("dsListDisclosureSettingsTidyVerse"))
+  .check_data_name_length(df.name, disc_settings)
+  .check_tidy_disclosure(tidy_select, disc_settings, datasources)
+}
+
+#' Check Select Arguments
+#'
+#' @param .data Character specifying a serverside data frame or tibble.
+#' @param newobj Optionally, character specifying name for new server-side data frame.
+#' @return This function does not return a value but is used for argument validation.
+#'
+#' @importFrom assertthat assert_that
+#'
+#' @noRd
+.check_tidy_args <- function(df.name, newobj, .keep) {
+  assert_that(!is.null(newobj))
+  assert_that(is.character(df.name))
+  assert_that(is.character(newobj))
 }
 
