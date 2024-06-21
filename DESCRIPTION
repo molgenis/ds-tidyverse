@@ -8,8 +8,19 @@ Authors@R:
              family = "Cadman",
              role = c("aut", "cre"),
              email = "t.j.cadman@umcg.nl",
-             comment = c(ORCID = "0000-0002-7682-5645"))
-             )
+             comment = c(ORCID = "0000-0002-7682-5645")), 
+     person(given = "Mariska",
+             family = "Slofstra",
+             role = c("aut"),
+             email = "m.k.slofstra@umcg.nl",
+             comment = c(ORCID = "0000-0002-0400-0468")),
+     person(given = "Stuart",
+            family = "Wheater",
+            role = c("aut")),
+     person(given = "Demetris",
+            family = "Avraam",
+            role = c("aut"))
+       )
 Maintainer: Tim Cadman <t.j.cadman@umcg.nl>
 Description: DataSHIELD serverside implementation of Tidyverse packages.
 License: LGPL (>= 2.1)
