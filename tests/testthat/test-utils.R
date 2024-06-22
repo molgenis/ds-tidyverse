@@ -59,8 +59,9 @@ test_that(".tidy_eval_handle_errors fails with correct message when unrecognised
 
 test_that(".get_encode_dictionary returns the expected encoding key", {
   expected_encode_list <- list(
-    input = c("(", ")", "\"", ",", " ", ":", "!", "&", "|", "'", "[", "]", "="),
-    output = c("$LB$", "$RB$", "$QUOTE$", "$COMMA$", "$SPACE$", "$COLON$", "$EXCL$", "$AND$", "$OR$", "$APO$", "$LSQ$", "$RSQ", "$EQU$")
+    input = c("(", ")", "\"", ",", " ", ":", "!", "&", "|", "'", "[", "]", "=", "+", "-", "*", "/", "^"),
+    output = c("$LB$", "$RB$", "$QUOTE$", "$COMMA$", "$SPACE$", "$COLON$", "$EXCL$", "$AND$", "$OR$", "$APO$", "$LSQ$", "$RSQ", "$EQU$", "$ADD$", "$SUB$", "$MULT$",
+               "$DIVIDE$", "$POWER$")
   )
   actual_encode_list <- .get_encode_dictionary()
   expect_equal(actual_encode_list, expected_encode_list)
@@ -166,4 +167,5 @@ expected <- list(
 expect_equal(dsListDisclosureSettingsTidyVerse(), expected)
 })
 
+## Add tests where other_args != NULL
 
