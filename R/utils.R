@@ -36,7 +36,7 @@
 #' @return A string representing the Tidyverse function and its arguments.
 #' @importFrom stringr str_detect
 #' @noRd
-.make_tidyselect_arg <- function(.data, fun, tidy_select_args, other_args) {
+.make_tidyselect_arg <- function(.data, fun, tidy_select_args, other_args = NULL) {
   if(is.null(other_args)) {
     tidy_arg_string <- paste0(.data, " %>% dplyr::", fun, "(", tidy_select_args, ")")
   } else {
@@ -81,7 +81,7 @@
 #' @importFrom rlang parse_expr
 #' @importFrom rlang eval_tidy
 #' @noRd
-.execute_tidyverse_function <- function(.data, fun, tidy_select_args, other_args) {
+.execute_tidyverse_function <- function(.data, fun, tidy_select_args, other_args = NULL) {
   permitted <- .permitted_tidy_fun()
   if (!fun %in% permitted) {
     cli_abort(
@@ -196,7 +196,7 @@ dsListDisclosureSettingsTidyVerse <- function() {
 #' @return A character string with the argument names and values.
 #' @importFrom purrr map imap set_names
 #' @noRd
-paste_character_args <- function(...) {
+.paste_character_args <- function(...) {
   arg_values <- list(...) %>% purrr::map(deparse)
   call_stack <- sys.call()
   arg_names <- as.character(call_stack)[-1]
@@ -205,32 +205,3 @@ paste_character_args <- function(...) {
   args_as_vector <- paste(unlist(args_formatted), collapse = ", ")
   return(args_as_vector)
 }
-
-#' Check tidyverse disclosure Settings
-#'
-#' @param df.name A character string specifying the name of the dataframe.
-#' @param tidy_select A tidy selection specification of columns.
-#' @param datasources A list of Opal connection objects obtained after logging into the Opal servers.
-#' @return None. This function is used for its side effects of checking disclosure settings.
-#' @noRd
-.check_tidy_disclosure <- function(df.name, tidy_select, datasources) {
-  disc_settings <- datashield.aggregate(datasources, call("dsListDisclosureSettingsTidyVerse"))
-  .check_data_name_length(df.name, disc_settings)
-  .check_tidy_disclosure(tidy_select, disc_settings, datasources)
-}
-
-#' Check Select Arguments
-#'
-#' @param .data Character specifying a serverside data frame or tibble.
-#' @param newobj Optionally, character specifying name for new server-side data frame.
-#' @return This function does not return a value but is used for argument validation.
-#'
-#' @importFrom assertthat assert_that
-#'
-#' @noRd
-.check_tidy_args <- function(df.name, newobj, .keep) {
-  assert_that(!is.null(newobj))
-  assert_that(is.character(df.name))
-  assert_that(is.character(newobj))
-}
-
