@@ -19,9 +19,9 @@
 #' @export
 #'
 mutateDS <- function(.data, expr, .keep = NULL, .before = NULL, .after = NULL) {
-  browser()
   tidy_select <- .decode_tidy_eval(expr, .get_encode_dictionary())
-  call <- .make_tidyverse_call(.data, "mutate", tidy_select, list(.keep, .before, .after))
+  other_args <- .paste_character_args(.keep, .before, .after)
+  call <- .make_tidyverse_call(.data, "mutate", tidy_select, other_args)
   out <- .execute_with_error_handling("mutate", call)
   return(out)
 }
