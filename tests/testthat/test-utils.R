@@ -3,14 +3,14 @@ library(dplyr)
 library(DSLite)
 library(rlang)
 
-test_that(".make_tidyverse_call creates argument with no additional arguments", {
+test_that(".make_tidyverse_call creates call with no additional arguments", {
   input_string <- "asd, qwe, starts_with('test')"
   expected_string <- rlang::parse_expr('test %>% dplyr::select(asd, qwe, starts_with("test"))')
   observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_select = input_string)
   expect_equal(expected_string, observed_string)
 })
 
-test_that(".make_tidyverse_call creates argument with additional arguments", {
+test_that(".make_tidyverse_call creates call with additional arguments", {
   extra_args <- c(".keep = \"all\", .before = NULL, .after = \"disp\"")
   input_string <- "asd, qwe, starts_with('test')"
   expected_string <- rlang::parse_expr('test %>% dplyr::select(asd, qwe, starts_with("test"), .keep = "all",
