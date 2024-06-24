@@ -8,7 +8,8 @@
 #' @export
 #'
 renameDS <- function(.data, expr) {
-  tidy_select_args <- .decode_tidy_eval(expr, .get_encode_dictionary())
-  out <- .execute_tidyverse_function(.data, "rename", tidy_select_args)
+  tidy_select <- .decode_tidy_eval(expr, .get_encode_dictionary())
+  call <- .make_tidyverse_call(.data, "rename", tidy_select)
+  out <- .execute_with_error_handling("rename", call)
   return(out)
 }
