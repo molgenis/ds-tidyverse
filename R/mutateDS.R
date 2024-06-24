@@ -18,10 +18,11 @@
 #' of \code{ds.rename} (or as default same name as input object) which is written to the serverside.
 #' @export
 #'
-mutateDS <- function(.data, expr, .keep, .before, .after) {
-  tidy_select_args <- .decode_tidy_eval(expr, .get_encode_dictionary())
-  extra_args <- .paste_character_args(.keep, .before, .after)
-  out <- .execute_tidyverse_function(.data, "mutate", tidy_select_args, extra_args)
+mutateDS <- function(.data, expr, .keep = NULL, .before = NULL, .after = NULL) {
+  browser()
+  tidy_select <- .decode_tidy_eval(expr, .get_encode_dictionary())
+  call <- .make_tidyverse_call(.data, "mutate", tidy_select, list(.keep, .before, .after))
+  out <- .execute_with_error_handling("mutate", call)
   return(out)
 }
 

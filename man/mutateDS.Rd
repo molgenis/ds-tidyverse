@@ -4,7 +4,7 @@
 \alias{mutateDS}
 \title{Performs dplyr mutate}
 \usage{
-mutateDS(.data, expr, .keep, .before, .after)
+mutateDS(.data, expr, .keep = NULL, .before = NULL, .after = NULL)
 }
 \arguments{
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).}
