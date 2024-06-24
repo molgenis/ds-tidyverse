@@ -40,7 +40,7 @@
 #' @param other_args Additional arguments to the function.
 #' @return An expression object of the tidyverse call.
 #' @noRd
-.make_tidyverse_call <- function(.data, fun, tidy_select, other_args){
+.make_tidyverse_call <- function(.data, fun, tidy_select, other_args = NULL){
   if(is.null(other_args)) {
     tidy_string <- paste0(.data, " %>% dplyr::", fun, "(", tidy_select, ")")
   } else {

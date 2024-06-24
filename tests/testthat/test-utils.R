@@ -3,15 +3,19 @@ library(dplyr)
 library(DSLite)
 library(rlang)
 
-test_that(".make_tidyverse_call creates argument to pass to `eval_tidy", {
+test_that(".make_tidyverse_call creates argument with no additional arguments", {
   input_string <- "asd, qwe, starts_with('test')"
-  expected_string <- rlang::parse_expr("test %>% dplyr::select(asd, qwe, starts_with('test'))")
+  expected_string <- rlang::parse_expr('test %>% dplyr::select(asd, qwe, starts_with("test"))')
   observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_select = input_string)
   expect_equal(expected_string, observed_string)
+})
 
-  expected_string <- rlang::parse_expr("test %>% dplyr::select(asd, qwe, starts_with('test'), arg_1,
-    arg_2)")
-  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_select = input_string, other_args = list("arg_1", "arg_2"))
+test_that(".make_tidyverse_call creates argument with additional arguments", {
+  extra_args <- c(".keep = \"all\", .before = NULL, .after = \"disp\"")
+  input_string <- "asd, qwe, starts_with('test')"
+  expected_string <- rlang::parse_expr('test %>% dplyr::select(asd, qwe, starts_with("test"), .keep = "all",
+    .before = NULL, .after = "disp")')
+  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_select = input_string, other_args = extra_args)
   expect_equal(expected_string, observed_string)
 })
 
@@ -80,18 +84,16 @@ test_that(".decode_tidy_eval correctly decodes an encoded string passed via the 
 })
 
 test_that(".execute_with_error_handling passes if additional arguments are included", {
-  mutate_extra_args <- .make_tidyverse_call("mtcars", "mutate", "new_name_1 = mpg, new_name_2 = drat", list('all', 'disp', NULL))
+  mutate_extra_args <- .make_tidyverse_call("mtcars", "mutate", "new_name_1 = mpg, new_name_2 = drat", ".keep = 'all', .before = NULL, .after = \"disp\"")
   observed <- .execute_with_error_handling("mutate", mutate_extra_args)
-  expect_equal(colnames(observed), c("mpg", "cyl", "gear", "carb"))
-
-  )
+  expect_equal(colnames(observed), c("mpg", "cyl", "disp", "new_name_1", "new_name_2", "hp", "drat", "wt", "qsec", "vs", "am", "gear", "carb"))
 })
 
-input_string <- "asd, qwe, starts_with('test')"
-expected_string <- rlang::parse_expr("test %>% dplyr::select(asd, qwe, starts_with('test'))")
-observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_select = input_string)
-
-
+test_that(".execute_with_error_handling passes if all additional arguments are NULL", {
+  mutate_null_args <- .make_tidyverse_call("mtcars", "mutate", "new_name_1 = mpg, new_name_2 = drat", ".keep = 'all', .before = NULL, .after = NULL")
+  observed <- .execute_with_error_handling("mutate", mutate_null_args)
+  expect_equal(colnames(observed), c("mpg", "cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", "gear", "carb", "new_name_1", "new_name_2"))
+})
 
 options(datashield.env = environment())
 logindata.dslite.cnsim <- setupCNSIMTest()

@@ -25,5 +25,3 @@ mutateDS <- function(.data, expr, .keep = NULL, .before = NULL, .after = NULL) {
   out <- .execute_with_error_handling("mutate", call)
   return(out)
 }
-
-
