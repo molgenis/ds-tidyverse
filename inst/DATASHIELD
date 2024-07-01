@@ -1,5 +1,3 @@
-AggregateMethods:
-    dsListDisclosureSettingsTidyVerse
 AssignMethods:
     selectDS,
     renameDS,

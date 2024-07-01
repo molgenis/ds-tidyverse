@@ -57,6 +57,7 @@
 #' @param ... Any number of arguments.
 #' @return A character string with the argument names and values.
 #' @importFrom purrr map imap set_names
+#' @importFrom dplyr %>%
 #' @noRd
 .paste_character_args <- function(...) {
   arg_values <- list(...) %>% purrr::map(deparse)
@@ -89,49 +90,4 @@
   )
 
   return(object_out)
-}
-
-#' List Disclosure Settings
-#' Outputs a list of disclosure settings
-#' @importFrom dplyr %>%
-#' @importFrom purrr map
-#' @return A named list of disclosure settings.
-#' @export
-dsListDisclosureSettingsTidyVerse <- function() {
-  privacy_options <- .list_privacy_settings()
-
-  out <- privacy_options %>%
-    map(.set_privacy_option) %>%
-    set_names(privacy_options)
-
-  return(out)
-}
-
-#' List Privacy Settings
-#' This internal function returns a vector of privacy settings.
-#' @return A character vector containing privacy settings.
-#' @noRd
-.list_privacy_settings <- function() {
-  return(
-    c(
-    "datashield.privacyControlLevel", "nfilter.tab", "nfilter.subset",
-    "nfilter.glm", "nfilter.string", "nfilter.stringShort", "nfilter.kNN",
-    "nfilter.levels.density", "nfilter.levels.max", "nfilter.noise"
-    )
-  )
-}
-
-#' Set Privacy Option
-#' Retrieves the value of a given privacy setting or set a default
-#' @param setting The name of the privacy setting.
-#' @return The value of the specified privacy setting.
-#'
-#' @keywords internal
-#' @noRd
-.set_privacy_option <- function(setting) {
-  out <- getOption(setting)
-  if (is.null(out)) {
-    out <- getOption(paste0("default.", setting))
-  }
-  return(out)
 }
