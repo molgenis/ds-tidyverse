@@ -1,6 +1,6 @@
 AggregateMethods:
-  dsListDisclosureSettingsTidyVerse
+    dsListDisclosureSettingsTidyVerse
 AssignMethods:
-  selectDS
-  renameDS
-  mutateDS
+    selectDS,
+    renameDS,
+    mutateDS
