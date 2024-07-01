@@ -27,10 +27,4 @@ Suggests:
   tibble,
   dsBase,
   DSLite
-AggregateMethods:
-  dsListDisclosureSettingsTidyVerse
-AssignMethods:
-  selectDS
-  renameDS
-  mutateDS
 Config/testthat/edition: 3
