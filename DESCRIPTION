@@ -38,8 +38,4 @@ Suggests:
   tibble,
   dsBase,
   DSLite
-AggregateMethods:
-  dsListDisclosureSettingsTidyVerse
-AssignMethods:
-  selectDS
 Config/testthat/edition: 3

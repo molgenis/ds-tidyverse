@@ -5,11 +5,13 @@
 #' @noRd
 .get_encode_dictionary <- function() {
   encode_list <- list(
-    input = c("(", ")", "\"", ",", " ", ":", "!", "&", "|", "'", "[", "]", "="),
-    output = c("$LB$", "$RB$", "$QUOTE$", "$COMMA$", "$SPACE$", "$COLON$", "$EXCL$", "$AND$", "$OR$", "$APO$", "$LSQ$", "$RSQ", "$EQU$")
+    input = c("(", ")", "\"", ",", " ", ":", "!", "&", "|", "'", "[", "]", "=", "+", "-", "*", "/", "^"),
+    output = c("$LB$", "$RB$", "$QUOTE$", "$COMMA$", "$SPACE$", "$COLON$", "$EXCL$", "$AND$", "$OR$",
+               "$APO$", "$LSQ$", "$RSQ", "$EQU$", "$ADD$", "$SUB$", "$MULT$", "$DIVIDE$", "$POWER$")
   )
   return(encode_list)
 }
+
 
 
 #' Decode a string using the provided encoding key.
@@ -26,32 +28,62 @@
   return(output_string)
 }
 
-#' Generate a string containing the arguments for a Tidyverse function.
+#' Create a tidyverse call expression
 #'
-#' @param .data Character describing the data object to be manipulated.
-#' @param fun Character describing the Tidyverse function to be executed.
-#' @param tidy_select_args The arguments for the Tidyverse function passed through the R parser.
-#' @return A string representing the Tidyverse function and its arguments.
-#' @importFrom stringr str_detect
+#' This function creates a tidyverse call expression in string form,
+#' using the provided data frame, function name, tidy select statement,
+#' and additional arguments.
+#'
+#' @param .data The name of the data frame.
+#' @param fun The name of the function to be applied (e.g., "select").
+#' @param tidy_select The tidy select statement (e.g., column names).
+#' @param other_args Additional arguments to the function.
+#' @return An expression object of the tidyverse call.
 #' @noRd
-.make_tidyselect_arg <- function(.data, fun, tidy_select_args) {
-  tidy_arg_string <- paste0(.data, " %>% dplyr::", fun, "(", tidy_select_args, ")")
-  return(tidy_arg_string)
+.make_tidyverse_call <- function(.data, fun, tidy_select, other_args = NULL){
+  if(is.null(other_args)) {
+    tidy_string <- paste0(.data, " %>% dplyr::", fun, "(", tidy_select, ")")
+  } else {
+    tidy_string <- paste0(.data, " %>% dplyr::", fun, "(", tidy_select, ", ", other_args, ")")
+  }
+  return(rlang::parse_expr(tidy_string))
 }
+
+#' Paste Character Arguments
+#'
+#' This function takes any number of arguments and returns a formatted string
+#' that includes the argument names and their corresponding values.
+#'
+#' @param ... Any number of arguments.
+#' @return A character string with the argument names and values.
+#' @importFrom purrr map imap set_names
+#' @importFrom dplyr %>%
+#' @noRd
+.paste_character_args <- function(...) {
+  arg_values <- list(...) %>% purrr::map(deparse)
+  call_stack <- sys.call()
+  arg_names <- as.character(call_stack)[-1]
+  arg_values <- purrr::set_names(arg_values, arg_names)
+  args_formatted <- arg_values %>% purrr::imap(~paste0(.y, " = ", .x))
+  args_as_vector <- paste(unlist(args_formatted), collapse = ", ")
+  return(args_as_vector)
+}
+
 
 #' Evaluate an expression and handle errors gracefully.
 #'
 #' @param string_as_expr An expression to be evaluated.
 #' @param .data The data environment in which the expression should be evaluated.
 #' @importFrom cli cli_abort
+#' @importFrom rlang eval_tidy
 #' @return The result of evaluating the expression, or an error message if evaluation fails.
 #' @noRd
-.tidy_eval_handle_errors <- function(string_as_expr, .data) {
+.execute_with_error_handling <- function(fun, string_as_expr) {
   object_out <- tryCatch(
     eval_tidy(string_as_expr),
     error = function(e) {
       cli_abort(
-        c("x" = "`selectDS` returned the following error:", "i" = conditionMessage(e)),
+        c("x" = "`{fun}DS` returned the following error:", "i" = conditionMessage(e)),
         call = NULL
       )
     }
@@ -59,80 +91,3 @@
 
   return(object_out)
 }
-
-.permitted_tidy_fun <- function() {
-  permitted <- c("select", "rename")
-  return(permitted)
-}
-
-#' Execute a Tidyverse function on a data object with specified arguments.
-#'
-#' @param .data Character describing the data object to be manipulated.
-#' @param fun Character describing the Tidyverse function to be executed.
-#' @param tidy_select_args The arguments for the Tidyverse function passed through the R parser.
-#' @return The result of executing the Tidyverse function on the data object.
-#' @importFrom rlang parse_expr
-#' @importFrom rlang eval_tidy
-#' @noRd
-.execute_tidyverse_function <- function(.data, fun, tidy_select_args) {
-  permitted <- .permitted_tidy_fun()
-  if (!fun %in% permitted) {
-    cli_abort(
-      c("You must only use permitted tidyverse functions within DataSHIELD",
-        "i" = "Permitted functions are {permitted}",
-        "x" = "You have attempted to pass {fun}"
-      ),
-      call = NULL
-    )
-  }
-
-  tidy_string <- .make_tidyselect_arg(.data, fun, tidy_select_args)
-  string_as_expr <- rlang::parse_expr(tidy_string)
-  return(.tidy_eval_handle_errors(string_as_expr, .data))
-}
-
-#' List Disclosure Settings
-#' Outputs a list of disclosure settings
-#' @importFrom dplyr %>%
-#' @importFrom purrr map
-#' @return A named list of disclosure settings.
-#' @export
-dsListDisclosureSettingsTidyVerse <- function() {
-  privacy_options <- .list_privacy_settings()
-
-  out <- privacy_options %>%
-    map(.set_privacy_option) %>%
-    set_names(privacy_options)
-
-  return(out)
-}
-
-#' List Privacy Settings
-#' This internal function returns a vector of privacy settings.
-#' @return A character vector containing privacy settings.
-#' @noRd
-.list_privacy_settings <- function() {
-  return(
-    c(
-    "datashield.privacyControlLevel", "nfilter.tab", "nfilter.subset",
-    "nfilter.glm", "nfilter.string", "nfilter.stringShort", "nfilter.kNN",
-    "nfilter.levels.density", "nfilter.levels.max", "nfilter.noise"
-    )
-  )
-}
-
-#' Set Privacy Option
-#' Retrieves the value of a given privacy setting or set a default
-#' @param setting The name of the privacy setting.
-#' @return The value of the specified privacy setting.
-#'
-#' @keywords internal
-#' @noRd
-.set_privacy_option <- function(setting) {
-  out <- getOption(setting)
-  if (is.null(out)) {
-    out <- getOption(paste0("default.", setting))
-  }
-  return(out)
-}
-
