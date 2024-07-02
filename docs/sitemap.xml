@@ -16,6 +16,12 @@
     <loc>/reference/index.html</loc>
   </url>
   <url>
+    <loc>/reference/mutateDS.html</loc>
+  </url>
+  <url>
+    <loc>/reference/renameDS.html</loc>
+  </url>
+  <url>
     <loc>/reference/selectDS.html</loc>
   </url>
 </urlset>
