@@ -5,9 +5,9 @@
 #' @noRd
 .get_encode_dictionary <- function() {
   encode_list <- list(
-    input = c("(", ")", "\"", ",", " ", ":", "!", "&", "|", "'", "[", "]", "=", "+", "-", "*", "/", "^"),
+    input = c("(", ")", "\"", ",", " ", ":", "!", "&", "|", "'", "[", "]", "=", "+", "-", "*", "/", "^", ">", "<"),
     output = c("$LB$", "$RB$", "$QUOTE$", "$COMMA$", "$SPACE$", "$COLON$", "$EXCL$", "$AND$", "$OR$",
-               "$APO$", "$LSQ$", "$RSQ", "$EQU$", "$ADD$", "$SUB$", "$MULT$", "$DIVIDE$", "$POWER$")
+               "$APO$", "$LSQ$", "$RSQ", "$EQU$", "$ADD$", "$SUB$", "$MULT$", "$DIVIDE$", "$POWER$", "$GT$", "$LT$")
   )
   return(encode_list)
 }
@@ -82,12 +82,31 @@
   object_out <- tryCatch(
     eval_tidy(string_as_expr),
     error = function(e) {
-      cli_abort(
-        c("x" = "`{fun}DS` returned the following error:", "i" = conditionMessage(e)),
-        call = NULL
+      stop(
+        .format_cli_error(e, fun, conditionMessage(e)),
+        .call = NULL
       )
     }
   )
 
   return(object_out)
+}
+
+#' Format CLI Error Message
+#'
+#' This function formats a CLI error message by combining the function name,
+#' a custom error message, and any additional context. It modifies the
+#' message to include specific formatting for readability.
+#'
+#' @param e An error object (unused in the function but included for context).
+#' @param fun A character string representing the function name that generated the error.
+#' @param cli_msg A character string representing the custom CLI error message.
+#'
+#' @return A formatted character string containing the complete error message.
+#' @noRd
+.format_cli_error <- function(e, fun, cli_msg){
+  msg <- paste0("`", fun, "DS()", "`", " returned the following error: ", cli_msg)
+  msg <- str_replace(msg, "following error:", "following error:\f")
+  msg <- str_replace(msg, "Caused by error:", "\fCaused by error:\f")
+  return(msg)
 }
