@@ -1,19 +1,29 @@
 #' @title Performs dplyr if_else
-#' @description This function is similar to R function \code{if_else}.
-#' @param condition A list, specifying a logical vector in `tidy-select` syntax, ie data and column names unquoted.
-#' @param true Vector to use for TRUE value of condition.
-#' @param false Vector to use for FALSE value of condition.
-#' @param missing If not NULL, will be used as the value for NA values of condition. Follows the same size and type rules as true and false.
-#' @param ptype An optional prototype declaring the desired output type. If supplied, this overrides the common type of true, false, and missing.
-#' @param size An optional size declaring the desired output size. If supplied, this overrides the size of condition.
+#' @description This function is similar to R function \code{rename}.
+#' @details Performs dplyr rename
+#' @param .data A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).
+#' @param expr Diffused expression of dotdotdot passed to ds.rename
+#' @param .keep Control which columns from .data are retained in the output. Grouping columns and
+#' columns created by ... are always kept. "all" retains all columns from .data. This is the default.
+#' "used" retains only the columns used in `tidy_select` to create new columns. "unused" retains
+#' only the columns not used in `tidy_select` to create new columns. This is useful if you generate
+#' new columns, but no longer need the columns used to generate them. "none" doesn't retain any
+#' extra columns from `df.name`. Only the grouping variables and columns created by `tidy_select`
+#' are kept.
+#' @param .before <tidy-select> Optionally, control where new columns should appear (the default is
+#' to add to the right hand side). See `relocate` for more details.
+#' @param .after <tidy-select> Optionally, control where new columns should appear (the default is
+#' to add to the right hand side). See `relocate` for more details.
 #' @return the object specified by the \code{newobj} argument
-#' of \code{ds.if_else} which is written to the serverside.
+#' of \code{ds.rename} (or as default same name as input object) which is written to the serverside.
 #' @export
-ifElseDS <- function(condition = NULL, true = NULL, false = NULL, missing = NULL,
-                      ptype = NULL, size = NULL) {
-  tidyselect <- .decode_tidy_eval(condition, .get_encode_dictionary())
+#'
+if_elseDS <- function(.data = NULL, condition = NULL, true = NULL, false = NULL, missing = NULL,
+                     ptype = NULL, size = NULL) {
+  browser()
+  tidy_select <- .decode_tidy_eval(condition, .get_encode_dictionary())
   other_args <- .paste_character_args(true, false, missing, ptype, size)
-  call <- .make_tidyverse_call(.data = NULL, "if_else", tidyselect, other_args, inc_data = F)
+  call <- .make_tidyverse_call(.data, "if_else", tidy_select, other_args)
   out <- .execute_with_error_handling("if_else", call)
   return(out)
 }
