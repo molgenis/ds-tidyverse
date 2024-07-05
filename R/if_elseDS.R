@@ -18,12 +18,11 @@
 #' of \code{ds.rename} (or as default same name as input object) which is written to the serverside.
 #' @export
 #'
-if_elseDS <- function(.data = NULL, condition = NULL, true = NULL, false = NULL, missing = NULL,
+if_elseDS <- function(condition = NULL, true = NULL, false = NULL, missing = NULL,
                      ptype = NULL, size = NULL) {
-  browser()
-  tidy_select <- .decode_tidy_eval(condition, .get_encode_dictionary())
+  tidyselect <- .decode_tidy_eval(condition, .get_encode_dictionary())
   other_args <- .paste_character_args(true, false, missing, ptype, size)
-  call <- .make_tidyverse_call(.data, "if_else", tidy_select, other_args)
+  call <- .make_tidyverse_call("if_else", tidyselect, other_args, inc_data = F)
   out <- .execute_with_error_handling("if_else", call)
   return(out)
 }
