@@ -38,13 +38,13 @@
 #' @param other_args Additional arguments to the function.
 #' @return An expression object of the tidyverse call.
 #' @noRd
-.make_tidyverse_call <- function(.data, fun, tidy_select, other_args = NULL, inc_data = TRUE) {
-  if (is.null(other_args)) {
+.make_tidyverse_call <- function(.data, fun, tidy_select, other_args = NULL, inc_data = TRUE){
+  if(is.null(other_args)) {
     tidy_string <- paste0("dplyr::", fun, "(", tidy_select, ")")
   } else {
     tidy_string <- paste0("dplyr::", fun, "(", tidy_select, ", ", other_args, ")")
   }
-  if (inc_data) {
+  if(inc_data) {
     tidy_string <- paste0(.data, " %>% ", tidy_string)
   }
   return(rlang::parse_expr(tidy_string))
