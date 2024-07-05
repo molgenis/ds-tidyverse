@@ -5,9 +5,9 @@
 #' @noRd
 .get_encode_dictionary <- function() {
   encode_list <- list(
-    input = c("(", ")", "\"", ",", " ", ":", "!", "&", "|", "'", "[", "]", "=", "+", "-", "*", "/", "^"),
+    input = c("(", ")", "\"", ",", " ", ":", "!", "&", "|", "'", "[", "]", "=", "+", "-", "*", "/", "^", ">", "<"),
     output = c("$LB$", "$RB$", "$QUOTE$", "$COMMA$", "$SPACE$", "$COLON$", "$EXCL$", "$AND$", "$OR$",
-               "$APO$", "$LSQ$", "$RSQ", "$EQU$", "$ADD$", "$SUB$", "$MULT$", "$DIVIDE$", "$POWER$")
+               "$APO$", "$LSQ$", "$RSQ", "$EQU$", "$ADD$", "$SUB$", "$MULT$", "$DIVIDE$", "$POWER$", "$GT$", "$LT$")
   )
   return(encode_list)
 }
@@ -40,11 +40,14 @@
 #' @param other_args Additional arguments to the function.
 #' @return An expression object of the tidyverse call.
 #' @noRd
-.make_tidyverse_call <- function(.data, fun, tidy_select, other_args = NULL){
+.make_tidyverse_call <- function(.data, fun, tidy_select, other_args = NULL, inc_data = TRUE){
   if(is.null(other_args)) {
-    tidy_string <- paste0(.data, " %>% dplyr::", fun, "(", tidy_select, ")")
+    tidy_string <- paste0("dplyr::", fun, "(", tidy_select, ")")
   } else {
-    tidy_string <- paste0(.data, " %>% dplyr::", fun, "(", tidy_select, ", ", other_args, ")")
+    tidy_string <- paste0("dplyr::", fun, "(", tidy_select, ", ", other_args, ")")
+  }
+  if(inc_data) {
+    tidy_string <- paste0(.data, " %>% ", tidy_string)
   }
   return(rlang::parse_expr(tidy_string))
 }
