@@ -18,6 +18,12 @@ test_that(".make_tidyverse_call creates call with additional arguments", {
     .before = NULL, .after = "disp")')
   observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_select = input_string, other_args = extra_args)
   expect_equal(expected_string, observed_string)
+
+test_that(".make_tidyverse_call creates call when inc_data = F", {
+  expected_string <- rlang::parse_expr('dplyr::select(asd, qwe, starts_with("test"), .keep = "all",
+  .before = NULL, .after = "disp")')
+  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_select = input_string, other_args = extra_args, inc_data = F)
+  expect_equal(expected_string, observed_string)
 })
 
 test_that(".make_tidyverse_call creates call when inc_data = F", {
