@@ -1,8 +1,7 @@
 library(DSLite)
 library(dplyr)
-library(dsTidyverse)
-library(dsBase)
-library(dsBaseClient)
+library(purrr)
+library(cli)
 
 good_mutate_arg <- "mpg_trans = cyl*1000, new_var = (hp-drat)/qsec"
 # good_mutate_arg_enc <- .encode_tidy_eval(good_mutate_arg, .get_encode_dictionary())

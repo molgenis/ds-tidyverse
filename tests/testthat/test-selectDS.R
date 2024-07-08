@@ -1,9 +1,6 @@
 library(dplyr)
 library(purrr)
 library(cli)
-library(DSLite)
-library(dsBase)
-library(dsBaseClient)
 
 good_select_arg <- "mpg, cyl, starts_with('g'), ends_with('b')"
 
