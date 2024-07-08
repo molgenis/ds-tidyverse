@@ -18,11 +18,6 @@ dslite.server$aggregateMethod("lsDS", "dsBase::lsDS")
 dslite.server$aggregateMethod("dsListDisclosureSettingsTidyVerse", "dsTidyverse::dsListDisclosureSettingsTidyVerse")
 conns <- datashield.login(logins = logindata.dslite.cnsim, assign = TRUE)
 
-.encode_tidy_eval <- function(input_string, encode_key) {
-  encode_vec <- set_names(encode_key$output, encode_key$input)
-  output_string <- str_replace_all(input_string, fixed(encode_vec))
-}
-
 good_rename_arg <- "test_1 = mpg, test_2 = drat"
 
 test_that("renameDS passes for rename where data and column exist", {
