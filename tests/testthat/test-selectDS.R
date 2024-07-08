@@ -24,7 +24,7 @@ good_select_arg <- "mpg, cyl, starts_with('g'), ends_with('b')"
 
 test_that("selectDS passes where data and column exist", {
   good_select_cally <- .make_tidyverse_call("mtcars", "select", good_select_arg)
-  expected <- c("mpg", "cyl", "gear", "carb")
+    expected <- c("mpg", "cyl", "gear", "carb")
   expect_equal(
     colnames(eval(good_select_cally)),
     expected
