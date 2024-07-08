@@ -16,7 +16,8 @@ test_that("mutateDS passes where data and column exist", {
 
   expect_equal(
     mean(result$mpg_trans),
-    6187.5)
+    6187.5
+  )
 
   expect_equal(
     colnames(result),
