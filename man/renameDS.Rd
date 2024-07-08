@@ -4,12 +4,12 @@
 \alias{renameDS}
 \title{Performs dplyr rename}
 \usage{
-renameDS(.data, expr)
+renameDS(expr, .data)
 }
 \arguments{
-\item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).}
-
 \item{expr}{Diffused expression of dotdotdot passed to ds.rename}
+
+\item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).}
 }
 \value{
 the object specified by the \code{newobj} argument

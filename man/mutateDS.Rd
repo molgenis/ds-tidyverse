@@ -4,12 +4,12 @@
 \alias{mutateDS}
 \title{Performs dplyr mutate}
 \usage{
-mutateDS(.data, expr, .keep = NULL, .before = NULL, .after = NULL)
+mutateDS(expr, .data, .keep = NULL, .before = NULL, .after = NULL)
 }
 \arguments{
-\item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).}
-
 \item{expr}{Diffused expression of dotdotdot passed to ds.rename}
+
+\item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).}
 
 \item{.keep}{Control which columns from .data are retained in the output. Grouping columns and
 columns created by ... are always kept. "all" retains all columns from .data. This is the default.
