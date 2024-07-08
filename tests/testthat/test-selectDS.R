@@ -2,11 +2,6 @@ library(dplyr)
 library(purrr)
 library(cli)
 
-.encode_tidy_eval <- function(input_string, encode_key) {
-  encode_vec <- set_names(encode_key$output, encode_key$input)
-  output_string <- str_replace_all(input_string, fixed(encode_vec))
-}
-
 good_select_arg <- "mpg, cyl, starts_with('g'), ends_with('b')"
 
 test_that("selectDS passes where data and column exist", {
