@@ -4,12 +4,12 @@
 \alias{selectDS}
 \title{Performs dplyr select}
 \usage{
-selectDS(.data, expr)
+selectDS(expr, .data)
 }
 \arguments{
-\item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).}
-
 \item{expr}{Diffused expression of dotdotdot passed to ds.select}
+
+\item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).}
 }
 \value{
 the object specified by the \code{newobj} argument
