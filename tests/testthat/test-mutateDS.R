@@ -8,10 +8,10 @@ library(cli)
 }
 
 good_mutate_arg <- "mpg_trans = cyl*1000, new_var = (hp-drat)/qsec"
-good_mutate_arg_enc <- .encode_tidy_eval(good_mutate_arg, .get_encode_dictionary())
+# good_mutate_arg_enc <- .encode_tidy_eval(good_mutate_arg, .get_encode_dictionary())
 
 test_that("mutateDS passes where data and column exist", {
-  good_mutate_cally <- call("mutateDS", "mtcars", good_mutate_arg_enc, "all", NULL, NULL)
+  good_mutate_cally <- .make_tidyverse_call("mtcars", "mutate", good_mutate_arg, list(".keep = \"all\", .before = NULL, .after = NULL"))
   result <- eval(good_mutate_cally)
 
   expect_equal(
@@ -25,7 +25,7 @@ test_that("mutateDS passes where data and column exist", {
 })
 
 test_that("mutateDS passes with different .keep argument", {
-  good_mutate_cally <- call("mutateDS", "mtcars", good_mutate_arg_enc, "none", NULL, NULL)
+  good_mutate_cally <- .make_tidyverse_call("mtcars", "mutate", good_mutate_arg, list(".keep = \"none\", .before = NULL, .after = NULL"))
   result <- eval(good_mutate_cally)
 
   expect_equal(
@@ -35,7 +35,7 @@ test_that("mutateDS passes with different .keep argument", {
 })
 
 test_that("mutateDS passes with different .before argument", {
-  good_mutate_cally <- call("mutateDS", "mtcars", good_mutate_arg_enc, "all", "disp", NULL)
+  good_mutate_cally <- .make_tidyverse_call("mtcars", "mutate", good_mutate_arg, list(".keep = \"all\", .before = \"disp\", .after = NULL"))
   result <- eval(good_mutate_cally)
 
   expect_equal(
@@ -45,7 +45,7 @@ test_that("mutateDS passes with different .before argument", {
 })
 
 test_that("mutateDS passes with different .afterb argument", {
-  good_mutate_cally <- call("mutateDS", "mtcars", good_mutate_arg_enc, "all", NULL, "qsec")
+  good_mutate_cally <- .make_tidyverse_call("mtcars", "mutate", good_mutate_arg, list(".keep = \"all\", .before = NULL, .after = \"qsec\""))
   result <- eval(good_mutate_cally)
 
   expect_equal(
