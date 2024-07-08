@@ -2,11 +2,6 @@ library(dplyr)
 library(purrr)
 library(cli)
 
-.encode_tidy_eval <- function(input_string, encode_key) {
-  encode_vec <- set_names(encode_key$output, encode_key$input)
-  output_string <- str_replace_all(input_string, fixed(encode_vec))
-}
-
 good_mutate_arg <- "mpg_trans = cyl*1000, new_var = (hp-drat)/qsec"
 # good_mutate_arg_enc <- .encode_tidy_eval(good_mutate_arg, .get_encode_dictionary())
 
