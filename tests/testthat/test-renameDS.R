@@ -27,7 +27,7 @@ good_rename_arg <- "test_1 = mpg, test_2 = drat"
 
 test_that("renameDS passes for rename where data and column exist", {
   good_rename_cally <- .make_tidyverse_call("mtcars", "rename", good_rename_arg)
-  expected <- c("test_1",  "cyl", "disp", "hp", "test_2", "wt", "qsec", "vs", "am", "gear", "carb")
+  expected <- c("test_1", "cyl", "disp", "hp", "test_2", "wt", "qsec", "vs", "am", "gear", "carb")
   expect_equal(
     colnames(eval(good_rename_cally)),
     expected
