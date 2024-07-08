@@ -12,7 +12,7 @@
 #' @export
 #'
 if_elseDS <- function(condition = NULL, true = NULL, false = NULL, missing = NULL,
-                     ptype = NULL, size = NULL) {
+                      ptype = NULL, size = NULL) {
   tidyselect <- .decode_tidy_eval(condition, .get_encode_dictionary())
   other_args <- .paste_character_args(true, false, missing, ptype, size)
   call <- .make_tidyverse_call(.data = NULL, "if_else", tidyselect, other_args, inc_data = F)

@@ -6,13 +6,13 @@
 .get_encode_dictionary <- function() {
   encode_list <- list(
     input = c("(", ")", "\"", ",", " ", ":", "!", "&", "|", "'", "[", "]", "=", "+", "-", "*", "/", "^", ">", "<"),
-    output = c("$LB$", "$RB$", "$QUOTE$", "$COMMA$", "$SPACE$", "$COLON$", "$EXCL$", "$AND$", "$OR$",
-               "$APO$", "$LSQ$", "$RSQ", "$EQU$", "$ADD$", "$SUB$", "$MULT$", "$DIVIDE$", "$POWER$", "$GT$", "$LT$")
+    output = c(
+      "$LB$", "$RB$", "$QUOTE$", "$COMMA$", "$SPACE$", "$COLON$", "$EXCL$", "$AND$", "$OR$",
+      "$APO$", "$LSQ$", "$RSQ", "$EQU$", "$ADD$", "$SUB$", "$MULT$", "$DIVIDE$", "$POWER$", "$GT$", "$LT$"
+    )
   )
   return(encode_list)
 }
-
-
 
 #' Decode a string using the provided encoding key.
 #'
@@ -40,13 +40,13 @@
 #' @param other_args Additional arguments to the function.
 #' @return An expression object of the tidyverse call.
 #' @noRd
-.make_tidyverse_call <- function(.data, fun, tidy_select, other_args = NULL, inc_data = TRUE){
-  if(is.null(other_args)) {
+.make_tidyverse_call <- function(.data, fun, tidy_select, other_args = NULL, inc_data = TRUE) {
+  if (is.null(other_args)) {
     tidy_string <- paste0("dplyr::", fun, "(", tidy_select, ")")
   } else {
     tidy_string <- paste0("dplyr::", fun, "(", tidy_select, ", ", other_args, ")")
   }
-  if(inc_data) {
+  if (inc_data) {
     tidy_string <- paste0(.data, " %>% ", tidy_string)
   }
   return(rlang::parse_expr(tidy_string))
@@ -67,7 +67,7 @@
   call_stack <- sys.call()
   arg_names <- as.character(call_stack)[-1]
   arg_values <- purrr::set_names(arg_values, arg_names)
-  args_formatted <- arg_values %>% purrr::imap(~paste0(.y, " = ", .x))
+  args_formatted <- arg_values %>% purrr::imap(~ paste0(.y, " = ", .x))
   args_as_vector <- paste(unlist(args_formatted), collapse = ", ")
   return(args_as_vector)
 }
