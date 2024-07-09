@@ -98,7 +98,7 @@ jobs:
             "https://uploads.github.com/repos/molgenis/ds-tidyverse/releases/${RELEASE_ID}/assets?name=${PACKAGE}_${TAG}.tar.gz" \
             --data-binary "@${PACKAGE}_${TAG}.tar.gz"
 
-            Rscript -e "usethis::use_pkgdown_github_pages()"
+            #Rscript -e "usethis::use_pkgdown_github_pages()"
 
             curl -d "token=${SLACK_TOKEN}" \
             -d "text=:ds-tidyverse: ds-tidyverse version: v${TAG} is released :rocket:" \
