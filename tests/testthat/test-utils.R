@@ -150,3 +150,17 @@ test_that(".execute_with_error_handling passes if all additional arguments are N
   observed <- .execute_with_error_handling("mutate", mutate_null_args)
   expect_equal(colnames(observed), c("mpg", "cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", "gear", "carb", "new_name_1", "new_name_2"))
 })
+
+test_that(".paste_character_args creates correct string", {
+
+  true = "high"
+  false = "low"
+  missing = NULL
+  ptype = NULL
+  size = NULL
+
+  expected <- "true = \"high\", false = \"low\", missing = NULL, ptype = NULL, size = NULL"
+  expect_equal(
+    .paste_character_args(true, false, missing, ptype, size),
+    expected)
+})
