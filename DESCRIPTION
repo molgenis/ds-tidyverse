@@ -37,5 +37,6 @@ Suggests:
   testthat (>= 3.0.0), 
   tibble,
   dsBase,
-  DSLite
+  DSLite, 
+  dsBaseClient
 Config/testthat/edition: 3
