@@ -58,6 +58,13 @@ test_that("if_elseDS passes when `missing` argument used", {
     )
 })
 
+test_that(".decode_tidy_eval correctly decodes an encoded string passed via the R parser", {
+  decoded_string <- .decode_tidy_eval("mtcars2$mpg$SPACE$$GT$$SPACE$20", .get_encode_dictionary())
+  expect_equal(
+    decoded_string,
+    "mtcars2$mpg > 20")
+})
+
 # test_that("if_elseDS passes when `ptype` argument used", {
 #   data(mtcars)
 #   other_args <- "true = \"50\", false = \"500\", missing = NULL, ptype = \"integer\", size = NULL"
