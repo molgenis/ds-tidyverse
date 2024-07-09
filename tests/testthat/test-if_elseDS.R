@@ -1,10 +1,24 @@
+library(DSLite)
 library(dplyr)
-library(purrr)
-library(cli)
+library(dsTidyverse)
+library(dsBaseClient)
+
+options(datashield.env = environment())
+data("mtcars")
+mtcars <- mtcars %>% mutate(cat_var = factor(ifelse(mpg > 20, "high", "low")))
+dslite.server <- DSLite::newDSLiteServer(tables = list(mtcars = mtcars))
+data("logindata.dslite.cnsim")
+logindata.dslite.cnsim <- logindata.dslite.cnsim %>%
+  mutate(table = "mtcars")
+dslite.server$config(defaultDSConfiguration(include = c("dsBase", "dsTidyverse")))
+dslite.server$assignMethod("if_elseDS", "dsTidyverse::if_elseDS")
+dslite.server$aggregateMethod("exists", "base::exists")
+dslite.server$aggregateMethod("classDS", "dsBase::classDS")
+dslite.server$aggregateMethod("lsDS", "dsBase::lsDS")
+dslite.server$aggregateMethod("dsListDisclosureSettingsTidyVerse", "dsTidyverse::dsListDisclosureSettingsTidyVerse")
+conns <- datashield.login(logins = logindata.dslite.cnsim, assign = TRUE)
 
 if_else_num_arg <- "mtcars$mpg > 20"
-# good_mutate_arg_enc <- .encode_tidy_eval(good_mutate_arg, .get_encode_dictionary())
-
 
 test_that("if_elseDS passes and numeric condition and categorial output", {
   other_args <- "true = \"high\", false = \"low\", missing = NULL, ptype = NULL, size = NULL"
@@ -58,11 +72,17 @@ test_that("if_elseDS passes when `missing` argument used", {
     )
 })
 
-test_that(".decode_tidy_eval correctly decodes an encoded string passed via the R parser", {
-  decoded_string <- .decode_tidy_eval("mtcars2$mpg$SPACE$$GT$$SPACE$20", .get_encode_dictionary())
+test_that("if_elseDS passes when called directly", {
+  cally <- call("if_elseDS", "mtcars$mpg$SPACE$$GT$$SPACE$20", "high", "low", NULL, NULL, NULL)
+  datashield.assign(conns, "test", cally)
+
   expect_equal(
-    decoded_string,
-    "mtcars2$mpg > 20")
+    ds.class("test")[[1]],
+    "character")
+
+  expect_equal(
+    as.numeric(ds.table("test")$output.list$TABLES.COMBINED_all.sources_counts),
+    c(42, 54, 0))
 })
 
 # test_that("if_elseDS passes when `ptype` argument used", {
