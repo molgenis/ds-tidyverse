@@ -1,6 +1,24 @@
 library(dplyr)
 library(purrr)
 library(cli)
+library(DSLite)
+library(dsBase)
+library(dsBaseClient)
+
+options(datashield.env = environment())
+data("mtcars")
+mtcars <- mtcars %>% mutate(cat_var = factor(ifelse(mpg > 20, "high", "low")))
+dslite.server <- DSLite::newDSLiteServer(tables = list(mtcars = mtcars))
+data("logindata.dslite.cnsim")
+logindata.dslite.cnsim <- logindata.dslite.cnsim %>%
+  mutate(table = "mtcars")
+dslite.server$config(defaultDSConfiguration(include = c("dsBase", "dsTidyverse")))
+dslite.server$assignMethod("selectDS", "dsTidyverse::selectDS")
+dslite.server$aggregateMethod("exists", "base::exists")
+dslite.server$aggregateMethod("classDS", "dsBase::classDS")
+dslite.server$aggregateMethod("lsDS", "dsBase::lsDS")
+dslite.server$aggregateMethod("dsListDisclosureSettingsTidyVerse", "dsTidyverse::dsListDisclosureSettingsTidyVerse")
+conns <- datashield.login(logins = logindata.dslite.cnsim, assign = TRUE)
 
 good_select_arg <- "mpg, cyl, starts_with('g'), ends_with('b')"
 
@@ -29,5 +47,21 @@ test_that(".execute_tidyverse_function fails with correct message when unrecogni
   expect_error(
     eval(random_select_cally),
     "`selectDS`\\s+returned\\s+the\\s+following\\s+error:|no\\s+applicable\\s+method\\s+for\\s+'filter'"
+  )
+})
+
+test_that("select passes when called directly", {
+
+  cally <- call("selectDS", "mpg$COMMA$$SPACE$starts_with$LB$$QUOTE$m$QUOTE$$RB$$COMMA$$SPACE$ends_with$LB$$QUOTE$t$QUOTE$$RB$",
+                "mtcars")
+  datashield.assign(conns, "test", cally)
+
+  expect_equal(
+    ds.class("test")[[1]],
+    "data.frame")
+
+  expect_equal(
+    ds.colnames("test")[[1]],
+    c("mpg", "drat", "wt")
   )
 })
