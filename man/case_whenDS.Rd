@@ -4,7 +4,7 @@
 \alias{case_whenDS}
 \title{Performs dplyr if_else}
 \usage{
-case_whenDS(dynamic_dots = NULL, default = NULL, .ptype = NULL, .size = NULL)
+case_whenDS(dynamic_dots = NULL, .default = NULL, .ptype = NULL, .size = NULL)
 }
 \arguments{
 \item{dynamic_dots}{A sequence of two-sided formulas. The left hand side (LHS) determines which
@@ -16,7 +16,7 @@ the same size. Recycling is mainly useful for RHS inputs, where you might supply
 that will be recycled to the size of the LHS inputs.
 NULL inputs are ignored.}
 
-\item{default}{The value used when all of the LHS inputs return either FALSE or NA.}
+\item{.default}{The value used when all of the LHS inputs return either FALSE or NA.}
 
 \item{.ptype}{An optional prototype declaring the desired output type. If supplied, this overrides the common type of true, false, and missing.}
 
