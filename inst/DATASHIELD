@@ -1,4 +1,6 @@
 AssignMethods:
     selectDS,
     renameDS,
-    mutateDS
+    mutateDS,
+    if_elseDS,
+    case_whenDS
