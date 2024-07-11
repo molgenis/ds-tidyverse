@@ -20,7 +20,7 @@ dslite.server$aggregateMethod("dsListDisclosureSettingsTidyVerse", "dsTidyverse:
 conns <- datashield.login(logins = logindata.dslite.cnsim, assign = TRUE)
 
 
-test_that("case_whenDS passes and numeric condition and numeric output", {
+test_that("case_whenDS passes and numeric condition and categorical output", {
   case_when_arg <-
     'mtcars$mpg < 10 ~ "low",
   mtcars$mpg >= 10 & mtcars$mpg < 20 ~ "medium",
@@ -40,7 +40,7 @@ test_that("case_whenDS passes and numeric condition and numeric output", {
   )
 })
 
-test_that("case_whenDS passes and numeric condition and categorical output", {
+test_that("case_whenDS passes and numeric condition and numeric output", {
   case_when_arg <-
     'mtcars$mpg < 10 ~ 10,
   mtcars$mpg >= 10 & mtcars$mpg < 20 ~ 20,
@@ -58,26 +58,7 @@ test_that("case_whenDS passes and numeric condition and categorical output", {
   )
 })
 
-
-test_that("case_whenDS passes and numeric condition and categorical output", {
-  case_when_arg <-
-    'mtcars$mpg < 10 ~ 10,
-     mtcars$mpg >= 10 & mtcars$mpg < 20 ~ 20,
-      mtcars$mpg >= 20 ~ 30'
-
-  other_args <- ".default = NULL, .ptype = NULL, .size = NULL"
-  case_when_cally <- .make_tidyverse_call("mtcars", "case_when", case_when_arg, other_args, inc_data = F)
-  result <- eval(case_when_cally)
-
-  expect_equal(
-    result,
-    c(
-      30, 30, 30, 30, 20, 20, 20, 30, 30, 20, 20, 20, 20, 20, 20, 20, 20, 30, 30, 30, 30, 20, 20,
-      20, 20, 30, 30, 30, 20, 20, 20, 30)
-  )
-})
-
-test_that("case_whenDS passes with categorica and categorical output", {
+test_that("case_whenDS passes with categorical condition and categorical output", {
   case_when_arg <-
     'mtcars$gear == 1 ~ "low",
      mtcars$gear == 2 ~ "medium",
