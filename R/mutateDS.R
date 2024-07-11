@@ -14,8 +14,8 @@
 #' to add to the right hand side). See `relocate` for more details.
 #' @param .after <tidy-select> Optionally, control where new columns should appear (the default is
 #' to add to the right hand side). See `relocate` for more details.
-#' @return the object specified by the \code{newobj} argument
-#' of \code{ds.rename} (or as default same name as input object) which is written to the serverside.
+#' @return the object specified by the \code{newobj} argument of \code{ds.mutate} which is written
+#' to the serverside.
 #' @export
 #'
 mutateDS <- function(expr, .data, .keep = NULL, .before = NULL, .after = NULL) {
