@@ -12,8 +12,8 @@
 #' @param default The value used when all of the LHS inputs return either FALSE or NA.
 #' @param .ptype An optional prototype declaring the desired output type. If supplied, this overrides the common type of true, false, and missing.
 #' @param .size An optional size declaring the desired output size. If supplied, this overrides the size of condition.
-#' @return the object specified by the \code{newobj} argument
-#' of \code{ds.rename} (or as default same name as input object) which is written to the serverside.
+#' @return the object specified by the \code{newobj} argument of \code{ds.case_when}which is
+#' written to the serverside.
 #' @export
 #'
 case_whenDS <- function(dynamic_dots = NULL, default = NULL, .ptype = NULL, .size = NULL) {
