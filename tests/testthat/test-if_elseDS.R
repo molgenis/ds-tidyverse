@@ -1,6 +1,7 @@
 library(DSLite)
 library(dplyr)
 library(dsTidyverse)
+library(dsBase)
 library(dsBaseClient)
 
 options(datashield.env = environment())
