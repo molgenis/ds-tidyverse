@@ -23,8 +23,8 @@ NULL inputs are ignored.}
 \item{.size}{An optional size declaring the desired output size. If supplied, this overrides the size of condition.}
 }
 \value{
-the object specified by the \code{newobj} argument
-of \code{ds.rename} (or as default same name as input object) which is written to the serverside.
+the object specified by the \code{newobj} argument of \code{ds.case_when}which is
+written to the serverside.
 }
 \description{
 This function is similar to R function \code{rename}.
