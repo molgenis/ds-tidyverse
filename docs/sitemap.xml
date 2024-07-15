@@ -10,7 +10,16 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/reference/bind_rowsDS.html</loc>
+  </url>
+  <url>
+    <loc>/reference/case_whenDS.html</loc>
+  </url>
+  <url>
     <loc>/reference/dsListDisclosureSettingsTidyVerse.html</loc>
+  </url>
+  <url>
+    <loc>/reference/if_elseDS.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>

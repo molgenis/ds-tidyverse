@@ -44,17 +44,17 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mutateDS</span><span class="op">(</span><span class="va">.data</span>, <span class="va">expr</span>, .keep <span class="op">=</span> <span class="cn">NULL</span>, .before <span class="op">=</span> <span class="cn">NULL</span>, .after <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mutateDS</span><span class="op">(</span><span class="va">expr</span>, <span class="va">.data</span>, .keep <span class="op">=</span> <span class="cn">NULL</span>, .before <span class="op">=</span> <span class="cn">NULL</span>, .after <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>.data</dt>
-<dd><p>A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).</p></dd>
-
-
-<dt>expr</dt>
+    <dl><dt>expr</dt>
 <dd><p>Diffused expression of dotdotdot passed to ds.rename</p></dd>
+
+
+<dt>.data</dt>
+<dd><p>A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).</p></dd>
 
 
 <dt>.keep</dt>
@@ -81,8 +81,8 @@ to add to the right hand side). See `relocate` for more details.</p></dd>
     <h2>Value</h2>
     
 
-<p>the object specified by the <code>newobj</code> argument
-of <code>ds.rename</code> (or as default same name as input object) which is written to the serverside.</p>
+<p>the object specified by the <code>newobj</code> argument of <code>ds.mutate</code> which is written
+to the serverside.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
