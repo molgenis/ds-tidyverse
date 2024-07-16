@@ -37,6 +37,7 @@ jobs:
           export VERSION=`svu --strip-prefix`
           install2.r --repo https://cloud.r-project.org desc
           Rscript -e "desc::desc_set_version('${VERSION}')"
+          git commit -a -m 'Increment DESCRIPTION number'
 
     # we use version number for caching
     - restore_cache:
