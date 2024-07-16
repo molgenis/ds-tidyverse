@@ -34,6 +34,7 @@ jobs:
     - run:
         name: Get new version number based on semantic commits and put in package description
         command: |
+          Rscript -e "git2r::config(user.email = 'molgenis+ci@gmail.com', user.name = 'MOLGENIS Jenkins')"
           export VERSION=`svu --strip-prefix`
           install2.r --repo https://cloud.r-project.org desc
           Rscript -e "desc::desc_set_version('${VERSION}')"
@@ -49,7 +50,7 @@ jobs:
         command: |
           Rscript -e 'install.packages(c("devtools", "pkgdown", "markdown", "rmarkdown", "rlang", "stringr", "cli", "covr", "git2r", "dplyr", "purrr", "DSI", "DSLite", "RANN", "lme4", "reshape2", "polycor", "gamlss", "gamlss.dist", "mice", "childsds", "lme4", "Matrix", "stringi"))'
           Rscript -e 'install.packages("dsBase", repos = "https://cran.obiba.org/")'
-          Rscript -e "git2r::config(user.email = 'molgenis+ci@gmail.com', user.name = 'MOLGENIS Jenkins')"
+          # Rscript -e "git2r::config(user.email = 'molgenis+ci@gmail.com', user.name = 'MOLGENIS Jenkins')"
 
     - save_cache:
         paths:
