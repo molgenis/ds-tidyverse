@@ -4,4 +4,5 @@ AssignMethods:
     mutateDS,
     if_elseDS,
     case_whenDS,
-    bind_rowsDS
+    bind_rowsDS,
+    bind_colsDS
