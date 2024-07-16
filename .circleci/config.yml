@@ -34,7 +34,7 @@ jobs:
     - run:
         name: Get new version number based on semantic commits and put in package description
         command: |
-        Rscript -e 'install.packages("git2r")'
+          Rscript -e 'install.packages("git2r")'
           Rscript -e "git2r::config(user.email = 'molgenis+ci@gmail.com', user.name = 'MOLGENIS Jenkins')"
           export VERSION=`svu --strip-prefix`
           install2.r --repo https://cloud.r-project.org desc
