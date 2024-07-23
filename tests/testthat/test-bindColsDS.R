@@ -46,7 +46,7 @@ test_that("bindColsDS passes", {
 
 })
 
-  test_that("bind_rowsDS passes with .name_repair argument", {
+  test_that("bindColsDS passes with .name_repair argument", {
 
     bind_cols_arg <- "mtcars, mtcars"
     other_args <- '.name_repair = "unique"'
@@ -71,14 +71,6 @@ test_that("bindColsDS passes", {
         "drat...16", "wt...17", "qsec...18", "vs...19", "am...20", "gear...21", "carb...22")
     )
 
-    other_args <- '.name_repair = "check_unique"'
-    bind_cols_cally <- .make_tidyverse_call(NULL, "bind_cols", bind_cols_arg, other_args, inc_data = F)
-
-    expect_error(
-      eval(bind_cols_cally),
-      "Names must be unique."
-    )
-
     other_args <- '.name_repair = "minimal"'
     bind_cols_cally <- .make_tidyverse_call(NULL, "bind_cols", bind_cols_arg, other_args, inc_data = F)
     result <- eval(bind_cols_cally)
@@ -89,6 +81,18 @@ test_that("bindColsDS passes", {
         "mpg", "cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", "gear", "carb")
     )
 
+})
+
+
+test_that("bindColsDS fails with .name_repair argument as 'check_unique'", {
+  bind_cols_arg <- "mtcars, mtcars"
+  other_args <- '.name_repair = "check_unique"'
+  bind_cols_cally <- .make_tidyverse_call(NULL, "bind_cols", bind_cols_arg, other_args, inc_data = F)
+
+  expect_error(
+    eval(bind_cols_cally),
+    "Names must be unique."
+  )
 })
 
 test_that("bindColsDS passes when called directly", {
