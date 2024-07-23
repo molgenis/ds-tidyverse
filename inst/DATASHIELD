@@ -3,4 +3,5 @@ AssignMethods:
     renameDS,
     mutateDS,
     ifElseDS,
-    bindRowsDS
+    bindRowsDS,
+    bindColsDS
