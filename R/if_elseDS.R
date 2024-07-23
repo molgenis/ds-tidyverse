@@ -9,7 +9,7 @@
 #' @return the object specified by the \code{newobj} argument
 #' of \code{ds.if_else} which is written to the serverside.
 #' @export
-if_elseDS <- function(condition = NULL, true = NULL, false = NULL, missing = NULL,
+ifElseDS <- function(condition = NULL, true = NULL, false = NULL, missing = NULL,
                       ptype = NULL, size = NULL) {
   tidyselect <- .decode_tidy_eval(condition, .get_encode_dictionary())
   other_args <- .paste_character_args(true, false, missing, ptype, size)

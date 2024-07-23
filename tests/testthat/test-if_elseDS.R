@@ -73,8 +73,8 @@ test_that("if_elseDS passes when `missing` argument used", {
     )
 })
 
-test_that("if_elseDS passes when called directly", {
-  cally <- call("if_elseDS", "mtcars$mpg$SPACE$$GT$$SPACE$20", "high", "low", NULL, NULL, NULL)
+test_that("ifElseDS passes when called directly", {
+  cally <- call("ifElseDS", "mtcars$mpg$SPACE$$GT$$SPACE$20", "high", "low", NULL, NULL, NULL)
   datashield.assign(conns, "test", cally)
 
   expect_equal(

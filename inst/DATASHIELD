@@ -1,4 +1,5 @@
 AssignMethods:
     selectDS,
     renameDS,
-    mutateDS
+    mutateDS,
+    ifElseDS
