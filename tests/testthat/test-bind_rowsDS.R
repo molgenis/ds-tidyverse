@@ -21,7 +21,6 @@ conns <- datashield.login(logins = logindata.dslite.cnsim, assign = TRUE)
 
 
 test_that("bindRowsDS passes", {
-
   bind_rows_arg <- "mtcars, mtcars"
   other_args <- ".id = NULL"
   bind_rows_cally <- .make_tidyverse_call(NULL, "bind_rows", bind_rows_arg, other_args, inc_data = F)
@@ -50,7 +49,6 @@ test_that("bindRowsDS passes", {
 })
 
   test_that("bindRowsDS passes with .id argument", {
-
     bind_rows_arg <- "mtcars, mtcars"
     other_args <- ".id = 'test_col_name'"
     bind_rows_cally <- .make_tidyverse_call(NULL, "bind_rows", bind_rows_arg, other_args, inc_data = F)
