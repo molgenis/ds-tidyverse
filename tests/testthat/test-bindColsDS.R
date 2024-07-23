@@ -12,7 +12,7 @@ data("logindata.dslite.cnsim")
 logindata.dslite.cnsim <- logindata.dslite.cnsim %>%
   mutate(table = "mtcars")
 dslite.server$config(defaultDSConfiguration(include = c("dsBase", "dsTidyverse")))
-dslite.server$assignMethod("bind_colsDS", "dsTidyverse::bind_colsDS")
+dslite.server$assignMethod("bindColsDS", "dsTidyverse::bindColsDS")
 dslite.server$aggregateMethod("exists", "base::exists")
 dslite.server$aggregateMethod("classDS", "dsBase::classDS")
 dslite.server$aggregateMethod("lsDS", "dsBase::lsDS")
@@ -20,7 +20,7 @@ dslite.server$aggregateMethod("dsListDisclosureSettingsTidyVerse", "dsTidyverse:
 conns <- datashield.login(logins = logindata.dslite.cnsim, assign = TRUE)
 
 
-test_that("bind_colsDS passes", {
+test_that("bindColsDS passes", {
 
   bind_cols_arg <- "mtcars, mtcars"
   other_args <- '.name_repair = c("unique", "universal", "check_unique", "minimal")'
@@ -91,8 +91,8 @@ test_that("bind_colsDS passes", {
 
 })
 
-test_that("bind_colsDS passes when called directly", {
-  cally <- call("bind_colsDS", "mtcars$COMMA$$SPACE$mtcars", c("unique", "universal", "check_unique", "minimal"))
+test_that("bindColsDS passes when called directly", {
+  cally <- call("bindColsDS", "mtcars$COMMA$$SPACE$mtcars", c("unique", "universal", "check_unique", "minimal"))
   datashield.assign(conns, "test", cally)
 
   expect_equal(
