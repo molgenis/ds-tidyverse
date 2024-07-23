@@ -9,7 +9,7 @@
 #' @return A serverside data frame with name specified in \code{newobj} and the same type as the
 #' first element of `to_combine`.
 #' @export
-bind_rowsDS <- function(to_combine = NULL, .id = NULL) {
+bindRowsDS <- function(to_combine = NULL, .id = NULL) {
   to_combine <- .decode_tidy_eval(to_combine, .get_encode_dictionary())
   other_args <- .paste_character_args(.id)
   call <- .make_tidyverse_call(.data = NULL, "bind_rows", to_combine, other_args, inc_data = F)

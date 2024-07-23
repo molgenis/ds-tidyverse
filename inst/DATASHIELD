@@ -3,4 +3,4 @@ AssignMethods:
     renameDS,
     mutateDS,
     if_elseDS,
-    bind_rowsDS
+    bindRowsDS

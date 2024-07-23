@@ -12,7 +12,7 @@ data("logindata.dslite.cnsim")
 logindata.dslite.cnsim <- logindata.dslite.cnsim %>%
   mutate(table = "mtcars")
 dslite.server$config(defaultDSConfiguration(include = c("dsBase", "dsTidyverse")))
-dslite.server$assignMethod("bind_rowsDS", "dsTidyverse::bind_rowsDS")
+dslite.server$assignMethod("bindRowsDS", "dsTidyverse::bindRowsDS")
 dslite.server$aggregateMethod("exists", "base::exists")
 dslite.server$aggregateMethod("classDS", "dsBase::classDS")
 dslite.server$aggregateMethod("lsDS", "dsBase::lsDS")
@@ -20,7 +20,7 @@ dslite.server$aggregateMethod("dsListDisclosureSettingsTidyVerse", "dsTidyverse:
 conns <- datashield.login(logins = logindata.dslite.cnsim, assign = TRUE)
 
 
-test_that("bind_rowsDS passes", {
+test_that("bindRowsDS passes", {
 
   bind_rows_arg <- "mtcars, mtcars"
   other_args <- ".id = NULL"
@@ -49,7 +49,7 @@ test_that("bind_rowsDS passes", {
 
 })
 
-  test_that("bind_rowsDS passes with .id argument", {
+  test_that("bindRowsDS passes with .id argument", {
 
     bind_rows_arg <- "mtcars, mtcars"
     other_args <- ".id = 'test_col_name'"
@@ -63,8 +63,8 @@ test_that("bind_rowsDS passes", {
 
   })
 
-test_that("bind_rowsDS passes when called directly", {
-  cally <- call("bind_rowsDS", "mtcars$COMMA$$SPACE$mtcars", NULL)
+test_that("bindRowsDS passes when called directly", {
+  cally <- call("bindRowsDS", "mtcars$COMMA$$SPACE$mtcars", NULL)
   datashield.assign(conns, "test", cally)
 
 
