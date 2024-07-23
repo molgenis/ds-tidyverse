@@ -1,22 +1,33 @@
+library(DSLite)
 library(dplyr)
-library(purrr)
-library(cli)
+library(dsTidyverse)
+library(dsBase)
+library(dsBaseClient)
 
-.encode_tidy_eval <- function(input_string, encode_key) {
-  encode_vec <- set_names(encode_key$output, encode_key$input)
-  output_string <- str_replace_all(input_string, fixed(encode_vec))
-}
+options(datashield.env = environment())
+data("mtcars")
+dslite.server <- DSLite::newDSLiteServer(tables = list(mtcars = mtcars))
+data("logindata.dslite.cnsim")
+logindata.dslite.cnsim <- logindata.dslite.cnsim %>%
+  mutate(table = "mtcars")
+dslite.server$config(defaultDSConfiguration(include = c("dsBase", "dsTidyverse", "dsDanger")))
+dslite.server$assignMethod("mutateDS", "dsTidyverse::mutateDS")
+dslite.server$aggregateMethod("exists", "base::exists")
+dslite.server$aggregateMethod("classDS", "dsBase::classDS")
+dslite.server$aggregateMethod("lsDS", "dsBase::lsDS")
+dslite.server$aggregateMethod("dsListDisclosureSettingsTidyVerse", "dsTidyverse::dsListDisclosureSettingsTidyVerse")
+conns <- datashield.login(logins = logindata.dslite.cnsim, assign = TRUE)
 
 good_mutate_arg <- "mpg_trans = cyl*1000, new_var = (hp-drat)/qsec"
-good_mutate_arg_enc <- .encode_tidy_eval(good_mutate_arg, .get_encode_dictionary())
 
 test_that("mutateDS passes where data and column exist", {
-  good_mutate_cally <- call("mutateDS", "mtcars", good_mutate_arg_enc, "all", NULL, NULL)
+  good_mutate_cally <- .make_tidyverse_call("mtcars", "mutate", good_mutate_arg, list(".keep = \"all\", .before = NULL, .after = NULL"))
   result <- eval(good_mutate_cally)
 
   expect_equal(
     mean(result$mpg_trans),
-    6187.5)
+    6187.5
+  )
 
   expect_equal(
     colnames(result),
@@ -25,7 +36,7 @@ test_that("mutateDS passes where data and column exist", {
 })
 
 test_that("mutateDS passes with different .keep argument", {
-  good_mutate_cally <- call("mutateDS", "mtcars", good_mutate_arg_enc, "none", NULL, NULL)
+  good_mutate_cally <- .make_tidyverse_call("mtcars", "mutate", good_mutate_arg, list(".keep = \"none\", .before = NULL, .after = NULL"))
   result <- eval(good_mutate_cally)
 
   expect_equal(
@@ -35,7 +46,7 @@ test_that("mutateDS passes with different .keep argument", {
 })
 
 test_that("mutateDS passes with different .before argument", {
-  good_mutate_cally <- call("mutateDS", "mtcars", good_mutate_arg_enc, "all", "disp", NULL)
+  good_mutate_cally <- .make_tidyverse_call("mtcars", "mutate", good_mutate_arg, list(".keep = \"all\", .before = \"disp\", .after = NULL"))
   result <- eval(good_mutate_cally)
 
   expect_equal(
@@ -44,12 +55,38 @@ test_that("mutateDS passes with different .before argument", {
   )
 })
 
-test_that("mutateDS passes with different .afterb argument", {
-  good_mutate_cally <- call("mutateDS", "mtcars", good_mutate_arg_enc, "all", NULL, "qsec")
+test_that("mutateDS passes with different .after argument", {
+  good_mutate_cally <- .make_tidyverse_call("mtcars", "mutate", good_mutate_arg, list(".keep = \"all\", .before = NULL, .after = \"qsec\""))
   result <- eval(good_mutate_cally)
 
   expect_equal(
     colnames(result),
     c("mpg", "cyl", "disp", "hp", "drat", "wt", "qsec", "mpg_trans", "new_var", "vs", "am", "gear", "carb")
+  )
+})
+
+test_that("mutateDS passes when called directly", {
+  cally <- call("mutateDS", "new_var$SPACE$$EQU$$SPACE$mpg$SPACE$$MULT$$SPACE$1000$COMMA$$SPACE$new_var2$SPACE$$EQU$$SPACE$hp$SPACE$$SUB$$SPACE$drat",
+    "mtcars", "all", NULL, NULL)
+
+  datashield.assign(conns, "test", cally)
+
+  expect_equal(
+    ds.class("test")[[1]],
+    "data.frame")
+
+  expect_equal(
+    ds.colnames("test")[[1]],
+    c("mpg", "cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", "gear", "carb", "new_var", "new_var2")
+  )
+
+  expect_equal(
+    ds.mean("test$new_var")$Mean.by.Study[1, 1],
+    20090.625
+    )
+
+  expect_equal(
+    round(ds.mean("test$new_var2")$Mean.by.Study[1, 1], 2),
+    143.09
   )
 })

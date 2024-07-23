@@ -8,7 +8,7 @@
 #' of \code{ds.select} (or as default same name as input object) which is written to the serverside.
 #' @export
 #'
-selectDS <- function(.data, expr) {
+selectDS <- function(expr, .data) {
   tidy_select <- .decode_tidy_eval(expr, .get_encode_dictionary())
   call <- .make_tidyverse_call(.data, "select", tidy_select)
   out <- .execute_with_error_handling("select", call)
