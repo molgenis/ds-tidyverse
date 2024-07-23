@@ -66,6 +66,7 @@ test_that(".execute_with_error_handling fails with correct message when unrecogn
 
 mtcars_good_arg <- "mpg, cyl, starts_with('g'), ends_with('b')"
 mtcars_good_expr <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_select = mtcars_good_arg)
+# mtcars_good_expr <- rlang::parse_expr(mtcars_good_str)
 
 test_that(".tidy_eval_handle_errors works where data and object exists", {
   observed <- .execute_with_error_handling("select", mtcars_good_expr)
@@ -104,10 +105,10 @@ test_that(".tidy_eval_handle_errors fails with correct message when unrecognised
 
 test_that(".get_encode_dictionary returns the expected encoding key", {
   expected_encode_list <- list(
-    input = c("(", ")", "\"", ",", " ", ":", "!", "&", "|", "'", "[", "]", "=", "+", "-", "*", "/", "^", ">", "<"),
+    input = c("(", ")", "\"", ",", " ", ":", "!", "&", "|", "'", "[", "]", "=", "+", "-", "*", "/", "^", ">", "<", "~", "\n"),
     output = c(
       "$LB$", "$RB$", "$QUOTE$", "$COMMA$", "$SPACE$", "$COLON$", "$EXCL$", "$AND$", "$OR$", "$APO$", "$LSQ$", "$RSQ", "$EQU$", "$ADD$", "$SUB$", "$MULT$",
-      "$DIVIDE$", "$POWER$", "$GT$", "$LT$"
+      "$DIVIDE$", "$POWER$", "$GT$", "$LT$", "$TILDE$", "$LINE$"
     )
   )
   actual_encode_list <- .get_encode_dictionary()
