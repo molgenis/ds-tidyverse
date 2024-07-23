@@ -19,7 +19,6 @@ dslite.server$aggregateMethod("dsListDisclosureSettingsTidyVerse", "dsTidyverse:
 conns <- datashield.login(logins = logindata.dslite.cnsim, assign = TRUE)
 
 good_mutate_arg <- "mpg_trans = cyl*1000, new_var = (hp-drat)/qsec"
-# good_mutate_arg_enc <- .encode_tidy_eval(good_mutate_arg, .get_encode_dictionary())
 
 test_that("mutateDS passes where data and column exist", {
   good_mutate_cally <- .make_tidyverse_call("mtcars", "mutate", good_mutate_arg, list(".keep = \"all\", .before = NULL, .after = NULL"))
@@ -56,7 +55,7 @@ test_that("mutateDS passes with different .before argument", {
   )
 })
 
-test_that("mutateDS passes with different .afterb argument", {
+test_that("mutateDS passes with different .after argument", {
   good_mutate_cally <- .make_tidyverse_call("mtcars", "mutate", good_mutate_arg, list(".keep = \"all\", .before = NULL, .after = \"qsec\""))
   result <- eval(good_mutate_cally)
 
