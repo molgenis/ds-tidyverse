@@ -27,6 +27,20 @@ test_that(".make_tidyverse_call creates call when inc_data = F", {
   expect_equal(expected_string, observed_string)
 })
 
+test_that(".make_tidyverse_call creates call when inc_data = F", {
+  expected_string <- rlang::parse_expr('dplyr::select(asd, qwe, starts_with("test"), .keep = "all",
+  .before = NULL, .after = "disp")')
+  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_select = input_string, other_args = extra_args, inc_data = F)
+  expect_equal(expected_string, observed_string)
+})
+
+test_that(".make_tidyverse_call creates call when inc_data = F", {
+  expected_string <- rlang::parse_expr('dplyr::select(asd, qwe, starts_with("test"), .keep = "all",
+  .before = NULL, .after = "disp")')
+  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_select = input_string, other_args = extra_args, inc_data = F)
+  expect_equal(expected_string, observed_string)
+})
+
 mtcars_good_arg <- "mpg, cyl, starts_with('g'), ends_with('b')"
 mtcars_good_str <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_select = mtcars_good_arg)
 
@@ -66,6 +80,7 @@ test_that(".execute_with_error_handling fails with correct message when unrecogn
 
 mtcars_good_arg <- "mpg, cyl, starts_with('g'), ends_with('b')"
 mtcars_good_expr <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_select = mtcars_good_arg)
+# mtcars_good_expr <- rlang::parse_expr(mtcars_good_str)
 
 test_that(".tidy_eval_handle_errors works where data and object exists", {
   observed <- .execute_with_error_handling("select", mtcars_good_expr)

@@ -50,7 +50,6 @@ jobs:
         command: |
           Rscript -e 'install.packages(c("devtools", "pkgdown", "markdown", "rmarkdown", "rlang", "stringr", "cli", "covr", "git2r", "dplyr", "purrr", "DSI", "DSLite", "RANN", "lme4", "reshape2", "polycor", "gamlss", "gamlss.dist", "mice", "childsds", "lme4", "Matrix", "stringi", "DSLite", "fields", "metafor", "meta", "gridExtra", "panelaggregation"))'
           Rscript -e 'install.packages(c("dsBase", "dsBaseClient"), repos = "https://cran.obiba.org/")'
-          Rscript -e 'remotes::install_git("git@github.com:molgenis/ds-tidyverse.git", ref = "feat/bind-rows-2")'
           Rscript -e "git2r::config(user.email = 'molgenis+ci@gmail.com', user.name = 'MOLGENIS Jenkins')"
 
     - save_cache:
