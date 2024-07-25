@@ -2,7 +2,7 @@
 
 export(bindColsDS)
 export(bindRowsDS)
-export(case_whenDS)
+export(caseWhenDS)
 export(ifElseDS)
 export(mutateDS)
 export(renameDS)

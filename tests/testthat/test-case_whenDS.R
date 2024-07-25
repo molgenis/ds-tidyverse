@@ -12,7 +12,7 @@ data("logindata.dslite.cnsim")
 logindata.dslite.cnsim <- logindata.dslite.cnsim %>%
   mutate(table = "mtcars")
 dslite.server$config(defaultDSConfiguration(include = c("dsBase", "dsTidyverse")))
-dslite.server$assignMethod("case_whenDS", "dsTidyverse::case_whenDS")
+dslite.server$assignMethod("caseWhenDS", "dsTidyverse::caseWhenDS")
 dslite.server$aggregateMethod("exists", "base::exists")
 dslite.server$aggregateMethod("classDS", "dsBase::classDS")
 dslite.server$aggregateMethod("lsDS", "dsBase::lsDS")
@@ -20,7 +20,7 @@ dslite.server$aggregateMethod("dsListDisclosureSettingsTidyVerse", "dsTidyverse:
 conns <- datashield.login(logins = logindata.dslite.cnsim, assign = TRUE)
 
 
-test_that("case_whenDS passes and numeric condition and categorical output", {
+test_that("caseWhenDS passes and numeric condition and categorical output", {
   case_when_arg <-
     'mtcars$mpg < 10 ~ "low",
   mtcars$mpg >= 10 & mtcars$mpg < 20 ~ "medium",
@@ -40,7 +40,7 @@ test_that("case_whenDS passes and numeric condition and categorical output", {
   )
 })
 
-test_that("case_whenDS passes and numeric condition and numeric output", {
+test_that("caseWhenDS passes and numeric condition and numeric output", {
   case_when_arg <-
     'mtcars$mpg < 10 ~ 10,
   mtcars$mpg >= 10 & mtcars$mpg < 20 ~ 20,
@@ -58,7 +58,7 @@ test_that("case_whenDS passes and numeric condition and numeric output", {
   )
 })
 
-test_that("case_whenDS passes with categorical condition and categorical output", {
+test_that("caseWhenDS passes with categorical condition and categorical output", {
   case_when_arg <-
     'mtcars$gear == 1 ~ "low",
      mtcars$gear == 2 ~ "medium",
@@ -79,7 +79,7 @@ test_that("case_whenDS passes with categorical condition and categorical output"
   )
 })
 
-test_that("case_whenDS passes with .default argument", {
+test_that("caseWhenDS passes with .default argument", {
   case_when_arg <-
     'mtcars$gear == 1 ~ "low",
      mtcars$gear == 2 ~ "medium",
@@ -105,8 +105,8 @@ test_that("case_whenDS passes with .default argument", {
 
 })
 
-test_that("case_whenDS passes when called directly", {
-  cally <- call("case_whenDS", "mtcars$mpg$SPACE$$LT$$SPACE$20$SPACE$$TILDE$$SPACE$$QUOTE$low$QUOTE$$COMMA$$SPACE$mtcars$mpg$SPACE$$GT$$EQU$$SPACE$20$SPACE$$AND$$SPACE$mtcars$mpg$SPACE$$LT$$SPACE$$LINE$$SPACE$$SPACE$$SPACE$$SPACE$30$SPACE$$TILDE$$SPACE$$QUOTE$medium$QUOTE$$COMMA$$SPACE$mtcars$mpg$SPACE$$GT$$EQU$$SPACE$30$SPACE$$TILDE$$SPACE$$QUOTE$high$QUOTE$", NULL, NULL, NULL)
+test_that("caseWhenDS passes when called directly", {
+  cally <- call("caseWhenDS", "mtcars$mpg$SPACE$$LT$$SPACE$20$SPACE$$TILDE$$SPACE$$QUOTE$low$QUOTE$$COMMA$$SPACE$mtcars$mpg$SPACE$$GT$$EQU$$SPACE$20$SPACE$$AND$$SPACE$mtcars$mpg$SPACE$$LT$$SPACE$$LINE$$SPACE$$SPACE$$SPACE$$SPACE$30$SPACE$$TILDE$$SPACE$$QUOTE$medium$QUOTE$$COMMA$$SPACE$mtcars$mpg$SPACE$$GT$$EQU$$SPACE$30$SPACE$$TILDE$$SPACE$$QUOTE$high$QUOTE$", NULL, NULL, NULL)
   datashield.assign(conns, "test", cally)
 
   expect_equal(

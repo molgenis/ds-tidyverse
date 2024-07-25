@@ -16,7 +16,7 @@
 #' written to the serverside.
 #' @export
 #'
-case_whenDS <- function(dynamic_dots = NULL, .default = NULL, .ptype = NULL, .size = NULL) {
+caseWhenDS <- function(dynamic_dots = NULL, .default = NULL, .ptype = NULL, .size = NULL) {
   dynamic_dots <- .decode_tidy_eval(dynamic_dots, .get_encode_dictionary())
   other_args <- .paste_character_args(.default, .ptype, .size)
   call <- .make_tidyverse_call(.data = NULL, "case_when", dynamic_dots, other_args, inc_data = F)
