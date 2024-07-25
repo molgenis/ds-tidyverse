@@ -36,6 +36,7 @@
 #' @param fun The name of the function to be applied (e.g., "select").
 #' @param tidy_select The tidy select statement (e.g., column names).
 #' @param other_args Additional arguments to the function.
+#' @param inc_data Boolean, whether to include a data object in the call
 #' @return An expression object of the tidyverse call.
 #' @noRd
 .make_tidyverse_call <- function(.data, fun, tidy_select, other_args = NULL, inc_data = TRUE) {
