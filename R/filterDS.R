@@ -103,8 +103,8 @@ filterDS <- function(expr, .data, .preserve = NULL) {
   if((diff < nfilter.subset) & (diff > 0)) {
     cli_abort(
       "The difference in row length between the original dataframe and the new dataframe is {diff},
-      which is lower than the value of nfilter.subset. This could indicate a potential subsetting
-      attack which will be monitored in the serverside logs. Please review the filter expression.",
+      which is lower than the value of nfilter.subset ({nfilter.subset}). This could indicate a potential subsetting
+      attack which will be recorded in the serverside logs. Please review the filter expression.",
       call = NULL
     )
   }
