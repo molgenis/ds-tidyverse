@@ -2,7 +2,7 @@ AssignMethods:
     selectDS,
     renameDS,
     mutateDS,
-    if_elseDS,
+    ifElseDS,
     bindRowsDS,
     bindColsDS,
     caseWhenDS
