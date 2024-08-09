@@ -1,7 +1,7 @@
 #' @title Performs dplyr filter
 #' @description This function is similar to R function \code{filter}.
 #' @details Performs dplyr filter
-#' @param expression Diffused expression of dotdotdot passed to ds.filter
+#' @param expr Diffused expression of dotdotdot passed to ds.filter
 #' @param .data A data frame, data frame extension (e.g. a tibble), or a lazy data frame
 #' (e.g. from dbplyr or dtplyr).
 #' @param .preserve Relevant when the .data input is grouped. If .preserve = FALSE (the default),
@@ -29,6 +29,7 @@ filterDS <- function(expr, .data, .preserve = NULL) {
 #' @param out The filtered dataset object.
 #' @keywords internal
 #' @return None. The function will throw an error if disclosure risk is detected.
+#' @noRd
 .check_filter_disclosure_risk <- function(.data, out) {
   nfilter.subset <- .get_nfilter_subset_value()
   dims <- .get_dimensions(.data, out)
@@ -42,7 +43,9 @@ filterDS <- function(expr, .data, .preserve = NULL) {
 #' settings.
 #'
 #' @keywords internal
+#' @importFrom dsBase listDisclosureSettingsDS
 #' @return The value of `nfilter.subset` from the disclosure settings.
+#' @noRd
 .get_nfilter_subset_value <- function() {
   return(
     listDisclosureSettingsDS()$nfilter.subset
@@ -57,6 +60,7 @@ filterDS <- function(expr, .data, .preserve = NULL) {
 #' @param out The filtered dataset object.
 #' @keywords internal
 #' @return A list containing the number of rows in the original and subsetted datasets.
+#' @noRd
 .get_dimensions <- function(.data, out) {
   return(
     list(
@@ -76,6 +80,7 @@ filterDS <- function(expr, .data, .preserve = NULL) {
 #' disclosure settings.
 #' @keywords internal
 #' @return None. The function will throw an error if the subset size is too small.
+#' @noRd
 .check_subset_size <- function(subset_rows, nfilter.subset) {
   if(subset_rows < nfilter.subset){
     cli_abort(
@@ -98,6 +103,7 @@ filterDS <- function(expr, .data, .preserve = NULL) {
 #' @keywords internal
 #' @return None. The function will throw an error if a potential disclosure risk
 #' is detected.
+#' @noRd
 .check_rows_compared_with_original <- function(original_rows, subset_rows, nfilter.subset) {
   diff <- original_rows - subset_rows
   if((diff < nfilter.subset) & (diff > 0)) {

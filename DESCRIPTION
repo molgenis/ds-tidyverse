@@ -32,11 +32,11 @@ Imports:
   stringr, 
   cli, 
   dplyr, 
-  purrr
+  purrr, 
+  dsBase
 Suggests: 
   testthat (>= 3.0.0), 
   tibble,
-  dsBase,
   DSLite, 
   dsBaseClient
 Config/testthat/edition: 3
