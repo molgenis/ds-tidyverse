@@ -27,37 +27,52 @@ test_that("filterDS correctly filters where data and columns exist", {
     14
   )
 })
-#
-# test_that("renameDS fails when data doesn't exist", {
-#   no_data <- .make_tidyverse_call("doesntexist", "rename", good_rename_arg)
-#   expect_error(
-#     eval(no_data),
-#     "`renameDS`\\s+returned\\s+the\\s+following\\s+error:|object\\s+'doesntexist'\\s+not\\s+found"
-#   )
-# })
-#
-# test_that("renameDS fails with bad argument", {
-#   bad_rename_arg <- "test_1 = mpg, test_2 = drat, filter/asd"
-#   bad_call <- .make_tidyverse_call("mtcars", "rename", bad_rename_arg)
-#   expect_error(
-#     eval(bad_call),
-#     "Can't rename columns that don't exist\\."
-#   )
-# })
-#
-# test_that("renameDS passes when called directly", {
-#   cally <- call("renameDS", "new_name_1$SPACE$$EQU$$SPACE$mpg$COMMA$$SPACE$new_name_2$SPACE$$EQU$$SPACE$drat",
-#   "mtcars")
-#
-#   datashield.assign(conns, "test", cally)
-#
-#   expect_equal(
-#     ds.class("test")[[1]],
-#     "data.frame")
-#
-#   expect_equal(
-#     ds.colnames("test")[[1]],
-#     c("new_name_1", "cyl", "disp", "hp", "new_name_2", "wt", "qsec", "vs", "am", "gear", "carb")
-#   )
-# })
+
+test_that("filterDS works with .preserve argument", {
+  mtcars_group <- mtcars %>% group_by(cyl)
+
+  preserve_cally_true <- .make_tidyverse_call("mtcars_group", "filter", good_filter_arg, ".preserve = TRUE")
+  expect_equal(
+    group_keys(eval(preserve_cally_true)),
+    tibble(cyl = c(4, 6, 8))
+  )
+
+  preserve_cally_false <- .make_tidyverse_call("mtcars_group", "filter", good_filter_arg, ".preserve = FALSE")
+  expect_equal(
+    group_keys(eval(preserve_cally_false)),
+    tibble(cyl = c(4, 6))
+  )
+})
+
+test_that("filterDS fails when data doesn't exist", {
+  no_data <- .make_tidyverse_call("doesntexist", "filter", good_filter_arg)
+  expect_error(
+    eval(no_data),
+    "`filterDS`\\s+returned\\s+the\\s+following\\s+error:|object\\s+'doesntexist'\\s+not\\s+found"
+  )
+})
+
+test_that("filterDS fails with bad argument", {
+  bad_filter_arg <- "test_1 = mpg, mutate/asd"
+  bad_call <- .make_tidyverse_call("mtcars", "filter", bad_filter_arg)
+  expect_error(
+    eval(bad_call),
+    "We detected a named input\\."
+  )
+})
+
+test_that("filterDS passes when called directly", {
+  cally <- call("filterDS", "carb$SPACE$$EQU$$EQU$$SPACE$4", "mtcars", NULL)
+
+  datashield.assign(conns, "test", cally)
+
+  expect_equal(
+    ds.class("test")[[1]],
+    "data.frame")
+
+  expect_equal(
+    ds.dim("test")[[1]],
+    c(10, 11)
+  )
+})
 
