@@ -19,6 +19,7 @@ dslite.server$aggregateMethod("dsListDisclosureSettingsTidyVerse", "dsTidyverse:
 conns <- datashield.login(logins = logindata.dslite.cnsim, assign = TRUE)
 
 good_filter_arg <- "mpg > 20 & gear > 2"
+mtcars_group <- mtcars %>% group_by(cyl)
 
 test_that("filterDS correctly filters where data and columns exist", {
   good_filter_cally <- .make_tidyverse_call("mtcars", "filter", good_filter_arg)
@@ -28,9 +29,28 @@ test_that("filterDS correctly filters where data and columns exist", {
   )
 })
 
-test_that("filterDS works with .preserve argument", {
-  mtcars_group <- mtcars %>% group_by(cyl)
+test_that("filterDS works with .by argument", {
 
+  by_cally <- .make_tidyverse_call("mtcars", "filter", "mpg > median(mpg)", ".by = 'cyl'")
+  no_by_cally <- .make_tidyverse_call("mtcars", "filter", "mpg > median(mpg)")
+
+  filter_with_by <- eval(by_cally)
+  filter_without_by <- eval(no_by_cally)
+
+  expect_false(
+    identical(
+      rownames(filter_with_by),
+      rownames(filter_without_by)
+      )
+  )
+
+  expect_equal(
+    dim(filter_with_by),
+    c(14, 11))
+
+})
+
+test_that("filterDS works with .preserve argument", {
   preserve_cally_true <- .make_tidyverse_call("mtcars_group", "filter", good_filter_arg, ".preserve = TRUE")
   expect_equal(
     group_keys(eval(preserve_cally_true)),
@@ -52,6 +72,26 @@ test_that("filterDS fails when data doesn't exist", {
   )
 })
 
+test_that("filterDS passes with valid combinations of extra arguments", {
+  just_by <- .make_tidyverse_call("mtcars", "filter", good_filter_arg, ".by = 'carb'")
+  just_preserve <- .make_tidyverse_call("mtcars_group", "filter", good_filter_arg, ".preserve = T")
+  by_preserve_f <- .make_tidyverse_call("mtcars", "filter", good_filter_arg, c(".by = 'carb', .preserve = FALSE"))
+
+  expect_silent(eval(just_by))
+  expect_silent(eval(just_preserve))
+  expect_silent(eval(by_preserve_f))
+
+})
+
+test_that("filterDS fails if supplied with .by and .preserve = T", {
+  by_preserve_t <- .make_tidyverse_call("mtcars", "filter", good_filter_arg, c(".by = 'carb', .preserve = T"))
+  expect_error(
+    eval(by_preserve_t),
+    "Can't supply both `.by` and `.preserve`"
+  )
+
+})
+
 test_that("filterDS fails with bad argument", {
   bad_filter_arg <- "test_1 = mpg, mutate/asd"
   bad_call <- .make_tidyverse_call("mtcars", "filter", bad_filter_arg)
@@ -62,7 +102,7 @@ test_that("filterDS fails with bad argument", {
 })
 
 test_that("filterDS passes when called directly", {
-  cally <- call("filterDS", "carb$SPACE$$EQU$$EQU$$SPACE$4", "mtcars", NULL)
+  cally <- call("filterDS", "carb$SPACE$$EQU$$EQU$$SPACE$4", "mtcars", NULL, FALSE)
 
   datashield.assign(conns, "test", cally)
 
@@ -75,4 +115,3 @@ test_that("filterDS passes when called directly", {
     c(10, 11)
   )
 })
-
