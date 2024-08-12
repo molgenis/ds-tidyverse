@@ -9,13 +9,36 @@
 #' @return the object specified by the \code{newobj} argument of \code{ds.filter} which is written
 #' to the serverside.
 #' @export
-filterDS <- function(expr, .data, .preserve = NULL) {
+filterDS <- function(expr, .data, .by, .preserve) {
   tidy_select <- .decode_tidy_eval(expr, .get_encode_dictionary())
-  other_args <- .paste_character_args(.preserve)
+  other_args <- .handle_extra_args(.by, .preserve)
   call <- .make_tidyverse_call(.data, "filter", tidy_select, other_args)
   out <- .execute_with_error_handling("filter", call)
   .check_filter_disclosure_risk(.data, out)
   return(out)
+}
+
+
+#' .handle_extra_args
+#'
+#' With filter you can't supply values for both .by and .preserve, even NULL values. This function
+#' contains the logic to manage different inputs. If only one argument is provided then only that
+#' argument is evaluated by `.execute_with_error_handling`. If both arguments are provided (ie non
+#' null) then we allow `filter` to return the relevant error.
+#'
+#' @param .by inherited from filterDS
+#' @param .preserve inherited from filterDS
+#' @return Character vector of additional arguments
+#' @noRD
+.handle_extra_args <- function(.by, .preserve) {
+  if(!is.null(.by) & is.null(.preserve)){
+    other_args <- .paste_character_args(.by)
+  } else if (is.null(.by) & !is.null(.preserve)){
+    other_args <- .paste_character_args(.preserve)
+  } else {
+    other_args <- .paste_character_args(.by, .preserve)
+  }
+  return(other_args)
 }
 
 #' Check Filter Disclosure Risk
