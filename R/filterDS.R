@@ -16,7 +16,7 @@ filterDS <- function(expr, .data, .by, .preserve) {
   other_args <- .paste_character_args(.by, .preserve)
   call <- .make_tidyverse_call(.data, "filter", tidy_select, other_args)
   out <- .execute_with_error_handling("filter", call)
-  .check_filter_disclosure_risk(.data, out)
+  .check_filter_disclosure_risk(eval(parse(text = .data)), out)
   return(out)
 }
 
@@ -32,9 +32,9 @@ filterDS <- function(expr, .data, .by, .preserve) {
 #' @keywords internal
 #' @return None. The function will throw an error if disclosure risk is detected.
 #' @noRd
-.check_filter_disclosure_risk <- function(.data, out) {
+.check_filter_disclosure_risk <- function(original, out) {
   nfilter.subset <- .get_nfilter_subset_value()
-  dims <- .get_dimensions(.data, out)
+  dims <- .get_dimensions(original, out)
   .check_subset_size(dims$subset, nfilter.subset)
   .check_rows_compared_with_original(dims$original, dims$subset, nfilter.subset)
 }
@@ -62,10 +62,10 @@ filterDS <- function(expr, .data, .by, .preserve) {
 #' @keywords internal
 #' @return A list containing the number of rows in the original and subsetted datasets.
 #' @noRd
-.get_dimensions <- function(.data, out) {
+.get_dimensions <- function(original, out) {
   return(
     list(
-      original = dim(eval(parse(text = .data), parent.frame()))[[1]],
+      original = dim(original)[[1]],
       subset = dim(out)[[1]]
     )
   )
