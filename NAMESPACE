@@ -3,6 +3,7 @@
 export(bindColsDS)
 export(bindRowsDS)
 export(caseWhenDS)
+export(filterDS)
 export(ifElseDS)
 export(mutateDS)
 export(renameDS)
