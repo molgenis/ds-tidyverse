@@ -32,12 +32,12 @@ Imports:
   stringr, 
   cli, 
   dplyr, 
-  purrr, 
-  dsBase
+  purrr 
 Suggests: 
   testthat (>= 3.0.0), 
   tibble,
   DSLite, 
-  dsBaseClient
+  dsBaseClient, 
+  dsBase
 Config/testthat/edition: 3
 Additional_repositories: https://cran.obiba.org/

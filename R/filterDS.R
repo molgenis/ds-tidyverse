@@ -45,7 +45,6 @@ filterDS <- function(expr, .data, .by, .preserve) {
 #' settings.
 #'
 #' @keywords internal
-#' @importFrom dsBase listDisclosureSettingsDS
 #' @return The value of `nfilter.subset` from the disclosure settings.
 #' @noRd
 .get_nfilter_subset_value <- function() {
