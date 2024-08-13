@@ -4,6 +4,8 @@
 #' @param expr Diffused expression of dotdotdot passed to ds.filter
 #' @param .data A data frame, data frame extension (e.g. a tibble), or a lazy data frame
 #' (e.g. from dbplyr or dtplyr).
+#' @param .by Optionally, a selection of columns to group by for just this operation, functioning as
+#' an alternative to \code{group_by}.
 #' @param .preserve Relevant when the .data input is grouped. If .preserve = FALSE (the default),
 #' the grouping structure is recalculated based on the resulting data, otherwise the grouping is kept as is.
 #' @return the object specified by the \code{newobj} argument of \code{ds.filter} which is written

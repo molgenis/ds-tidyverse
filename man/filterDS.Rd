@@ -4,13 +4,16 @@
 \alias{filterDS}
 \title{Performs dplyr filter}
 \usage{
-filterDS(expr, .data, .preserve = NULL)
+filterDS(expr, .data, .by, .preserve)
 }
 \arguments{
 \item{expr}{Diffused expression of dotdotdot passed to ds.filter}
 
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame
 (e.g. from dbplyr or dtplyr).}
+
+\item{.by}{Optionally, a selection of columns to group by for just this operation, functioning as
+an alternative to \code{group_by}.}
 
 \item{.preserve}{Relevant when the .data input is grouped. If .preserve = FALSE (the default),
 the grouping structure is recalculated based on the resulting data, otherwise the grouping is kept as is.}
