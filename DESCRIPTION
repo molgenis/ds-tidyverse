@@ -40,3 +40,4 @@ Suggests:
   DSLite, 
   dsBaseClient
 Config/testthat/edition: 3
+Additional_repositories: https://cran.obiba.org/
