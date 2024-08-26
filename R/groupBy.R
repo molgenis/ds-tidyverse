@@ -18,3 +18,13 @@ groupByDS <- function(expr, .data, .add, .drop) {
   out <- .execute_with_error_handling("group_by", call)
   return(out)
 }
+
+#' @title Performs dplyr ungroup
+#' @description This function is similar to R function \code{ungroup}.
+#' @param x A tibble.
+#' @export
+ungroupDS <- function(x) {
+  call <- .make_tidyverse_call(x, "ungroup")
+  out <- .execute_with_error_handling("ungroup", call)
+  return(out)
+}
