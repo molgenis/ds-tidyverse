@@ -9,3 +9,5 @@ AssignMethods:
     filterDS,
     sliceDS
     arrangeDS
+    groupByDS,
+    ungroupDS
