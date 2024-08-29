@@ -24,7 +24,7 @@ groupByDS <- function(expr, .data, .add, .drop) {
 #' @param x A tibble.
 #' @export
 ungroupDS <- function(x) {
-  call <- .make_tidyverse_call(x, "ungroup")
+  call <- .make_tidyverse_call(x, "ungroup", tidy_select = NULL, other_args = NULL)
   out <- .execute_with_error_handling("ungroup", call)
   return(out)
 }
