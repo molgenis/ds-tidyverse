@@ -10,4 +10,5 @@ AssignMethods:
     sliceDS
     arrangeDS
     groupByDS,
-    ungroupDS
+    ungroupDS,
+    groupKeysDS
