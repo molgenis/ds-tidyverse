@@ -82,7 +82,7 @@
 #' @noRd
 .execute_with_error_handling <- function(fun, string_as_expr) {
   object_out <- tryCatch(
-    eval_tidy(string_as_expr),
+    eval_tidy(string_as_expr, env = parent.frame(2)),
     error = function(e) {
       cli_abort(
         c("x" = "`{fun}DS` returned the following error:", "i" = conditionMessage(e)),
@@ -140,7 +140,6 @@ listDisclosureSettingsDS <- function(){
               nfilter.stringShort=nf.stringShort,nfilter.kNN=nf.kNN,nfilter.levels.density=nf.levels.density,
               nfilter.levels.max=nf.levels.max,nfilter.noise=nf.noise,nfilter.privacy.old=nfilter.privacy.old))
 }
-
 
 #' Check Subset Disclosure Risk
 #'
@@ -237,4 +236,14 @@ listDisclosureSettingsDS <- function(){
       call = NULL
     )
   }
+
+#' Get single disclosure setting
+#'
+#' @param setting the disclosure setting to return
+#' @return The value of setting from the disclosure settings.
+#' @noRd
+.get_disclosure_value <- function(setting) {
+  return(
+    listDisclosureSettingsDS()[[setting]]
+  )
 }
