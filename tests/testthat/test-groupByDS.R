@@ -12,6 +12,7 @@ mtcars_group <- mtcars %>%
   mutate(drop_test = factor("a", levels = c("a", "b")))
 
 mtcars_bad_group <- mtcars %>% group_by(qsec)
+
 dslite.server <- newDSLiteServer(
   tables = list(
     mtcars = mtcars,
@@ -45,6 +46,20 @@ test_that("groupByDS correctly groups data where data and columns exist", {
     group_keys(eval(group_call)),
     tibble(cyl = c(4, 6, 8))
   )
+
+  mult_group_expr <- "cyl, mpg"
+  mult_call <- .make_tidyverse_call("mtcars", "group_by", mult_group_expr)
+
+  expect_equal(
+    group_keys(eval(mult_call)),
+    tibble(
+      cyl = c(rep(4, 9), rep(6, 6), rep(8, 12)),
+      mpg = c(21.4, 21.5, 22.8, 24.4, 26, 27.3, 30.4, 32.4, 33.9,
+              17.8, 18.1, 19.2, 19.7, 21, 21.4,
+              10.4, 13.3, 14.3, 14.7, 15, 15.2, 15.5, 15.8, 16.4, 17.3, 18.7, 19.2)
+    )
+  )
+
 })
 
 test_that("groupByDS works with .add argument", {
@@ -104,4 +119,51 @@ test_that("groupByDS passes when called directly", {
     ds.class("test_group")[[1]],
     c("grouped_df", "tbl_df", "tbl", "data.frame")
   )
+})
+
+
+add_true_call <- .make_tidyverse_call("mtcars_group", "group_by", "gear", ".add = TRUE")
+grouped_add_true <- eval(add_true_call)
+
+
+test_that("ungroupDS correctly ungroups data", {
+  ungroup_call <- .make_tidyverse_call("mtcars_group", "ungroup", tidy_select = NULL, other_args = NULL)
+  ungrouped_data <- eval(ungroup_call)
+
+  expect_equal(
+    class(ungrouped_data),
+    c("tbl_df", "tbl", "data.frame")
+  )
+})
+
+test_that("ungroupDS works with already ungrouped data", {
+  ungroup_call <- .make_tidyverse_call("mtcars", "ungroup", tidy_select = NULL, other_args = NULL)
+  ungrouped_data <- eval(ungroup_call)
+
+  expect_equal(
+    class(ungrouped_data),
+    "data.frame"
+  )
+
+})
+
+test_that("ungroupDS fails when data doesn't exist", {
+
+  no_data_call <- .make_tidyverse_call("doesntexist", "ungroup", tidy_select = NULL, other_args = NULL)
+  expect_error(
+    eval(no_data_call),
+    "object 'doesntexist' not found"
+  )
+})
+
+test_that("ungroupDS works correctly when called directly", {
+
+  ungroup_call <- call("ungroupDS", "mtcars_group")
+  datashield.assign(conns, "ungrouped_data", ungroup_call)
+
+  expect_equal(
+    ds.class("ungrouped_data")[[1]],
+    c("tbl_df", "tbl", "data.frame")
+  )
+
 })
