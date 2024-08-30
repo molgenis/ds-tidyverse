@@ -172,7 +172,6 @@ test_that(".paste_character_args creates correct string", {
     expected)
 })
 
-
 test_that(".get_nfilter_subset_value retrieves value correctly", {
   expect_equal(
     .get_nfilter_subset_value(),
