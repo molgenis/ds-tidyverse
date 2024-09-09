@@ -1,7 +1,7 @@
-#' @title Performs dplyr filter
-#' @description This function is similar to R function \code{filter}.
-#' @details Performs dplyr filter
-#' @param expr Diffused expression of dotdotdot passed to ds.filter
+#' @title Performs dplyr group_by
+#' @description This function is similar to R function \code{dplyr::group_by}.
+#' @details Performs dplyr group_by
+#' @param expr Diffused grouping expression passed to \code{ds.group_by}
 #' @param .data A data frame, data frame extension (e.g. a tibble), or a lazy data frame
 #' (e.g. from dbplyr or dtplyr).
 #' @param .add When FALSE, the default, \code{group_by()} will override existing groups. To add to
@@ -20,8 +20,10 @@ groupByDS <- function(expr, .data, .add, .drop) {
 }
 
 #' @title Performs dplyr ungroup
-#' @description This function is similar to R function \code{ungroup}.
+#' @description This function is similar to R function \code{dplyr::ungroup}.
 #' @param x A tibble.
+#' @return the object specified by the \code{newobj} argument of \code{ds.ungroup} which is written
+#' to the serverside.
 #' @export
 ungroupDS <- function(x) {
   call <- .make_tidyverse_call(x, "ungroup", tidy_select = NULL, other_args = NULL)
