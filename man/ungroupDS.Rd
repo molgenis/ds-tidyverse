@@ -9,6 +9,10 @@ ungroupDS(x)
 \arguments{
 \item{x}{A tibble.}
 }
+\value{
+the object specified by the \code{newobj} argument of \code{ds.ungroup} which is written
+to the serverside.
+}
 \description{
-This function is similar to R function \code{ungroup}.
+This function is similar to R function \code{dplyr::ungroup}.
 }

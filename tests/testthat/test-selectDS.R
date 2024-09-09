@@ -51,14 +51,16 @@ test_that(".execute_tidyverse_function fails with correct message when unrecogni
 })
 
 test_that("select passes when called directly", {
-
-  cally <- call("selectDS", "mpg$COMMA$$SPACE$starts_with$LB$$QUOTE$m$QUOTE$$RB$$COMMA$$SPACE$ends_with$LB$$QUOTE$t$QUOTE$$RB$",
-                "mtcars")
+  cally <- call(
+    "selectDS", "mpg$COMMA$$SPACE$starts_with$LB$$QUOTE$m$QUOTE$$RB$$COMMA$$SPACE$ends_with$LB$$QUOTE$t$QUOTE$$RB$",
+    "mtcars"
+  )
   datashield.assign(conns, "test", cally)
 
   expect_equal(
     ds.class("test")[[1]],
-    "data.frame")
+    "data.frame"
+  )
 
   expect_equal(
     ds.colnames("test")[[1]],

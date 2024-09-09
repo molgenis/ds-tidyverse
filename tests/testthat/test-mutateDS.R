@@ -67,14 +67,17 @@ test_that("mutateDS passes with different .afterb argument", {
 })
 
 test_that("mutateDS passes when called directly", {
-  cally <- call("mutateDS", "new_var$SPACE$$EQU$$SPACE$mpg$SPACE$$MULT$$SPACE$1000$COMMA$$SPACE$new_var2$SPACE$$EQU$$SPACE$hp$SPACE$$SUB$$SPACE$drat",
-    "mtcars", "all", NULL, NULL)
+  cally <- call(
+    "mutateDS", "new_var$SPACE$$EQU$$SPACE$mpg$SPACE$$MULT$$SPACE$1000$COMMA$$SPACE$new_var2$SPACE$$EQU$$SPACE$hp$SPACE$$SUB$$SPACE$drat",
+    "mtcars", "all", NULL, NULL
+  )
 
   datashield.assign(conns, "test", cally)
 
   expect_equal(
     ds.class("test")[[1]],
-    "data.frame")
+    "data.frame"
+  )
 
   expect_equal(
     ds.colnames("test")[[1]],
@@ -84,7 +87,7 @@ test_that("mutateDS passes when called directly", {
   expect_equal(
     ds.mean("test$new_var")$Mean.by.Study[1, 1],
     20090.625
-    )
+  )
 
   expect_equal(
     round(ds.mean("test$new_var2")$Mean.by.Study[1, 1], 2),

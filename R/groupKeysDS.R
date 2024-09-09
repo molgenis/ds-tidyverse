@@ -41,14 +41,14 @@ groupKeysDS <- function(x) {
 #' @noRd
 .check_n_groups_compared_with_original <- function(dims, disclosure_value) {
   threshold <- dims$original * disclosure_value
-  if(threshold < dims$subset) {
+  if (threshold < dims$subset) {
     cli_abort(
       c("The group keys cannot be returned due to a disclosure risk",
         "i" = "The length of the dataset is {dims$original} and the number of groups is {dims$subset}",
         "i" = "Based on current disclosure settings the minimum number of groups required to return
       these values must be >= {threshold}",
-        call = NULL)
+        call = NULL
+      )
     )
   }
 }
-

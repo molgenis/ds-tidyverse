@@ -28,9 +28,11 @@ test_that("ifElseDS passes and numeric condition and categorial output", {
 
   expect_equal(
     result,
-    c("high", "high", "high", "high", "low", "low", "low", "high", "high", "low", "low", "low",
+    c(
+      "high", "high", "high", "high", "low", "low", "low", "high", "high", "low", "low", "low",
       "low", "low", "low", "low", "low", "high", "high", "high", "high", "low", "low", "low",
-      "low", "high", "high", "high", "low", "low", "low", "high")
+      "low", "high", "high", "high", "low", "low", "low", "high"
+    )
   )
 })
 
@@ -41,9 +43,11 @@ test_that("ifElseDS passes and numeric condition and numeric output", {
 
   expect_equal(
     result,
-    c(50, 50, 50, 50, 100, 100, 100, 50, 50, 100, 100, 100,
+    c(
+      50, 50, 50, 50, 100, 100, 100, 50, 50, 100, 100, 100,
       100, 100, 100, 100, 100, 50, 50, 50, 50, 100, 100, 100,
-      100, 50, 50, 50, 100, 100, 100, 50)
+      100, 50, 50, 50, 100, 100, 100, 50
+    )
   )
 })
 
@@ -56,9 +60,11 @@ test_that("ifElseDS passes with categorical condition", {
 
   expect_equal(
     result,
-    c(1000, 1000, 1000, 1000, 10, 10, 10, 1000, 1000, 10, 10, 10, 10, 10, 10, 10, 10,
-      1000, 1000, 1000, 1000, 10, 10, 10, 10, 1000, 1000, 1000, 10, 10, 10, 1000)
+    c(
+      1000, 1000, 1000, 1000, 10, 10, 10, 1000, 1000, 10, 10, 10, 10, 10, 10, 10, 10,
+      1000, 1000, 1000, 1000, 10, 10, 10, 10, 1000, 1000, 1000, 10, 10, 10, 1000
     )
+  )
 })
 
 test_that("ifElseDS passes when `missing` argument used", {
@@ -70,7 +76,7 @@ test_that("ifElseDS passes when `missing` argument used", {
   expect_equal(
     result,
     rep("val_missing", 32)
-    )
+  )
 })
 
 test_that("ifElseDS passes when called directly", {
@@ -79,11 +85,13 @@ test_that("ifElseDS passes when called directly", {
 
   expect_equal(
     ds.class("test")[[1]],
-    "character")
+    "character"
+  )
 
   expect_equal(
     as.numeric(ds.table("test")$output.list$TABLES.COMBINED_all.sources_counts),
-    c(42, 54, 0))
+    c(42, 54, 0)
+  )
 })
 
 test_that("ifElseDS passes when `ptype` argument used", {
@@ -94,11 +102,12 @@ test_that("ifElseDS passes when `ptype` argument used", {
 
   expect_equal(
     result,
-    c("50", "50", "50", "50", "500", "500", "500", "50", "50",
+    c(
+      "50", "50", "50", "50", "500", "500", "500", "50", "50",
       "500", "500", "500", "500", "500", "500", "500", "500", "50",
       "50", "50", "50", "500", "500", "500", "500", "50", "50",
-      "50", "500", "500", "500", "50")
-
+      "50", "500", "500", "500", "50"
+    )
   )
 })
 
@@ -110,8 +119,10 @@ test_that("ifElseDS passes when `size` argument used", {
 
   expect_equal(
     result,
-    c("high", "high", "high", "high", "low", "low", "low", "high", "high", "low", "low", "low",
+    c(
+      "high", "high", "high", "high", "low", "low", "low", "high", "high", "low", "low", "low",
       "low", "low", "low", "low", "low", "high", "high", "high", "high", "low", "low", "low",
-      "low", "high", "high", "high", "low", "low", "low", "high")
+      "low", "high", "high", "high", "low", "low", "low", "high"
+    )
   )
 })

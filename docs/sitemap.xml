@@ -31,6 +31,12 @@
     <loc>/reference/filterDS.html</loc>
   </url>
   <url>
+    <loc>/reference/groupByDS.html</loc>
+  </url>
+  <url>
+    <loc>/reference/groupKeysDS.html</loc>
+  </url>
+  <url>
     <loc>/reference/ifElseDS.html</loc>
   </url>
   <url>
@@ -46,6 +52,10 @@
     <loc>/reference/selectDS.html</loc>
   </url>
   <url>
+<<<<<<< HEAD
     <loc>/reference/sliceDS.html</loc>
+=======
+    <loc>/reference/ungroupDS.html</loc>
+>>>>>>> 67a0d1d (docs: styled package and built site)
   </url>
 </urlset>

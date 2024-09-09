@@ -2,12 +2,12 @@
 % Please edit documentation in R/groupByDS.R
 \name{groupByDS}
 \alias{groupByDS}
-\title{Performs dplyr filter}
+\title{Performs dplyr group_by}
 \usage{
 groupByDS(expr, .data, .add, .drop)
 }
 \arguments{
-\item{expr}{Diffused expression of dotdotdot passed to ds.filter}
+\item{expr}{Diffused grouping expression passed to \code{ds.group_by}}
 
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame
 (e.g. from dbplyr or dtplyr).}
@@ -23,8 +23,8 @@ the object specified by the \code{newobj} argument of \code{ds.group_by} which i
 to the serverside.
 }
 \description{
-This function is similar to R function \code{filter}.
+This function is similar to R function \code{dplyr::group_by}.
 }
 \details{
-Performs dplyr filter
+Performs dplyr group_by
 }

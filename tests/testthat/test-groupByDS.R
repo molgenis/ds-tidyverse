@@ -21,7 +21,7 @@ dslite.server <- newDSLiteServer(
   )
 )
 
-dslite.server$config(defaultDSConfiguration(include=c("dsBase", "dsTidyverse", "dsDanger")))
+dslite.server$config(defaultDSConfiguration(include = c("dsBase", "dsTidyverse", "dsDanger")))
 dslite.server$assignMethod("groupByDS", "groupByDS")
 dslite.server$assignMethod("ungroupDS", "ungroupDS")
 dslite.server$aggregateMethod("listDisclosureSettingsDS", "listDisclosureSettingsDS")
@@ -29,10 +29,11 @@ dslite.server$aggregateMethod("listDisclosureSettingsDS", "listDisclosureSetting
 builder <- DSI::newDSLoginBuilder()
 
 builder$append(
-  server="server_1",
-  url="dslite.server",
+  server = "server_1",
+  url = "dslite.server",
   table = "mtcars",
-  driver = "DSLiteDriver")
+  driver = "DSLiteDriver"
+)
 
 logindata <- builder$build()
 conns <- DSI::datashield.login(logins = logindata, assign = TRUE)
@@ -40,7 +41,8 @@ conns <- DSI::datashield.login(logins = logindata, assign = TRUE)
 datashield.assign.table(
   conns = conns,
   table = "mtcars_group",
-  symbol = "mtcars_group")
+  symbol = "mtcars_group"
+)
 
 test_that("groupByDS correctly groups data where data and columns exist", {
   good_group_expr <- "cyl"
@@ -58,12 +60,13 @@ test_that("groupByDS correctly groups data where data and columns exist", {
     group_keys(eval(mult_call)),
     tibble(
       cyl = c(rep(4, 9), rep(6, 6), rep(8, 12)),
-      mpg = c(21.4, 21.5, 22.8, 24.4, 26, 27.3, 30.4, 32.4, 33.9,
-              17.8, 18.1, 19.2, 19.7, 21, 21.4,
-              10.4, 13.3, 14.3, 14.7, 15, 15.2, 15.5, 15.8, 16.4, 17.3, 18.7, 19.2)
+      mpg = c(
+        21.4, 21.5, 22.8, 24.4, 26, 27.3, 30.4, 32.4, 33.9,
+        17.8, 18.1, 19.2, 19.7, 21, 21.4,
+        10.4, 13.3, 14.3, 14.7, 15, 15.2, 15.5, 15.8, 16.4, 17.3, 18.7, 19.2
+      )
     )
   )
-
 })
 
 test_that("groupByDS works with .add argument", {
@@ -148,11 +151,9 @@ test_that("ungroupDS works with already ungrouped data", {
     class(ungrouped_data),
     "data.frame"
   )
-
 })
 
 test_that("ungroupDS fails when data doesn't exist", {
-
   no_data_call <- .make_tidyverse_call("doesntexist", "ungroup", tidy_select = NULL, other_args = NULL)
   expect_error(
     eval(no_data_call),
@@ -161,7 +162,6 @@ test_that("ungroupDS fails when data doesn't exist", {
 })
 
 test_that("ungroupDS works correctly when called directly", {
-
   ungroup_call <- call("ungroupDS", "mtcars_group")
   datashield.assign(conns, "ungrouped_data", ungroup_call)
 
@@ -169,5 +169,4 @@ test_that("ungroupDS works correctly when called directly", {
     ds.class("ungrouped_data")[[1]],
     c("tbl_df", "tbl", "data.frame")
   )
-
 })

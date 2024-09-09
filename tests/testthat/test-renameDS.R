@@ -47,18 +47,20 @@ test_that("renameDS fails with bad argument", {
 })
 
 test_that("renameDS passes when called directly", {
-  cally <- call("renameDS", "new_name_1$SPACE$$EQU$$SPACE$mpg$COMMA$$SPACE$new_name_2$SPACE$$EQU$$SPACE$drat",
-  "mtcars")
+  cally <- call(
+    "renameDS", "new_name_1$SPACE$$EQU$$SPACE$mpg$COMMA$$SPACE$new_name_2$SPACE$$EQU$$SPACE$drat",
+    "mtcars"
+  )
 
   datashield.assign(conns, "test", cally)
 
   expect_equal(
     ds.class("test")[[1]],
-    "data.frame")
+    "data.frame"
+  )
 
   expect_equal(
     ds.colnames("test")[[1]],
     c("new_name_1", "cyl", "disp", "hp", "new_name_2", "wt", "qsec", "vs", "am", "gear", "carb")
   )
 })
-
