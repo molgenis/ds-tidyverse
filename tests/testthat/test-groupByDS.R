@@ -24,7 +24,6 @@ dslite.server <- newDSLiteServer(
 dslite.server$config(defaultDSConfiguration(include=c("dsBase", "dsTidyverse", "dsDanger")))
 dslite.server$assignMethod("groupByDS", "groupByDS")
 dslite.server$assignMethod("ungroupDS", "ungroupDS")
-dslite.server$aggregateMethod("groupKeysDS", "groupKeysDS")
 dslite.server$aggregateMethod("listDisclosureSettingsDS", "listDisclosureSettingsDS")
 
 builder <- DSI::newDSLoginBuilder()
@@ -37,6 +36,11 @@ builder$append(
 
 logindata <- builder$build()
 conns <- DSI::datashield.login(logins = logindata, assign = TRUE)
+
+datashield.assign.table(
+  conns = conns,
+  table = "mtcars_group",
+  symbol = "mtcars_group")
 
 test_that("groupByDS correctly groups data where data and columns exist", {
   good_group_expr <- "cyl"
