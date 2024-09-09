@@ -5,7 +5,7 @@
 groupKeysDS <- function(x) {
   call <- .make_tidyverse_call(x, "group_keys", tidy_select = NULL, other_args = NULL)
   out <- .execute_with_error_handling("group_keys", call)
-  .check_group_keys_disclosure_risk(eval(parse(text = x)), out)
+  .check_group_keys_disclosure_risk(eval(parse(text = x), envir = parent.frame()), out)
   return(out)
 }
 
