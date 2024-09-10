@@ -18,6 +18,6 @@ sliceDS <- function(expr, .data, .by, .preserve) {
   other_args <- .paste_character_args(.by, .preserve)
   call <- .make_tidyverse_call(.data, "slice", tidy_select, other_args)
   out <- .execute_with_error_handling("slice", call)
-  .check_filter_disclosure_risk(eval(parse(text = .data)), out)
+  .check_subset_disclosure_risk(eval(parse(text = .data)), out)
   return(out)
 }
