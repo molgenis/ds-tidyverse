@@ -105,6 +105,25 @@ test_that("arrangeDS works with .by_group argument", {
   )
 })
 
+test_that("arrangeDS works with desc option", {
+  desc_arrange_arg <- "list(desc(mpg))"
+  desc_arrange_cally <- .make_tidyverse_call("mtcars", "arrange", desc_arrange_arg)
+
+  desc_df <- eval(desc_arrange_cally)
+
+  expect_equal(
+    class(desc_df),
+    "data.frame"
+  )
+
+  expect_equal(
+    desc_df$mpg,
+    c(21.0, 21.0, 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2, 17.8,
+      16.4, 17.3, 15.2, 10.4, 10.4, 14.7, 32.4, 30.4, 33.9, 21.5,
+      15.5, 15.2, 13.3, 19.2, 27.3, 26.0, 30.4, 15.8, 19.7, 15.0, 21.4)
+  )
+})
+
 test_that("arrangeDS fails when data doesn't exist", {
   no_data <- .make_tidyverse_call("doesnt_exist", "arrange", good_arrange_arg)
   expect_error(
@@ -121,6 +140,21 @@ test_that("arrangeDS passes when called directly", {
     ds.class("sorted_df")[[1]],
     "data.frame"
     )
+
+  expect_equal(
+    ds.dim("sorted_df")[[1]],
+    c(32, 11)
+  )
+})
+
+test_that("arrangeDS works with desc option when called directly", {
+  cally <- call("arrangeDS", "desc$LB$drat$RB$", "mtcars", NULL)
+  datashield.assign(conns, "sorted_df", cally)
+
+  expect_equal(
+    ds.class("sorted_df")[[1]],
+    "data.frame"
+  )
 
   expect_equal(
     ds.dim("sorted_df")[[1]],
