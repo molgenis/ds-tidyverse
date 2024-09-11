@@ -11,5 +11,5 @@ AssignMethods:
     arrangeDS,
     groupByDS,
     ungroupDS
-AggregateMethods:
     groupKeysDS
+    distinctDS
