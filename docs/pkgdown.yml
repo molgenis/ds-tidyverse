@@ -2,5 +2,9 @@ pandoc: 3.1.1
 pkgdown: 2.0.9
 pkgdown_sha: ~
 articles: {}
+<<<<<<< HEAD
 last_built: 2024-09-16T11:07Z
+=======
+last_built: 2024-09-12T16:13Z
+>>>>>>> 503b634 (docs: built site)
 
