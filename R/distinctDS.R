@@ -5,7 +5,7 @@
 #' variables in the data frame.
 #' @param .data A data frame, data frame extension (e.g. a tibble), or a lazy data frame
 #' (e.g. from dbplyr or dtplyr).
-#' @param .keep_all If TRUE, keep all variables in .data. If a combination of ... is not distinct,
+#' @param .keep_all If TRUE, keep all variables in .data. If a combination of expr is not distinct,
 #' this keeps the first row of values.
 #' @export
 distinctDS <- function(expr, .data, .keep_all) {
