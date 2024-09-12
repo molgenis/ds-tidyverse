@@ -22,8 +22,8 @@
 #' @export
 asTibbleDS <- function(x, .rows, .name_repair, rownames, column_name) {
   other_args <- .paste_character_args(.rows, .name_repair, rownames, column_name)
-  call <- .make_tidyverse_call(.data, "as_tibble", tidy_select, other_args)
+  call <- .make_tidyverse_call(x, "as_tibble", other_args)
   out <- .execute_with_error_handling("as_tibble", call)
-  .check_filter_disclosure_risk(eval(parse(text = .data)), out)
+  .check_filter_disclosure_risk(eval(parse(text = x)), out)
   return(out)
 }
