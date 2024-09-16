@@ -140,3 +140,101 @@ listDisclosureSettingsDS <- function(){
               nfilter.stringShort=nf.stringShort,nfilter.kNN=nf.kNN,nfilter.levels.density=nf.levels.density,
               nfilter.levels.max=nf.levels.max,nfilter.noise=nf.noise,nfilter.privacy.old=nfilter.privacy.old))
 }
+
+
+#' Check Subset Disclosure Risk
+#'
+#' This function checks the disclosure risk when applying creating a subset of a dataset.
+#' It evaluates the subset size and the difference in rows between the original
+#' and subsetted data to ensure they meet the minimum threshold specified by
+#' `nfilter.subset`.
+#'
+#' @param .data A string representing the name of the original dataset.
+#' @param out The subset.
+#' @keywords internal
+#' @return None. The function will throw an error if disclosure risk is detected.
+#' @noRd
+.check_subset_disclosure_risk <- function(original, out) {
+  nfilter.subset <- .get_nfilter_subset_value()
+  dims <- .get_dimensions(original, out)
+  .check_subset_size(dims$subset, nfilter.subset)
+  .check_rows_compared_with_original(dims$original, dims$subset, nfilter.subset)
+}
+
+#' Get `nfilter.subset` Value
+#'
+#' This function retrieves the value of `nfilter.subset` from the disclosure
+#' settings.
+#'
+#' @keywords internal
+#' @return The value of `nfilter.subset` from the disclosure settings.
+#' @noRd
+.get_nfilter_subset_value <- function() {
+  return(
+    listDisclosureSettingsDS()$nfilter.subset
+  )
+}
+
+#' Get Dimensions of Original and Subset Data
+#'
+#' This function calculates the number of rows in the original and subsetted datasets.
+#'
+#' @param .data A string representing the name of the original dataset.
+#' @param out The filtered dataset object.
+#' @keywords internal
+#' @return A list containing the number of rows in the original and subsetted datasets.
+#' @noRd
+.get_dimensions <- function(original, out) {
+  return(
+    list(
+      original = dim(original)[[1]],
+      subset = dim(out)[[1]]
+    )
+  )
+}
+
+#' Check Subset Size
+#'
+#' This function checks if the number of rows in the subsetted data is below the
+#' threshold defined by `nfilter.subset`. If it is, the function throws an error.
+#'
+#' @param subset_rows The number of rows in the subsetted data.
+#' @param nfilter.subset The minimum allowed size for a subset as defined in the
+#' disclosure settings.
+#' @keywords internal
+#' @return None. The function will throw an error if the subset size is too small.
+#' @noRd
+.check_subset_size <- function(subset_rows, nfilter.subset) {
+  if(subset_rows < nfilter.subset){
+    cli_abort(
+      "Subset to be created is too small (< nfilter.subset)",
+      call = NULL
+    )
+  }
+}
+
+#' Check Rows Compared with Original
+#'
+#' This function checks the difference in the number of rows between the original
+#' and subsetted data. If the difference is smaller than `nfilter.subset` but
+#' greater than zero, it raises an error, indicating a potential disclosure risk.
+#'
+#' @param original_rows The number of rows in the original dataset.
+#' @param subset_rows The number of rows in the subsetted dataset.
+#' @param nfilter.subset The minimum allowed difference between the original and
+#' subsetted data, as defined in the disclosure settings.
+#' @keywords internal
+#' @return None. The function will throw an error if a potential disclosure risk
+#' is detected.
+#' @noRd
+.check_rows_compared_with_original <- function(original_rows, subset_rows, nfilter.subset) {
+  diff <- original_rows - subset_rows
+  if((diff < nfilter.subset) & (diff > 0)) {
+    cli_abort(
+      "The difference in row length between the original dataframe and the new dataframe is {diff},
+      which is lower than the value of nfilter.subset ({nfilter.subset}). This could indicate a potential subsetting
+      attack which will be recorded in the serverside logs. Please review the filter expression.",
+      call = NULL
+    )
+  }
+}

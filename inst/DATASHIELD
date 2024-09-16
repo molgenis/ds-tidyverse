@@ -7,4 +7,5 @@ AssignMethods:
     bindColsDS,
     caseWhenDS,
     filterDS,
+    sliceDS
     arrangeDS
