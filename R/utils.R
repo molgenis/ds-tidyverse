@@ -249,6 +249,7 @@ listDisclosureSettingsDS <- function() {
       call = NULL
     )
   }
+}
 
 #' Get single disclosure setting
 #'
