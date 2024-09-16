@@ -142,15 +142,15 @@ listDisclosureSettingsDS <- function(){
 }
 
 
-#' Check Filter Disclosure Risk
+#' Check Subset Disclosure Risk
 #'
-#' This function checks the disclosure risk when applying a filter on a dataset.
+#' This function checks the disclosure risk when applying creating a subset of a dataset.
 #' It evaluates the subset size and the difference in rows between the original
 #' and subsetted data to ensure they meet the minimum threshold specified by
 #' `nfilter.subset`.
 #'
 #' @param .data A string representing the name of the original dataset.
-#' @param out The filtered dataset object.
+#' @param out The subset.
 #' @keywords internal
 #' @return None. The function will throw an error if disclosure risk is detected.
 #' @noRd
