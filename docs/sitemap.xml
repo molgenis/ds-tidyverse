@@ -52,10 +52,9 @@
     <loc>/reference/selectDS.html</loc>
   </url>
   <url>
-<<<<<<< HEAD
     <loc>/reference/sliceDS.html</loc>
-=======
+  </url>
+  <url>
     <loc>/reference/ungroupDS.html</loc>
->>>>>>> 67a0d1d (docs: styled package and built site)
   </url>
 </urlset>
