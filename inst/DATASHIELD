@@ -7,8 +7,8 @@ AssignMethods:
     bindColsDS,
     caseWhenDS,
     filterDS,
-    sliceDS
-    arrangeDS
+    sliceDS,
+    arrangeDS,
     groupByDS,
     ungroupDS,
     groupKeysDS
