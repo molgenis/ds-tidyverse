@@ -8,3 +8,4 @@ AssignMethods:
     caseWhenDS,
     filterDS,
     sliceDS
+    arrangeDS
