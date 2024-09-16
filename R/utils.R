@@ -48,6 +48,8 @@
     tidy_string <- paste0("dplyr::", fun, "(", tidy_select, ", ", other_args, ")")
   } else if (length(tidy_select) == 0 & !is.null(other_args)) {
     tidy_string <- paste0("dplyr::", fun, "(", other_args, ")")
+  } else if (length(tidy_select) == 0 & is.null(other_args)) {
+    tidy_string <- paste0("dplyr::", fun, "(",")")
   }
 
   if (inc_data) {
