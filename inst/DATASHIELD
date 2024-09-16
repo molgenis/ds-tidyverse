@@ -6,4 +6,5 @@ AssignMethods:
     bindRowsDS,
     bindColsDS,
     caseWhenDS,
-    filterDS
+    filterDS,
+    arrangeDS
