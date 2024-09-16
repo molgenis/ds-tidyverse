@@ -159,19 +159,18 @@ test_that(".execute_with_error_handling passes if all additional arguments are N
 })
 
 test_that(".paste_character_args creates correct string", {
-
-  true = "high"
-  false = "low"
-  missing = NULL
-  ptype = NULL
-  size = NULL
+  true <- "high"
+  false <- "low"
+  missing <- NULL
+  ptype <- NULL
+  size <- NULL
 
   expected <- "true = \"high\", false = \"low\", missing = NULL, ptype = NULL, size = NULL"
   expect_equal(
     .paste_character_args(true, false, missing, ptype, size),
-    expected)
+    expected
+  )
 })
-
 
 test_that(".get_nfilter_subset_value retrieves value correctly", {
   expect_equal(
@@ -187,13 +186,13 @@ test_that(".get_dimensions correctly returns dimensions", {
 
   expect_equal(
     class(returned),
-    "list")
+    "list"
+  )
 
   expect_equal(
     returned,
     list(original = 3, subset = 2)
   )
-
 })
 
 test_that(".check_subset_size returns an error if subset is too small", {

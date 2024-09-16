@@ -36,15 +36,16 @@ test_that("caseWhenDS passes and numeric condition and categorical output", {
       "high", "high", "high", "high", "medium", "medium", "medium", "high",
       "high", "medium", "medium", "medium", "medium", "medium", "medium",
       "medium", "medium", "high", "high", "high", "high", "medium", "medium",
-      "medium", "medium", "high", "high", "high", "medium", "medium", "medium", "high")
+      "medium", "medium", "high", "high", "high", "medium", "medium", "medium", "high"
+    )
   )
 })
 
 test_that("caseWhenDS passes and numeric condition and numeric output", {
   case_when_arg <-
-    'mtcars$mpg < 10 ~ 10,
+    "mtcars$mpg < 10 ~ 10,
   mtcars$mpg >= 10 & mtcars$mpg < 20 ~ 20,
-  mtcars$mpg >= 20 ~ 30'
+  mtcars$mpg >= 20 ~ 30"
 
   other_args <- ".default = NULL, .ptype = NULL, .size = NULL"
   case_when_cally <- .make_tidyverse_call("mtcars", "case_when", case_when_arg, other_args, inc_data = F)
@@ -54,7 +55,8 @@ test_that("caseWhenDS passes and numeric condition and numeric output", {
     result,
     c(
       30, 30, 30, 30, 20, 20, 20, 30, 30, 20, 20, 20, 20, 20, 20, 20, 20, 30, 30, 30, 30, 20, 20,
-      20, 20, 30, 30, 30, 20, 20, 20, 30)
+      20, 20, 30, 30, 30, 20, 20, 20, 30
+    )
   )
 })
 
@@ -75,7 +77,8 @@ test_that("caseWhenDS passes with categorical condition and categorical output",
       "very_high", "very_high", "very_high", "high", "high", "high", "high", "very_high", "very_high", "very_high",
       "very_high", "high", "high", "high", "high", "high", "high", "very_high", "very_high", "very_high",
       "high", "high", "high", "high", "high", "very_high", NA, NA, NA, NA,
-      NA, "very_high")
+      NA, "very_high"
+    )
   )
 })
 
@@ -102,7 +105,6 @@ test_that("caseWhenDS passes with .default argument", {
       "something_missing", "very_high"
     )
   )
-
 })
 
 test_that("caseWhenDS passes when called directly", {
@@ -111,10 +113,11 @@ test_that("caseWhenDS passes when called directly", {
 
   expect_equal(
     ds.class("test")[[1]],
-    "character")
+    "character"
+  )
 
   expect_equal(
     as.numeric(ds.table("test")$output.list$TABLES.COMBINED_all.sources_counts),
-    c(12, 54, 30, 0))
+    c(12, 54, 30, 0)
+  )
 })
-

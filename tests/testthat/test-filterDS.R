@@ -23,14 +23,13 @@ mtcars_group <- mtcars %>% group_by(cyl)
 
 test_that("filterDS correctly filters where data and columns exist", {
   good_filter_cally <- .make_tidyverse_call("mtcars", "filter", good_filter_arg)
-    expect_equal(
+  expect_equal(
     dim(eval(good_filter_cally))[[1]],
     14
   )
 })
 
 test_that("filterDS works with .by argument", {
-
   by_cally <- .make_tidyverse_call("mtcars", "filter", "mpg > median(mpg)", ".by = 'cyl'")
   no_by_cally <- .make_tidyverse_call("mtcars", "filter", "mpg > median(mpg)")
 
@@ -41,13 +40,13 @@ test_that("filterDS works with .by argument", {
     identical(
       rownames(filter_with_by),
       rownames(filter_without_by)
-      )
+    )
   )
 
   expect_equal(
     dim(filter_with_by),
-    c(14, 11))
-
+    c(14, 11)
+  )
 })
 
 test_that("filterDS works with .preserve argument", {
@@ -80,7 +79,6 @@ test_that("filterDS passes with valid combinations of extra arguments", {
   expect_silent(eval(just_by))
   expect_silent(eval(just_preserve))
   expect_silent(eval(by_preserve_f))
-
 })
 
 test_that("filterDS fails if supplied with .by and .preserve = T", {
@@ -89,7 +87,6 @@ test_that("filterDS fails if supplied with .by and .preserve = T", {
     eval(by_preserve_t),
     "Can't supply both `.by` and `.preserve`"
   )
-
 })
 
 test_that("filterDS fails with bad argument", {
@@ -108,7 +105,8 @@ test_that("filterDS passes when called directly", {
 
   expect_equal(
     ds.class("test")[[1]],
-    "data.frame")
+    "data.frame"
+  )
 
   expect_equal(
     ds.dim("test")[[1]],
