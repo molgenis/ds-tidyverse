@@ -80,6 +80,7 @@
 #' @param .data The data environment in which the expression should be evaluated.
 #' @importFrom cli cli_abort
 #' @importFrom rlang eval_tidy
+#' @importFrom dplyr %>%
 #' @return The result of evaluating the expression, or an error message if evaluation fails.
 #' @noRd
 .execute_with_error_handling <- function(fun, string_as_expr) {
