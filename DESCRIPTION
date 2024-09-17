@@ -31,14 +31,15 @@ Imports:
   rlang,
   stringr, 
   cli, 
-  dplyr, 
-  purrr 
+  purrr, 
+  magrittr
 Suggests: 
   testthat (>= 3.0.0), 
   tibble,
   DSLite, 
   dsBaseClient, 
   dsBase, 
-  DSI
+  DSI, 
+  dplyr
 Config/testthat/edition: 3
 Additional_repositories: https://cran.obiba.org/
