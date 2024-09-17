@@ -61,7 +61,7 @@
 #' @param ... Any number of arguments.
 #' @return A character string with the argument names and values.
 #' @importFrom purrr map imap set_names
-#' @importFrom dplyr %>%
+#' @importFrom magrittr %>%
 #' @noRd
 .paste_character_args <- function(...) {
   arg_values <- list(...) %>% purrr::map(deparse)
@@ -80,7 +80,7 @@
 #' @param .data The data environment in which the expression should be evaluated.
 #' @importFrom cli cli_abort
 #' @importFrom rlang eval_tidy
-#' @importFrom dplyr %>%
+#' @importFrom magrittr %>%
 #' @return The result of evaluating the expression, or an error message if evaluation fails.
 #' @noRd
 .execute_with_error_handling <- function(fun, string_as_expr) {
