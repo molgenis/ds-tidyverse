@@ -162,7 +162,7 @@ test_that("ungroupDS fails when data doesn't exist", {
 })
 
 test_that("ungroupDS works correctly when called directly", {
-  ungroup_call <- call("ungroupDS", "mtcars_group")
+  ungroup_call <- call("ungroupDS", NULL, "mtcars_group")
   datashield.assign(conns, "ungrouped_data", ungroup_call)
 
   expect_equal(
