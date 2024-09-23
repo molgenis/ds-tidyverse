@@ -24,10 +24,6 @@ asTibbleDS <- function(x, .rows, .name_repair, rownames, column_name) {
   other_args <- .paste_character_args(.rows, .name_repair, rownames, column_name)
   call <- .make_tidyverse_call(x, "as_tibble", other_args)
   out <- .execute_with_error_handling("as_tibble", call)
-  print(paste0("current: ", paste0(ls(), collapse = ", ")))
-  print(paste0("pf_1: ", paste0(ls(name = parent.frame()), collapse = ", ")))
-  print(paste0("pf_2: ", paste0(ls(name = parent.frame(2)), collapse = ", ")))
-  print(paste0("pf_3: ", paste0(ls(name = parent.frame(3)), collapse = ", ")))
-  .check_subset_disclosure_risk(eval(parse(text = x)), out)
+  .check_subset_disclosure_risk(eval(parse(text = x), envir = parent.frame()), out)
   return(out)
 }
