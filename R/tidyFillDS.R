@@ -1,87 +1,59 @@
-#' Get the Class of All Columns in a Data Frame
-#' @param df.name A string representing the name of the data frame.
-#' @return A tibble with the class of each column in the data frame.
-#' @importFrom dplyr %>%
-#' @importFrom tibble as_tibble
+#' @title Subset rows using their positions
+#' @description This function is similar to R function \code{dplyr::slice}.
+#' @param expr Provide either positive values to keep, or negative values to drop. The values
+#' provided must be either all positive or all negative. Indices beyond the number of rows in the
+#' input are silently ignored.
+#' @param .data A data frame, data frame extension (e.g. a tibble), or a lazy data frame
+#' (e.g. from dbplyr or dtplyr).
+#' @param .by Optionally, a selection of columns to group by for just this operation, functioning as
+#' an alternative to \code{group_by}.
+#' @param .preserve Relevant when the .data input is grouped. If .preserve = FALSE (the default),
+#' the grouping structure is recalculated based on the resulting data, otherwise the grouping is
+#' kept as is.
+#' @return the object specified by the \code{newobj} argument of \code{ds.slice} which is written
+#' to the serverside.
 #' @export
-classAllColsDS <- function(df.name){
-  df.name <- eval(parse(text = df.name), envir = parent.frame())
-  all_classes <- map(df.name, class) %>% as_tibble()
-  return(all_classes)
+
+
+getAllLevelsDS <- function(df.name, newobj, factor_vars) {
+  browser()
+
 }
 
-#' Change Class of Target Variables in a Data Frame
-#' @param df.name A string representing the name of the data frame.
-#' @param target_vars A character vector specifying the columns to be modified.
-#' @param target_class A character vector specifying the new classes for each column (1 = factor,
-#' 2 = integer, 3 = numeric, 4 = character, 5 = logical).
-#' @return A modified data frame with the specified columns converted to the target classes.
-#' @importFrom dplyr mutate across
-#' @importFrom tidyselect all_of
-#' @export
+
 fixClassDS <- function(df.name, target_vars, target_class) {
+
   df <- eval(parse(text = df.name), envir = parent.frame())
   df_transformed <- df %>%
     mutate(
       across(all_of(target_vars),
-             ~ convert_class(., target_class[which(target_vars == cur_column())])))
+      ~ convert_class(., target_class[which(target_vars == cur_column())])))
+
   return(df_transformed)
+
 }
 
-#' Convert a Vector to a Specified Class
-#' @param x The vector to be converted.
-#' @param class_name A string indicating the target class (1 = factor, 2 = integer, 3 = numeric,
-#' 4 = character, 5 = logical).
-#'
-#' @return The converted vector.
-#' @export
 convert_class <- function(x, class_name) {
   switch(class_name,
-         "1" = as.factor(x),
-         "2" = as.integer(x),
-         "3" = as.numeric(x),
-         "4" = as.character(x),
-         "5" = as.logical(x)
-  )
+         "numeric" = as.numeric(x),
+         "factor" = as.factor(x),
+         "character" = as.character(x),
+         x)
 }
 
-#' Add Missing Columns with NA Values
-#' @param .data A string representing the name of the data frame.
-#' @param cols A character vector specifying the columns to be added if missing.
-#' @return A modified data frame with missing columns added and filled with NA.
-#' @importFrom dplyr mutate select
-#' @importFrom tidyselect peek_vars
-#' @importFrom purrr set_names
-#' @export
+classAllColsDS <- function(df.name){
+  df.name <- eval(parse(text = df.name), envir = parent.frame())
+  all_classes <- map(df.name, class)
+  return(all_classes)
+}
+
+
 makeColsSameDS <- function(.data, cols) {
   .data <- eval(parse(text = .data), envir = parent.frame())
   missing <- setdiff(cols, colnames(.data))
   out <- .data %>%
-    mutate(!!!set_names(rep(list(NA), length(missing)), missing)) %>%
-    select(sort(peek_vars()))
+    mutate(!!!setNames(rep(list(NA), length(missing)), missing))
   return(out)
 }
 
-#' Retrieve Factor Levels for Specific Columns
-#' @param df.name A string representing the name of the data frame.
-#' @param factor_vars A character vector specifying the factor columns.
-#' @return A list of factor levels for the specified columns.
-#' @importFrom tidyselect all_of
-#' @export
-getAllLevelsDS <- function(df.name, factor_vars) {
-  df <- eval(parse(text = df.name), envir = parent.frame())
-  return(df %>% dplyr::select(all_of(factor_vars)) %>% map(levels))
-}
 
-
-#' Set Factor Levels for Specific Columns in a Data Frame
-#' @param df.name A string representing the name of the data frame to modify.
-#' @param vars A character vector specifying the columns to be modified.
-#' @param levels A named list where each element contains the levels for the corresponding factor variable.
-#' @return A modified data frame with the specified columns converted to factors with the provided levels.
-#' @export
-setAllLevelsDS <- function(df.name, vars, levels) {
-  df.name <- eval(parse(text = df.name), envir = parent.frame())
-  out <- df.name %>%
-    mutate(across(all_of(vars), ~factor(., levels = levels[[cur_column()]])))
-}
