@@ -24,6 +24,6 @@ asTibbleDS <- function(x, .rows, .name_repair, rownames, column_name) {
   other_args <- .paste_character_args(.rows, .name_repair, rownames, column_name)
   call <- .make_tidyverse_call(x, "as_tibble", other_args)
   out <- .execute_with_error_handling("as_tibble", call)
-  # .check_subset_disclosure_risk(eval(parse(text = x), parent.frame()), out)
+  .check_subset_disclosure_risk(eval(parse(text = x)), out)
   return(out)
 }
