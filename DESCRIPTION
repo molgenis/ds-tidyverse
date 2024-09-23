@@ -1,7 +1,7 @@
 Package: dsTidyverse
 Type: Package
 Title: DataSHIELD Tidyverse Serverside Package
-Version: 0.9.0
+Version: 0.9.1
 Authors@R:
     c(
       person(given = "Tim",
@@ -31,14 +31,14 @@ Imports:
   rlang,
   stringr, 
   cli, 
-  dplyr, 
-  purrr 
+  purrr
 Suggests: 
   testthat (>= 3.0.0), 
   tibble,
   DSLite, 
   dsBaseClient, 
   dsBase, 
-  DSI
+  DSI, 
+  dplyr
 Config/testthat/edition: 3
 Additional_repositories: https://cran.obiba.org/

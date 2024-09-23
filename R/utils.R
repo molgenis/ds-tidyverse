@@ -53,7 +53,7 @@
   }
 
   if (inc_data) {
-    tidy_string <- paste0(.data, " %>% ", tidy_string)
+    tidy_string <- paste0(.data, " |> ", tidy_string)
   }
   return(rlang::parse_expr(tidy_string))
 }
@@ -66,14 +66,13 @@
 #' @param ... Any number of arguments.
 #' @return A character string with the argument names and values.
 #' @importFrom purrr map imap set_names
-#' @importFrom dplyr %>%
 #' @noRd
 .paste_character_args <- function(...) {
-  arg_values <- list(...) %>% purrr::map(deparse)
+  arg_values <- list(...) |> purrr::map(deparse)
   call_stack <- sys.call()
   arg_names <- as.character(call_stack)[-1]
   arg_values <- purrr::set_names(arg_values, arg_names)
-  args_formatted <- arg_values %>% purrr::imap(~ paste0(.y, " = ", .x))
+  args_formatted <- arg_values |> purrr::imap(~ paste0(.y, " = ", .x))
   args_as_vector <- paste(unlist(args_formatted), collapse = ", ")
   return(args_as_vector)
 }
