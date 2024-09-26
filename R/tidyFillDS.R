@@ -14,10 +14,17 @@
 #' to the serverside.
 #' @export
 
+setAllLevelsDS <- function(df.name, vars, levels) {
 
-getAllLevelsDS <- function(df.name, newobj, factor_vars) {
-  browser()
+  df.name <- eval(parse(text = df.name), envir = parent.frame())
+  out <- df.name %>%
+    mutate(across(all_of(vars), ~factor(., levels = levels[[cur_column()]])))
 
+}
+
+getAllLevelsDS <- function(df.name, factor_vars) {
+  df <- eval(parse(text = df.name), envir = parent.frame())
+  return(df %>% dplyr::select(all_of(factor_vars)) %>% map(levels))
 }
 
 
@@ -43,10 +50,9 @@ convert_class <- function(x, class_name) {
 
 classAllColsDS <- function(df.name){
   df.name <- eval(parse(text = df.name), envir = parent.frame())
-  all_classes <- map(df.name, class)
+  all_classes <- map(df.name, class) %>% as_tibble()
   return(all_classes)
 }
-
 
 makeColsSameDS <- function(.data, cols) {
   .data <- eval(parse(text = .data), envir = parent.frame())
@@ -55,5 +61,4 @@ makeColsSameDS <- function(.data, cols) {
     mutate(!!!setNames(rep(list(NA), length(missing)), missing))
   return(out)
 }
-
 
