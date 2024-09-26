@@ -51,7 +51,6 @@
   } else if (length(tidy_select) == 0 & is.null(other_args)) {
     tidy_string <- paste0("dplyr::", fun, "(",")")
   }
-
   if (inc_data) {
     tidy_string <- paste0(.data, " |> ", tidy_string)
   }
