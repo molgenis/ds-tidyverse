@@ -5,7 +5,7 @@
 \title{Coerce a data frame or matrix to a tibble. Currently not implemented for lists or other
 object types.}
 \usage{
-asTibbleDS(x, .rows, .name_repair, rownames, column_name)
+asTibbleDS(x, .rows, .name_repair, rownames)
 }
 \arguments{
 \item{x}{A data frame or matrix.}
@@ -29,8 +29,6 @@ check.}
   into this column and the `row.names` attribute is deleted. No name repair is applied
   to the new column name, even if `x` already contains a column of that name.
 }}
-
-\item{column_name}{Optionally, specify column names of the new object.}
 }
 \value{
 the object specified by the \code{newobj} argument of \code{ds.as_tibble} which is
