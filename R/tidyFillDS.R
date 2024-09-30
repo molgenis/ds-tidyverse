@@ -27,25 +27,23 @@ getAllLevelsDS <- function(df.name, factor_vars) {
   return(df %>% dplyr::select(all_of(factor_vars)) %>% map(levels))
 }
 
-
 fixClassDS <- function(df.name, target_vars, target_class) {
-
   df <- eval(parse(text = df.name), envir = parent.frame())
   df_transformed <- df %>%
     mutate(
       across(all_of(target_vars),
       ~ convert_class(., target_class[which(target_vars == cur_column())])))
-
   return(df_transformed)
-
 }
 
 convert_class <- function(x, class_name) {
   switch(class_name,
-         "numeric" = as.numeric(x),
-         "factor" = as.factor(x),
-         "character" = as.character(x),
-         x)
+         "1" = as.factor(x),
+         "2" = as.integer(x),
+         "3" = as.numeric(x),
+         "4" = as.character(x),
+         "5" = as.logical(x)
+  )
 }
 
 classAllColsDS <- function(df.name){
