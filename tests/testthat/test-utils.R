@@ -257,7 +257,7 @@ test_that(".check_subset_disclosure_risk doesn't return errors if subset sizes a
 })
 
 test_that(".make_tidyverse_call creates call when tidyselect argument is empty", {
-  expected_string <- rlang::parse_expr('test %>% dplyr::distinct(.keep_all = TRUE)')
+  expected_string <- rlang::parse_expr('dplyr::distinct(test, .keep_all = TRUE)')
 
   observed_string <- .make_tidyverse_call(
     .data = "test",
