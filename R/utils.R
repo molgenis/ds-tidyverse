@@ -153,6 +153,27 @@ listDisclosureSettingsDS <- function() {
   ))
 }
 
+#' List of Permitted Tidyverse Functions
+#'
+#' This function returns a vector of function names that are permitted to be passed within the
+#' dsTidyverse functions, e.g. within the `tidy_select` argument of `ds.mutate.`
+#'
+#' @return A character vector of function names, each representing a permitted function. Functions
+#' not included in this list will be blocked.
+#' @export
+listPermittedTidyverseFunctionsDS <- function() {
+
+  return(
+    c(
+      "everything", "last_col", "group_cols", "starts_with", "ends_with", "contains",
+      "matches", "num_range", "all_of", "any_of", "where", "c", "rename", "mutate", "if_else",
+      "case_when", "mean", "median", "mode", "desc", "last_col", "nth", "where", "num_range",
+      "exp", "sqrt", "scale", "round", "floor", "ceiling", "trunc", "abs", "sign", "sd", "var",
+      "sin", "cos", "tan", "asin", "acos", "atan", "cumsum", "cumprod", "cummin", "cummax",
+      "rank", "diff", "lag")
+  )
+}
+
 #' Check Subset Disclosure Risk
 #'
 #' This function checks the disclosure risk when applying creating a subset of a dataset.
