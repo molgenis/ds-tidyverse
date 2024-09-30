@@ -16,6 +16,6 @@ filterDS <- function(expr, .data, .by, .preserve) {
   other_args <- .paste_character_args(.by, .preserve)
   call <- .make_tidyverse_call(.data, "filter", tidy_select, other_args)
   out <- .execute_with_error_handling("filter", call)
-  .check_subset_disclosure_risk(eval(parse(text = .data)), out)
+  .check_subset_disclosure_risk(eval(parse(text = .data), envir = parent.frame()), out)
   return(out)
 }
