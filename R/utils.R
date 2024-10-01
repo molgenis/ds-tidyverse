@@ -161,8 +161,7 @@ listDisclosureSettingsDS <- function() {
 #' @return A character vector of function names, each representing a permitted function. Functions
 #' not included in this list will be blocked.
 #' @export
-CheckPermittedTidyverseFunctionsDS <- function() {
-
+listPermittedTidyverseFunctionsDS <- function() {
   return(
     c(
       "everything", "last_col", "group_cols", "starts_with", "ends_with", "contains",
@@ -328,9 +327,20 @@ CheckPermittedTidyverseFunctionsDS <- function() {
   }
 }
 
+#' Check Which Variables Exceed a Threshold
+#'
+#' This function checks if the lengths of the given variables exceed a specified threshold.
+#' It returns the names of the variables whose lengths are greater than the threshold.
+#'
+#' @param variable_names A character vector containing the names of the variables.
+#' @param variable_lengths A numeric vector containing the lengths of the variables, in the same order as `variable_names`.
+#' @param threshold A numeric value specifying the threshold that each variable length is compared against.
+#' @importFrom purrr map_lgl
+#' @return A character vector of variable names where the corresponding lengths exceed the threshold.
+#' @export
 .check_exceeds_threshold <- function(variable_names, variable_lengths, threshold) {
   return(
-    variable_names[variable_lengths %>% map_lgl(~ .x > threshold)]
+    variable_names[variable_lengths |> map_lgl(~ .x > threshold)]
   )
 }
 
@@ -344,8 +354,6 @@ CheckPermittedTidyverseFunctionsDS <- function() {
 #' @param errors A list of errors to be formatted.
 #' @param disclosure list of disclosure settings, length of number of cohorts
 #' @return A character vector containing formatted error messages.
-#' @importFrom dplyr %>%
-#' @importFrom purrr imap_chr
 #' @noRd
 .format_disclosure_errors <- function(disclosure) {
   out <- c("Error: The maximum length of columns specified in `tidy_select` must be shorter than
@@ -361,7 +369,6 @@ CheckPermittedTidyverseFunctionsDS <- function() {
 #' @param tidy_select A tidy selection specification of columns.
 #' @param datasources A list of Opal connection objects obtained after logging into the Opal servers.
 #' @return None. This function is used for its side effects of checking disclosure settings.
-#' @importFrom DSI datashield.aggregate
 #' @noRd
 .check_tidy_disclosure <- function(df.name, tidyselect, check_df = TRUE) {
   disc_settings <- listDisclosureSettingsDS()
@@ -378,7 +385,6 @@ CheckPermittedTidyverseFunctionsDS <- function() {
 #' @param .data The data object to be analyzed.
 #' @param disclosure list of disclosure settings, length of number of cohorts
 #' @importFrom stringr str_length
-#' @importFrom purrr map_chr
 #' @noRd
 .check_data_name_length <- function(.data, disclosure) {
   data_length <- str_length(.data)
