@@ -20,6 +20,7 @@
 #'
 mutateDS <- function(expr, .data, .keep = NULL, .before = NULL, .after = NULL) {
   tidy_select <- .decode_tidy_eval(expr, .get_encode_dictionary())
+  .check_tidy_disclosure(.data, tidy_select)
   other_args <- .paste_character_args(.keep, .before, .after)
   call <- .make_tidyverse_call(.data, "mutate", tidy_select, other_args)
   out <- .execute_with_error_handling("mutate", call)

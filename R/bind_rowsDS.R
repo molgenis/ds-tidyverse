@@ -11,6 +11,7 @@
 #' @export
 bindRowsDS <- function(to_combine = NULL, .id = NULL) {
   to_combine <- .decode_tidy_eval(to_combine, .get_encode_dictionary())
+  .check_tidy_disclosure(NULL, to_combine, check_df = F)
   other_args <- .paste_character_args(.id)
   call <- .make_tidyverse_call(.data = NULL, "bind_rows", to_combine, other_args, inc_data = F)
   out <- .execute_with_error_handling("bind_rows", call)

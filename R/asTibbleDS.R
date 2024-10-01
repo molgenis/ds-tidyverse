@@ -23,6 +23,7 @@
 #' written to the serverside.
 #' @export
 asTibbleDS <- function(x, .rows, .name_repair, rownames) {
+  .check_data_name_length(x, listDisclosureSettingsDS())
   other_args <- .paste_character_args(.rows, .name_repair, rownames)
   call <- .make_tidyverse_call(x, "as_tibble", other_args)
   out <- .execute_with_error_handling("as_tibble", call)

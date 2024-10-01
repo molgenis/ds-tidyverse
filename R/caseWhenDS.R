@@ -18,6 +18,7 @@
 #'
 caseWhenDS <- function(dynamic_dots = NULL, .default = NULL, .ptype = NULL, .size = NULL) {
   dynamic_dots <- .decode_tidy_eval(dynamic_dots, .get_encode_dictionary())
+  .check_tidy_disclosure(NULL, dynamic_dots, check_df = F)
   other_args <- .paste_character_args(.default, .ptype, .size)
   call <- .make_tidyverse_call(.data = NULL, "case_when", dynamic_dots, other_args, inc_data = F)
   out <- .execute_with_error_handling("case_when", call)
