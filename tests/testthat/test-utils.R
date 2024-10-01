@@ -287,12 +287,7 @@ arg_unpermitted <- "asd, sdf, dfg, everything(), filter(test == 2), slice(3), mu
 small_var <- paste(rep("a", 5), collapse = "")
 large_var <- paste(rep("a", 200), collapse = "")
 
-permitted_functions <- "everything(), last_col(), group_cols(), starts_with(), ends_with(), contains(),
-matches(), num_range(), all_of(), any_of(), where(), c(), rename(), mutate(), if_else(), case_when(),
-mean(), median(), mode()"
-
 test_that(".check_function_names allows permitted names to pass", {
-  permitted_functions
   expect_silent(.check_function_names(arg_permitted))
 })
 
