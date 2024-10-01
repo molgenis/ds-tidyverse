@@ -309,7 +309,6 @@ listPermittedTidyverseFunctionsDS <- function() {
 #'
 #' @param args_as_string The string representation of the arguments.
 #' @param disclosure list of disclosure settings, length of number of cohorts
-#' @param conns DataSHIELD connections object
 #' @importFrom cli cli_abort
 #' @importFrom stringr str_extract_all
 #' @importFrom purrr map map_int map_lgl
@@ -317,7 +316,7 @@ listPermittedTidyverseFunctionsDS <- function() {
 #' variable names from the list passed to `tidy_select`. It then checks the lengths of these against
 #' the value passed to nfilter.string.#'
 #' @noRd
-.check_variable_length <- function(args_as_string, disclosure, datasources) {
+.check_variable_length <- function(args_as_string, disclosure) {
   variable_names <- unlist(str_extract_all(args_as_string, "\\b\\w+\\b(?!\\()", simplify = F))
   variable_lengths <- variable_names |> map_int(str_length)
   over_filter_thresh <- .check_exceeds_threshold(variable_names, variable_lengths, disclosure$nfilter.string)
@@ -367,7 +366,6 @@ listPermittedTidyverseFunctionsDS <- function() {
 #'
 #' @param df.name A character string specifying the name of the dataframe.
 #' @param tidy_select A tidy selection specification of columns.
-#' @param datasources A list of Opal connection objects obtained after logging into the Opal servers.
 #' @return None. This function is used for its side effects of checking disclosure settings.
 #' @noRd
 .check_tidy_disclosure <- function(df.name, tidyselect, check_df = TRUE) {

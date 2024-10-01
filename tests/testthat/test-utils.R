@@ -3,6 +3,22 @@ library(dplyr)
 library(DSLite)
 library(rlang)
 
+options(datashield.env = environment())
+data("mtcars")
+dslite.server <- DSLite::newDSLiteServer(tables = list(mtcars = mtcars))
+data("logindata.dslite.cnsim")
+logindata.dslite.cnsim <- logindata.dslite.cnsim %>%
+  mutate(table = "mtcars")
+dslite.server$config(defaultDSConfiguration(include = c("dsBase", "dsTidyverse", "dsDanger")))
+dslite.server$assignMethod("selectDS", "selectDS")
+dslite.server$aggregateMethod("exists", "base::exists")
+dslite.server$aggregateMethod("classDS", "dsBase::classDS")
+dslite.server$aggregateMethod("lsDS", "dsBase::lsDS")
+dslite.server$aggregateMethod("dsListDisclosureSettings", "dsTidyverse::dsListDisclosureSettings")
+conns <- datashield.login(logins = logindata.dslite.cnsim, assign = TRUE)
+
+disc_settings <- listDisclosureSettingsDS()
+
 test_that(".make_tidyverse_call creates call with no additional arguments", {
   input_string <- "asd, qwe, starts_with('test')"
   expected_string <- rlang::parse_expr('test |> dplyr::select(asd, qwe, starts_with("test"))')
@@ -254,4 +270,70 @@ test_that(".check_subset_disclosure_risk doesn't return errors if subset sizes a
     .check_subset_disclosure_risk(original, out)
   )
 
+})
+
+test_that(".check_data_name_length throws an error if length of .data exceeds nfilter.string", {
+  .data <- paste(rep("a", 101), collapse = "")
+  expect_snapshot(.check_data_name_length(.data, disc_settings), error = TRUE)
+})
+
+test_that(".check_data_name_length does not throw an error if length of .data is within nfilter.string", {
+  .data <- paste(rep("a", 79), collapse = "")
+  expect_silent(.check_data_name_length(.data, disc_settings))
+})
+
+arg_permitted <- "asd, sdf, dfg, everything(), starts_with(\"A\"), ends_with(\"Z\")"
+arg_unpermitted <- "asd, sdf, dfg, everything(), filter(test == 2), slice(3), mutate(new_name = old_name), starts_with(\"A\"), ends_with(\"Z\")"
+small_var <- paste(rep("a", 5), collapse = "")
+large_var <- paste(rep("a", 200), collapse = "")
+
+permitted_functions <- "everything(), last_col(), group_cols(), starts_with(), ends_with(), contains(),
+matches(), num_range(), all_of(), any_of(), where(), c(), rename(), mutate(), if_else(), case_when(),
+mean(), median(), mode()"
+
+test_that(".check_function_names allows permitted names to pass", {
+  permitted_functions
+  expect_silent(.check_function_names(arg_permitted))
+})
+
+test_that(".check_function_names blocks unpermitted function names", {
+  arg_unpermitted
+  expect_snapshot(
+    .check_function_names(arg_unpermitted),
+    error = TRUE
+  )
+})
+
+test_that(".check_variable_length allows variables with value less than nfilter.string", {
+
+  expect_silent(
+    .check_variable_length(small_var, disc_settings)
+  )
+})
+
+test_that(".check_variable_length blocks variables with value greater than than nfilter.string", {
+  expect_snapshot(
+    .check_variable_length(large_var, disc_settings),
+    error = TRUE
+  )
+})
+
+test_that(".tidy_disclosure_checks allows permitted arg to pass", {
+  expect_silent(.check_tidy_disclosure("dataframe", arg_permitted))
+})
+
+test_that(".tidy_disclosure_checks blocks argument with unpermitted variable length", {
+  arg_unpermitted_2 <- paste0(large_var, arg_permitted)
+  expect_snapshot(
+    .check_tidy_disclosure("dataframe", arg_unpermitted_2),
+    error = TRUE
+  )
+})
+
+test_that(".tidy_disclosure_checks blocks argument with unpermitted function names", {
+  arg_unpermitted_3 <- arg_unpermitted
+  expect_snapshot(
+    .check_tidy_disclosure("dataset", arg_unpermitted_3),
+    error = TRUE
+  )
 })
