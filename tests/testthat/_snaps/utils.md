@@ -18,7 +18,7 @@
       Error:
       ! Values passed to `expr` may only contain permitted functions.
       i Permitted functions are everything, last_col, group_cols, starts_with, ends_with, contains, matches, num_range, all_of, any_of, where, c, rename, mutate, if_else, case_when, mean, median, ..., diff, and lag.
-      i `filter and slice` is not a permitted functions.
+      i `filter and slice` are not permitted functions.
 
 # .check_variable_length blocks variables with value greater than than nfilter.string
 
@@ -42,7 +42,7 @@
       80
       i aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasd is longer than this:
 
-# .tidy_disclosure_checks blocks argument with unpermitted function names
+# .tidy_disclosure_checks blocks argument with multiple unpermitted function names
 
     Code
       .check_tidy_disclosure("dataset", arg_unpermitted_3)
@@ -50,5 +50,15 @@
       Error:
       ! Values passed to `expr` may only contain permitted functions.
       i Permitted functions are everything, last_col, group_cols, starts_with, ends_with, contains, matches, num_range, all_of, any_of, where, c, rename, mutate, if_else, case_when, mean, median, ..., diff, and lag.
-      i `filter and slice` is not a permitted functions.
+      i `filter and slice` are not permitted functions.
+
+# .tidy_disclosure_checks blocks argument with single unpermitted function name
+
+    Code
+      .check_tidy_disclosure("dataset", arg_unpermitted_4)
+    Condition
+      Error:
+      ! Values passed to `expr` may only contain permitted functions.
+      i Permitted functions are everything, last_col, group_cols, starts_with, ends_with, contains, matches, num_range, all_of, any_of, where, c, rename, mutate, if_else, case_when, mean, median, ..., diff, and lag.
+      i `slice` is not a permitted function.
 

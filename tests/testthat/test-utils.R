@@ -325,10 +325,18 @@ test_that(".tidy_disclosure_checks blocks argument with unpermitted variable len
   )
 })
 
-test_that(".tidy_disclosure_checks blocks argument with unpermitted function names", {
+test_that(".tidy_disclosure_checks blocks argument with multiple unpermitted function names", {
   arg_unpermitted_3 <- arg_unpermitted
   expect_snapshot(
     .check_tidy_disclosure("dataset", arg_unpermitted_3),
+    error = TRUE
+  )
+})
+
+test_that(".tidy_disclosure_checks blocks argument with single unpermitted function name", {
+  arg_unpermitted_4 <- "asd, sdf, dfg, everything(), slice(3), mutate(new_name = old_name), starts_with(\"A\"), ends_with(\"Z\")"
+  expect_snapshot(
+    .check_tidy_disclosure("dataset", arg_unpermitted_4),
     error = TRUE
   )
 })

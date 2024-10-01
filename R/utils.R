@@ -299,7 +299,7 @@ listPermittedTidyverseFunctionsDS <- function() {
     message <- c(
       "Values passed to `expr` may only contain permitted functions.",
       "Permitted functions are {permitted_tidy_select}.",
-      "`{any_banned_functions}` is not a permitted function{?s}.")
+      "`{any_banned_functions}` {?is/are} not {?a/} permitted function{?s}.")
     names(message) <- c("", "i", "i")
     cli_abort(message,call = NULL)
   }
@@ -357,7 +357,7 @@ listPermittedTidyverseFunctionsDS <- function() {
 .format_disclosure_errors <- function(disclosure) {
   out <- c("Error: The maximum length of columns specified in `tidy_select` must be shorter than
            nfilter.string. ", "The values of nfilter.string are: ", disclosure$nfilter.string,
-           "{over_filter_thresh} is longer than this: ")
+           "{over_filter_thresh} {?is/are} longer than this: ")
   names(out) <- c("", "i", "", "i")
   return(out)
 }
