@@ -161,7 +161,7 @@ listDisclosureSettingsDS <- function() {
 #' @return A character vector of function names, each representing a permitted function. Functions
 #' not included in this list will be blocked.
 #' @export
-listPermittedTidyverseFunctionsDS <- function() {
+CheckPermittedTidyverseFunctionsDS <- function() {
 
   return(
     c(
@@ -280,4 +280,126 @@ listPermittedTidyverseFunctionsDS <- function() {
   return(
     listDisclosureSettingsDS()[[setting]]
   )
+}
+
+#' Check if the functions used in tidy evaluation are permitted.
+#'
+#' @param args_as_string The string representation of the arguments.
+#' @importFrom cli cli_abort
+#' @importFrom stringr str_extract_all
+#' @details To avoid users attempting to maliciously pass functions to the servervia the tidy_select
+#' argument, a regex is used to first extract all functions from the string by identifying any characters
+#' with the format 'name('. These are then checked against permitted arguments, which are selection
+#' helpers described in the ?select documentation.#'
+#' @noRd
+.check_function_names <- function(args_as_string) {
+  permitted_tidy_select <- listPermittedTidyverseFunctionsDS()
+  function_names <- str_extract_all(args_as_string, "\\w+(?=\\()", simplify = T)
+  any_banned_functions <- function_names[!function_names %in% permitted_tidy_select]
+  if (length(any_banned_functions) > 0) {
+    message <- c(
+      "Values passed to `expr` may only contain permitted functions.",
+      "Permitted functions are {permitted_tidy_select}.",
+      "`{any_banned_functions}` is not a permitted function{?s}.")
+    names(message) <- c("", "i", "i")
+    cli_abort(message,call = NULL)
+  }
+}
+
+#' Check if the length of variable names in tidy evaluation exceeds a nfilter.string threshold.
+#'
+#' @param args_as_string The string representation of the arguments.
+#' @param disclosure list of disclosure settings, length of number of cohorts
+#' @param conns DataSHIELD connections object
+#' @importFrom cli cli_abort
+#' @importFrom stringr str_extract_all
+#' @importFrom purrr map map_int map_lgl
+#' @details To check users are not passing variable names which are too long, first a regex extracts
+#' variable names from the list passed to `tidy_select`. It then checks the lengths of these against
+#' the value passed to nfilter.string.#'
+#' @noRd
+.check_variable_length <- function(args_as_string, disclosure, datasources) {
+  variable_names <- unlist(str_extract_all(args_as_string, "\\b\\w+\\b(?!\\()", simplify = F))
+  variable_lengths <- variable_names |> map_int(str_length)
+  over_filter_thresh <- .check_exceeds_threshold(variable_names, variable_lengths, disclosure$nfilter.string)
+  if (length(over_filter_thresh) > 0) {
+    disclosure_message <- .format_disclosure_errors(disclosure)
+    cli_abort(disclosure_message, call = NULL)
+  }
+}
+
+.check_exceeds_threshold <- function(variable_names, variable_lengths, threshold) {
+  return(
+    variable_names[variable_lengths %>% map_lgl(~ .x > threshold)]
+  )
+}
+
+#' Format Errors
+#'
+#' Format errors into a character vector with specified prefix.
+#'
+#' This function formats a list of errors into a character vector with each
+#' error message prefixed by a cross.
+#'
+#' @param errors A list of errors to be formatted.
+#' @param disclosure list of disclosure settings, length of number of cohorts
+#' @return A character vector containing formatted error messages.
+#' @importFrom dplyr %>%
+#' @importFrom purrr imap_chr
+#' @noRd
+.format_disclosure_errors <- function(disclosure) {
+  out <- c("Error: The maximum length of columns specified in `tidy_select` must be shorter than
+           nfilter.string. ", "The values of nfilter.string are: ", disclosure$nfilter.string,
+           "{over_filter_thresh} is longer than this: ")
+  names(out) <- c("", "i", "", "i")
+  return(out)
+}
+
+#' Check tidyverse disclosure Settings
+#'
+#' @param df.name A character string specifying the name of the dataframe.
+#' @param tidy_select A tidy selection specification of columns.
+#' @param datasources A list of Opal connection objects obtained after logging into the Opal servers.
+#' @return None. This function is used for its side effects of checking disclosure settings.
+#' @importFrom DSI datashield.aggregate
+#' @noRd
+.check_tidy_disclosure <- function(df.name, tidyselect, check_df = TRUE) {
+  disc_settings <- listDisclosureSettingsDS()
+  if (check_df) {
+    .check_data_name_length(df.name, disc_settings)
+  }
+  .check_function_names(tidyselect)
+  .check_variable_length(tidyselect, disc_settings)
+}
+
+#' Check that the length of the character string provided to `.data` does not exceed the value of
+#' nfilter.string
+#'
+#' @param .data The data object to be analyzed.
+#' @param disclosure list of disclosure settings, length of number of cohorts
+#' @importFrom stringr str_length
+#' @importFrom purrr map_chr
+#' @noRd
+.check_data_name_length <- function(.data, disclosure) {
+  data_length <- str_length(.data)
+  if (data_length > disclosure$nfilter.string) {
+    length_message <- .format_data_length_errors(data_length, disclosure)
+    cli_abort(length_message)
+  }
+}
+
+#' Format errors for `.check_data_name_length`
+#'
+#' @param data_length The length of the argument to `data`.
+#' @param disclosure list of disclosure settings, length of number of cohorts
+#' @return A character vector containing the error message.
+#' @details The function constructs an error message indicating the length of the string passed to
+#' `.data` and the allowed length specified in the `disclosure` argument.
+#' @noRd
+.format_data_length_errors <- function(data_length, disclosure) {
+  out <- c("Error: The length of string passed to `df.name` must be less than nfilter.string.",
+           "The value of nfilter.string is: ",  disclosure$nfilter.string,
+           "The length of `df.name` is: ", data_length)
+  names(out) = c("", "i", "", "i", "")
+  return(out)
 }
