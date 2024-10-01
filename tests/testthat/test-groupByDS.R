@@ -5,44 +5,14 @@ library(dsBase)
 library(dsBaseClient)
 library(DSI)
 
-options(datashield.env = environment())
 data("mtcars")
-mtcars_group <- mtcars %>%
-  group_by(cyl) %>%
-  mutate(drop_test = factor("a", levels = c("a", "b")))
+login_data <- .prepare_dslite("groupByDS", list(mtcars = mtcars))
+conns <- datashield.login(logins = login_data)
+datashield.assign.table(conns, "mtcars", "mtcars")
 
-mtcars_bad_group <- mtcars %>% group_by(qsec)
+mtcars_group <- mtcars %>% group_by(cyl) %>% mutate(drop_test = factor("a", levels = c("a", "b")))
+datashield.assign.table(conns, "mtcars_group", "mtcars_group")
 
-dslite.server <- newDSLiteServer(
-  tables = list(
-    mtcars = mtcars,
-    mtcars_group = mtcars_group,
-    mtcars_bad_group = mtcars_bad_group
-  )
-)
-
-dslite.server$config(defaultDSConfiguration(include = c("dsBase", "dsTidyverse", "dsDanger")))
-dslite.server$assignMethod("groupByDS", "groupByDS")
-dslite.server$assignMethod("ungroupDS", "ungroupDS")
-dslite.server$aggregateMethod("listDisclosureSettingsDS", "listDisclosureSettingsDS")
-
-builder <- DSI::newDSLoginBuilder()
-
-builder$append(
-  server = "server_1",
-  url = "dslite.server",
-  table = "mtcars",
-  driver = "DSLiteDriver"
-)
-
-logindata <- builder$build()
-conns <- DSI::datashield.login(logins = logindata, assign = TRUE)
-
-datashield.assign.table(
-  conns = conns,
-  table = "mtcars_group",
-  symbol = "mtcars_group"
-)
 
 test_that("groupByDS correctly groups data where data and columns exist", {
   good_group_expr <- "cyl"
@@ -123,7 +93,7 @@ test_that("groupByDS passes when called directly", {
   datashield.assign(conns, "test_group", call_direct)
 
   expect_equal(
-    ds.class("test_group")[[1]],
+    ds.class("test_group", datasources = conns)[[1]],
     c("grouped_df", "tbl_df", "tbl", "data.frame")
   )
 })
@@ -161,12 +131,18 @@ test_that("ungroupDS fails when data doesn't exist", {
   )
 })
 
+data("mtcars")
+mtcars_group <- mtcars %>% group_by(cyl) %>% mutate(drop_test = factor("a", levels = c("a", "b")))
+login_data <- .prepare_dslite("ungroupDS", list(mtcars_group = mtcars_group))
+conns <- datashield.login(logins = login_data)
+datashield.assign.table(conns, "mtcars_group", "mtcars_group")
+
 test_that("ungroupDS works correctly when called directly", {
   ungroup_call <- call("ungroupDS", "mtcars_group")
   datashield.assign(conns, "ungrouped_data", ungroup_call)
 
   expect_equal(
-    ds.class("ungrouped_data")[[1]],
+    ds.class("ungrouped_data", datasources = conns)[[1]],
     c("tbl_df", "tbl", "data.frame")
   )
 })

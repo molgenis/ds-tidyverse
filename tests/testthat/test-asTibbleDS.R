@@ -5,53 +5,21 @@ library(dsBase)
 library(dsBaseClient)
 library(DSI)
 
-options(datashield.env = environment())
 data("mtcars")
 mtcars_dup_names <- cbind(mtcars, tibble(cyl = 2))
-
 test_matrix <- matrix(data = 1:20, ncol = 4)
 
-dslite.server <- newDSLiteServer(
+login_data <- .prepare_dslite(
+  assign_method = "asTibbleDS",
   tables = list(
     mtcars = mtcars,
     mtcars_dup_names = mtcars_dup_names,
-    test_matrix = test_matrix
-  )
-)
+    test_matrix = test_matrix))
 
-dslite.server$config(defaultDSConfiguration(include = c("dsBase", "dsTidyverse", "dsDanger")))
-dslite.server$assignMethod("asTibbleDS", "asTibbleDS")
-dslite.server$aggregateMethod("listDisclosureSettingsDS", "listDisclosureSettingsDS")
-
-builder <- DSI::newDSLoginBuilder()
-
-builder$append(
-  server = "server_1",
-  url = "dslite.server",
-  table = "mtcars",
-  driver = "DSLiteDriver"
-)
-
-logindata <- builder$build()
-conns <- DSI::datashield.login(logins = logindata, assign = FALSE)
-
-datashield.assign.table(
-  conns = conns,
-  table = "mtcars",
-  symbol = "mtcars"
-)
-
-datashield.assign.table(
-  conns = conns,
-  table = "mtcars_dup_names",
-  symbol = "mtcars_dup_names"
-)
-
-datashield.assign.table(
-  conns = conns,
-  table = "test_matrix",
-  symbol = "test_matrix"
-)
+conns <- datashield.login(logins = login_data)
+datashield.assign.table(conns, "mtcars", "mtcars")
+datashield.assign.table(conns, "mtcars_dup_names", "mtcars_dup_names")
+datashield.assign.table(conns, "test_matrix", "test_matrix")
 
 tibble_class <- c("tbl_df", "tbl", "data.frame")
 
@@ -220,12 +188,12 @@ test_that("asTibbleDS passes when called directly", {
   datashield.assign(conns, "new_tibble", cally)
 
   expect_equal(
-    ds.class("new_tibble")[[1]],
+    ds.class("new_tibble", datasources = conns)[[1]],
     tibble_class
     )
 
   expect_equal(
-    ds.colnames("new_tibble")[[1]],
+    ds.colnames("new_tibble", datasources = conns)[[1]],
     c(
       "mpg", "cyl", "disp", "hp", "drat",
       "wt", "qsec", "vs", "am", "gear", "carb"
@@ -233,7 +201,7 @@ test_that("asTibbleDS passes when called directly", {
   )
 
   expect_equal(
-    ds.dim("new_tibble")[[1]],
+    ds.dim("new_tibble", datasources = conns)[[1]],
     c(32, 11)
   )
 })
