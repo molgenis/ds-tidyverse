@@ -10,7 +10,7 @@ mtcars_group <- mtcars %>% group_by(cyl) %>% mutate(drop_test = factor("a", leve
 mtcars_bad_group <- mtcars %>% group_by(qsec)
 
 login_data <- .prepare_dslite(
-  "groupKeysDS",
+  NULL, "groupKeysDS",
   list(mtcars = mtcars, mtcars_group = mtcars_group, mtcars_bad_group = mtcars_bad_group))
 conns <- datashield.login(logins = login_data)
 

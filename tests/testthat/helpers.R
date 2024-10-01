@@ -21,7 +21,6 @@
 #' @importFrom DSI newDSLoginBuilder
 #' @export
 .prepare_dslite <- function(assign_method = NULL, aggregate_method = NULL, tables = NULL) {
-
   options(datashield.env = environment())
   dslite.server <- DSLite::newDSLiteServer(tables = tables)
   dslite.server$config(defaultDSConfiguration(include = c("dsBase", "dsTidyverse")))

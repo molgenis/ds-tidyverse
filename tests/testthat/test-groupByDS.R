@@ -6,13 +6,11 @@ library(dsBaseClient)
 library(DSI)
 
 data("mtcars")
-login_data <- .prepare_dslite("groupByDS", list(mtcars = mtcars))
+mtcars_group <- mtcars %>% group_by(cyl) %>% mutate(drop_test = factor("a", levels = c("a", "b")))
+login_data <- .prepare_dslite("groupByDS", NULL, list(mtcars = mtcars, mtcars_group = mtcars_group))
 conns <- datashield.login(logins = login_data)
 datashield.assign.table(conns, "mtcars", "mtcars")
-
-mtcars_group <- mtcars %>% group_by(cyl) %>% mutate(drop_test = factor("a", levels = c("a", "b")))
 datashield.assign.table(conns, "mtcars_group", "mtcars_group")
-
 
 test_that("groupByDS correctly groups data where data and columns exist", {
   good_group_expr <- "cyl"
@@ -133,9 +131,12 @@ test_that("ungroupDS fails when data doesn't exist", {
 
 data("mtcars")
 mtcars_group <- mtcars %>% group_by(cyl) %>% mutate(drop_test = factor("a", levels = c("a", "b")))
-login_data <- .prepare_dslite("ungroupDS", list(mtcars_group = mtcars_group))
+login_data <- .prepare_dslite("ungroupDS", NULL, list(mtcars_group = mtcars_group))
 conns <- datashield.login(logins = login_data)
 datashield.assign.table(conns, "mtcars_group", "mtcars_group")
+
+print(datashield.tables(conns))
+print(ds.ls(datasources = conns))
 
 test_that("ungroupDS works correctly when called directly", {
   ungroup_call <- call("ungroupDS", "mtcars_group")

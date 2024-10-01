@@ -5,7 +5,7 @@ library(dsBase)
 library(dsBaseClient)
 
 data("mtcars")
-login_data <- .prepare_dslite("caseWhenDS", list(mtcars = mtcars))
+login_data <- .prepare_dslite("caseWhenDS", NULL, list(mtcars = mtcars))
 conns <- datashield.login(login_data)
 datashield.assign.table(conns, "mtcars", "mtcars")
 

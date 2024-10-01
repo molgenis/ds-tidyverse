@@ -6,7 +6,7 @@ library(dsBaseClient)
 library(purrr)
 
 data("mtcars")
-login_data <- .prepare_dslite("bindRowsDS", list(mtcars = mtcars))
+login_data <- .prepare_dslite("bindRowsDS", NULL, list(mtcars = mtcars))
 conns <- datashield.login(login_data)
 datashield.assign.table(conns, "mtcars", "mtcars")
 

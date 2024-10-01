@@ -7,7 +7,7 @@ library(DSI)
 
 data("mtcars")
 mtcars_group <- mtcars %>% group_by(cyl)
-login_data <- .prepare_dslite("arrangeDS", list(mtcars = mtcars, mtcars_group = mtcars_group))
+login_data <- .prepare_dslite("arrangeDS", NULL, list(mtcars = mtcars, mtcars_group = mtcars_group))
 conns <- datashield.login(logins = login_data)
 datashield.assign.table(conns, "mtcars", "mtcars")
 datashield.assign.table(conns, "mtcars_group", "mtcars_group")
