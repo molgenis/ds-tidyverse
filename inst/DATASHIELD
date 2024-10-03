@@ -11,7 +11,7 @@ AssignMethods:
     arrangeDS,
     groupByDS,
     ungroupDS,
-    distinctDS
+    distinctDS,
+    asTibbleDS
 AggregateMethods:
     groupKeysDS
-
