@@ -6,7 +6,7 @@ library(dsBaseClient)
 
 data("mtcars")
 mtcars_group <- mtcars %>% group_by(cyl)
-login_data <- .prepare_dslite("sliceDS", list(mtcars = mtcars))
+login_data <- .prepare_dslite("sliceDS", NULL, list(mtcars = mtcars))
 conns <- datashield.login(logins = login_data)
 datashield.assign.table(conns, "mtcars", "mtcars")
 
