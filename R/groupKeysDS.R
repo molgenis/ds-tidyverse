@@ -1,8 +1,9 @@
 #' @title Performs dplyr \code{group_keys}.
+#' @param tidy_select Unused in this function.
 #' @param x a grouped tibble.
 #' @return A tibble describing the groups is returned to the client.
 #' @export
-groupKeysDS <- function(x) {
+groupKeysDS <- function(tidy_select, x) {
   call <- .make_tidyverse_call(x, "group_keys", tidy_select = NULL, other_args = NULL)
   out <- .execute_with_error_handling("group_keys", call)
   .check_group_keys_disclosure_risk(eval(parse(text = x), envir = parent.frame()), out)
