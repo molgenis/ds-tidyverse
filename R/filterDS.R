@@ -13,6 +13,7 @@
 #' @export
 filterDS <- function(expr, .data, .by, .preserve) {
   tidy_select <- .decode_tidy_eval(expr, .get_encode_dictionary())
+  .check_tidy_disclosure(.data, tidy_select)
   other_args <- .paste_character_args(.by, .preserve)
   call <- .make_tidyverse_call(.data, "filter", tidy_select, other_args)
   out <- .execute_with_error_handling("filter", call)

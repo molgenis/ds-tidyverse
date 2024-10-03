@@ -10,6 +10,7 @@
 #'
 selectDS <- function(expr, .data) {
   tidy_select <- .decode_tidy_eval(expr, .get_encode_dictionary())
+  .check_tidy_disclosure(.data, tidy_select)
   call <- .make_tidyverse_call(.data, "select", tidy_select)
   out <- .execute_with_error_handling("select", call)
   return(out)

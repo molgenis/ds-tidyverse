@@ -158,6 +158,26 @@ listDisclosureSettingsDS <- function() {
   ))
 }
 
+#' List of Permitted Tidyverse Functions
+#'
+#' This function returns a vector of function names that are permitted to be passed within the
+#' dsTidyverse functions, e.g. within the `tidy_select` argument of `ds.mutate.`
+#'
+#' @return A character vector of function names, each representing a permitted function. Functions
+#' not included in this list will be blocked.
+#' @export
+listPermittedTidyverseFunctionsDS <- function() {
+  return(
+    c(
+      "everything", "last_col", "group_cols", "starts_with", "ends_with", "contains",
+      "matches", "num_range", "all_of", "any_of", "where", "c", "rename", "mutate", "if_else",
+      "case_when", "mean", "median", "mode", "desc", "last_col", "nth", "where", "num_range",
+      "exp", "sqrt", "scale", "round", "floor", "ceiling", "trunc", "abs", "sign", "sd", "var",
+      "sin", "cos", "tan", "asin", "acos", "atan", "cumsum", "cumprod", "cummin", "cummax",
+      "rank", "diff", "lag")
+  )
+}
+
 #' Check Subset Disclosure Risk
 #'
 #' This function checks the disclosure risk when applying creating a subset of a dataset.
@@ -266,6 +286,132 @@ listDisclosureSettingsDS <- function() {
   )
 }
 
+#' Check if the functions used in tidy evaluation are permitted.
+#'
+#' @param args_as_string The string representation of the arguments.
+#' @importFrom cli cli_abort
+#' @importFrom stringr str_extract_all
+#' @details To avoid users attempting to maliciously pass functions to the servervia the tidy_select
+#' argument, a regex is used to first extract all functions from the string by identifying any characters
+#' with the format 'name('. These are then checked against permitted arguments, which are selection
+#' helpers described in the ?select documentation.#'
+#' @noRd
+.check_function_names <- function(args_as_string) {
+  permitted_tidy_select <- listPermittedTidyverseFunctionsDS()
+  function_names <- str_extract_all(args_as_string, "\\w+(?=\\()", simplify = T)
+  any_banned_functions <- function_names[!function_names %in% permitted_tidy_select]
+  if (length(any_banned_functions) > 0) {
+    message <- c(
+      "Values passed to `expr` may only contain permitted functions.",
+      "Permitted functions are {permitted_tidy_select}.",
+      "`{any_banned_functions}` {?is/are} not {?a/} permitted function{?s}.")
+    names(message) <- c("", "i", "i")
+    cli_abort(message,call = NULL)
+  }
+}
+
+#' Check if the length of variable names in tidy evaluation exceeds a nfilter.string threshold.
+#'
+#' @param args_as_string The string representation of the arguments.
+#' @param disclosure list of disclosure settings, length of number of cohorts
+#' @importFrom cli cli_abort
+#' @importFrom stringr str_extract_all
+#' @importFrom purrr map map_int map_lgl
+#' @details To check users are not passing variable names which are too long, first a regex extracts
+#' variable names from the list passed to `tidy_select`. It then checks the lengths of these against
+#' the value passed to nfilter.string.#'
+#' @noRd
+.check_variable_length <- function(args_as_string, disclosure) {
+  variable_names <- unlist(str_extract_all(args_as_string, "\\b\\w+\\b(?!\\()", simplify = F))
+  variable_lengths <- variable_names |> map_int(str_length)
+  over_filter_thresh <- .check_exceeds_threshold(variable_names, variable_lengths, disclosure$nfilter.string)
+  if (length(over_filter_thresh) > 0) {
+    disclosure_message <- .format_disclosure_errors(disclosure)
+    cli_abort(disclosure_message, call = NULL)
+  }
+}
+
+#' Check Which Variables Exceed a Threshold
+#'
+#' This function checks if the lengths of the given variables exceed a specified threshold.
+#' It returns the names of the variables whose lengths are greater than the threshold.
+#'
+#' @param variable_names A character vector containing the names of the variables.
+#' @param variable_lengths A numeric vector containing the lengths of the variables, in the same order as `variable_names`.
+#' @param threshold A numeric value specifying the threshold that each variable length is compared against.
+#' @importFrom purrr map_lgl
+#' @return A character vector of variable names where the corresponding lengths exceed the threshold.
+#' @noRd
+.check_exceeds_threshold <- function(variable_names, variable_lengths, threshold) {
+  return(
+    variable_names[variable_lengths |> map_lgl(~ .x > threshold)]
+  )
+}
+
+#' Format Errors
+#'
+#' Format errors into a character vector with specified prefix.
+#'
+#' This function formats a list of errors into a character vector with each
+#' error message prefixed by a cross.
+#'
+#' @param errors A list of errors to be formatted.
+#' @param disclosure list of disclosure settings, length of number of cohorts
+#' @return A character vector containing formatted error messages.
+#' @noRd
+.format_disclosure_errors <- function(disclosure) {
+  out <- c("Error: The maximum length of columns specified in `tidy_select` must be shorter than
+           nfilter.string. ", "The values of nfilter.string are: ", disclosure$nfilter.string,
+           "{over_filter_thresh} {?is/are} longer than this: ")
+  names(out) <- c("", "i", "", "i")
+  return(out)
+}
+
+#' Check tidyverse disclosure Settings
+#'
+#' @param df.name A character string specifying the name of the dataframe.
+#' @param tidy_select A tidy selection specification of columns.
+#' @return None. This function is used for its side effects of checking disclosure settings.
+#' @noRd
+.check_tidy_disclosure <- function(df.name, tidyselect, check_df = TRUE) {
+  disc_settings <- listDisclosureSettingsDS()
+  if (check_df) {
+    .check_data_name_length(df.name, disc_settings)
+  }
+  .check_function_names(tidyselect)
+  .check_variable_length(tidyselect, disc_settings)
+}
+
+#' Check that the length of the character string provided to `.data` does not exceed the value of
+#' nfilter.string
+#'
+#' @param .data The data object to be analyzed.
+#' @param disclosure list of disclosure settings, length of number of cohorts
+#' @importFrom stringr str_length
+#' @noRd
+.check_data_name_length <- function(.data, disclosure) {
+  data_length <- str_length(.data)
+  if (data_length > disclosure$nfilter.string) {
+    length_message <- .format_data_length_errors(data_length, disclosure)
+    cli_abort(length_message)
+  }
+}
+
+#' Format errors for `.check_data_name_length`
+#'
+#' @param data_length The length of the argument to `data`.
+#' @param disclosure list of disclosure settings, length of number of cohorts
+#' @return A character vector containing the error message.
+#' @details The function constructs an error message indicating the length of the string passed to
+#' `.data` and the allowed length specified in the `disclosure` argument.
+#' @noRd
+.format_data_length_errors <- function(data_length, disclosure) {
+  out <- c("Error: The length of string passed to `df.name` must be less than nfilter.string.",
+           "The value of nfilter.string is: ",  disclosure$nfilter.string,
+           "The length of `df.name` is: ", data_length)
+  names(out) = c("", "i", "", "i", "")
+  return(out)
+}
 
 #' Check Filter Disclosure Risk
 #'
@@ -284,82 +430,4 @@ listDisclosureSettingsDS <- function() {
   dims <- .get_dimensions(original, out)
   .check_subset_size(dims$subset, nfilter.subset)
   .check_rows_compared_with_original(dims$original, dims$subset, nfilter.subset)
-}
-
-#' Get `nfilter.subset` Value
-#'
-#' This function retrieves the value of `nfilter.subset` from the disclosure
-#' settings.
-#'
-#' @keywords internal
-#' @return The value of `nfilter.subset` from the disclosure settings.
-#' @noRd
-.get_nfilter_subset_value <- function() {
-  return(
-    listDisclosureSettingsDS()$nfilter.subset
-  )
-}
-
-#' Get Dimensions of Original and Subset Data
-#'
-#' This function calculates the number of rows in the original and subsetted datasets.
-#'
-#' @param .data A string representing the name of the original dataset.
-#' @param out The filtered dataset object.
-#' @keywords internal
-#' @return A list containing the number of rows in the original and subsetted datasets.
-#' @noRd
-.get_dimensions <- function(original, out) {
-  return(
-    list(
-      original = dim(original)[[1]],
-      subset = dim(out)[[1]]
-    )
-  )
-}
-
-#' Check Subset Size
-#'
-#' This function checks if the number of rows in the subsetted data is below the
-#' threshold defined by `nfilter.subset`. If it is, the function throws an error.
-#'
-#' @param subset_rows The number of rows in the subsetted data.
-#' @param nfilter.subset The minimum allowed size for a subset as defined in the
-#' disclosure settings.
-#' @keywords internal
-#' @return None. The function will throw an error if the subset size is too small.
-#' @noRd
-.check_subset_size <- function(subset_rows, nfilter.subset) {
-  if(subset_rows < nfilter.subset){
-    cli_abort(
-      "Subset to be created is too small (< nfilter.subset)",
-      call = NULL
-    )
-  }
-}
-
-#' Check Rows Compared with Original
-#'
-#' This function checks the difference in the number of rows between the original
-#' and subsetted data. If the difference is smaller than `nfilter.subset` but
-#' greater than zero, it raises an error, indicating a potential disclosure risk.
-#'
-#' @param original_rows The number of rows in the original dataset.
-#' @param subset_rows The number of rows in the subsetted dataset.
-#' @param nfilter.subset The minimum allowed difference between the original and
-#' subsetted data, as defined in the disclosure settings.
-#' @keywords internal
-#' @return None. The function will throw an error if a potential disclosure risk
-#' is detected.
-#' @noRd
-.check_rows_compared_with_original <- function(original_rows, subset_rows, nfilter.subset) {
-  diff <- original_rows - subset_rows
-  if((diff < nfilter.subset) & (diff > 0)) {
-    cli_abort(
-      "The difference in row length between the original dataframe and the new dataframe is {diff},
-      which is lower than the value of nfilter.subset ({nfilter.subset}). This could indicate a potential subsetting
-      attack which will be recorded in the serverside logs. Please review the filter expression.",
-      call = NULL
-    )
-  }
 }
