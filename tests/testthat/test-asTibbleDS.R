@@ -216,7 +216,7 @@ test_that("asTibbleDS works with the rownames argument", {
 })
 
 test_that("asTibbleDS passes when called directly", {
-  cally <- call("asTibbleDS", "mtcars", NULL, "minimal", NULL)
+  cally <- call("asTibbleDS", NULL, "mtcars", NULL, "minimal", NULL)
   datashield.assign(conns, "new_tibble", cally)
 
   expect_equal(
