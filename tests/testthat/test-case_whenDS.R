@@ -4,21 +4,10 @@ library(dsTidyverse)
 library(dsBase)
 library(dsBaseClient)
 
-options(datashield.env = environment())
 data("mtcars")
-mtcars <- mtcars %>% mutate(cat_var = factor(ifelse(mpg > 20, "high", "low")))
-dslite.server <- DSLite::newDSLiteServer(tables = list(mtcars = mtcars))
-data("logindata.dslite.cnsim")
-logindata.dslite.cnsim <- logindata.dslite.cnsim %>%
-  mutate(table = "mtcars")
-dslite.server$config(defaultDSConfiguration(include = c("dsBase", "dsTidyverse")))
-dslite.server$assignMethod("caseWhenDS", "dsTidyverse::caseWhenDS")
-dslite.server$aggregateMethod("exists", "base::exists")
-dslite.server$aggregateMethod("classDS", "dsBase::classDS")
-dslite.server$aggregateMethod("lsDS", "dsBase::lsDS")
-dslite.server$aggregateMethod("dsListDisclosureSettingsTidyVerse", "dsTidyverse::dsListDisclosureSettingsTidyVerse")
-conns <- datashield.login(logins = logindata.dslite.cnsim, assign = TRUE)
-
+login_data <- .prepare_dslite("caseWhenDS", NULL, list(mtcars = mtcars))
+conns <- datashield.login(login_data)
+datashield.assign.table(conns, "mtcars", "mtcars")
 
 test_that("caseWhenDS passes and numeric condition and categorical output", {
   case_when_arg <-
@@ -112,12 +101,12 @@ test_that("caseWhenDS passes when called directly", {
   datashield.assign(conns, "test", cally)
 
   expect_equal(
-    ds.class("test")[[1]],
+    ds.class("test", datasources = conns)[[1]],
     "character"
   )
 
   expect_equal(
-    as.numeric(ds.table("test")$output.list$TABLES.COMBINED_all.sources_counts),
+    as.numeric(ds.table("test", datasources = conns)$output.list$TABLES.COMBINED_all.sources_counts),
     c(12, 54, 30, 0)
   )
 })

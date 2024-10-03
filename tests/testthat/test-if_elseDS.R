@@ -4,20 +4,11 @@ library(dsTidyverse)
 library(dsBase)
 library(dsBaseClient)
 
-options(datashield.env = environment())
 data("mtcars")
-mtcars <- mtcars %>% mutate(cat_var = factor(ifelse(mpg > 20, "high", "low")))
-dslite.server <- DSLite::newDSLiteServer(tables = list(mtcars = mtcars))
-data("logindata.dslite.cnsim")
-logindata.dslite.cnsim <- logindata.dslite.cnsim %>%
-  mutate(table = "mtcars")
-dslite.server$config(defaultDSConfiguration(include = c("dsBase", "dsTidyverse")))
-dslite.server$assignMethod("ifElseDS", "dsTidyverse::ifElseDS")
-dslite.server$aggregateMethod("exists", "base::exists")
-dslite.server$aggregateMethod("classDS", "dsBase::classDS")
-dslite.server$aggregateMethod("lsDS", "dsBase::lsDS")
-dslite.server$aggregateMethod("dsListDisclosureSettingsTidyVerse", "dsTidyverse::dsListDisclosureSettingsTidyVerse")
-conns <- datashield.login(logins = logindata.dslite.cnsim, assign = TRUE)
+mtcars_group <- mtcars %>% group_by(cyl)
+login_data <- .prepare_dslite("ifElseDS", NULL, list(mtcars = mtcars))
+conns <- datashield.login(logins = login_data)
+datashield.assign.table(conns, "mtcars", "mtcars")
 
 if_else_num_arg <- "mtcars$mpg > 20"
 
@@ -84,12 +75,12 @@ test_that("ifElseDS passes when called directly", {
   datashield.assign(conns, "test", cally)
 
   expect_equal(
-    ds.class("test")[[1]],
+    ds.class("test", datasources = conns)[[1]],
     "character"
   )
 
   expect_equal(
-    as.numeric(ds.table("test")$output.list$TABLES.COMBINED_all.sources_counts),
+    as.numeric(ds.table("test", datasources = conns)$output.list$TABLES.COMBINED_all.sources_counts),
     c(42, 54, 0)
   )
 })

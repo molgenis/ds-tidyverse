@@ -5,20 +5,10 @@ library(dsBase)
 library(dsBaseClient)
 library(purrr)
 
-options(datashield.env = environment())
 data("mtcars")
-dslite.server <- DSLite::newDSLiteServer(tables = list(mtcars = mtcars))
-data("logindata.dslite.cnsim")
-logindata.dslite.cnsim <- logindata.dslite.cnsim %>%
-  mutate(table = "mtcars")
-dslite.server$config(defaultDSConfiguration(include = c("dsBase", "dsTidyverse")))
-dslite.server$assignMethod("bindRowsDS", "dsTidyverse::bindRowsDS")
-dslite.server$aggregateMethod("exists", "base::exists")
-dslite.server$aggregateMethod("classDS", "dsBase::classDS")
-dslite.server$aggregateMethod("lsDS", "dsBase::lsDS")
-dslite.server$aggregateMethod("dsListDisclosureSettingsTidyVerse", "dsTidyverse::dsListDisclosureSettingsTidyVerse")
-conns <- datashield.login(logins = logindata.dslite.cnsim, assign = TRUE)
-
+login_data <- .prepare_dslite("bindRowsDS", NULL, list(mtcars = mtcars))
+conns <- datashield.login(login_data)
+datashield.assign.table(conns, "mtcars", "mtcars")
 
 test_that("bindRowsDS passes", {
   bind_rows_arg <- "mtcars, mtcars"
@@ -65,17 +55,17 @@ test_that("bindRowsDS passes when called directly", {
 
 
   expect_equal(
-    ds.class("test")[[1]],
+    ds.class("test", datasources = conns)[[1]],
     "data.frame"
   )
 
   expect_equal(
-    ds.colnames("test")[[1]],
+    ds.colnames("test", datasources = conns)[[1]],
     c("mpg", "cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", "gear", "carb")
   )
 
   expect_equal(
-    ds.dim("test")[[1]],
+    ds.dim("test", datasources = conns)[[1]],
     c(64, 11)
   )
 })

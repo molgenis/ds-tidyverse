@@ -4,19 +4,11 @@ library(dsTidyverse)
 library(dsBase)
 library(dsBaseClient)
 
-options(datashield.env = environment())
 data("mtcars")
-dslite.server <- DSLite::newDSLiteServer(tables = list(mtcars = mtcars))
-data("logindata.dslite.cnsim")
-logindata.dslite.cnsim <- logindata.dslite.cnsim %>%
-  mutate(table = "mtcars")
-dslite.server$config(defaultDSConfiguration(include = c("dsBase", "dsTidyverse", "dsDanger")))
-dslite.server$assignMethod("mutateDS", "dsTidyverse::mutateDS")
-dslite.server$aggregateMethod("exists", "base::exists")
-dslite.server$aggregateMethod("classDS", "dsBase::classDS")
-dslite.server$aggregateMethod("lsDS", "dsBase::lsDS")
-dslite.server$aggregateMethod("dsListDisclosureSettingsTidyVerse", "dsTidyverse::dsListDisclosureSettingsTidyVerse")
-conns <- datashield.login(logins = logindata.dslite.cnsim, assign = TRUE)
+mtcars_group <- mtcars %>% group_by(cyl)
+login_data <- .prepare_dslite("mutateDS", NULL, list(mtcars = mtcars))
+conns <- datashield.login(logins = login_data)
+datashield.assign.table(conns, "mtcars", "mtcars")
 
 good_mutate_arg <- "mpg_trans = cyl*1000, new_var = (hp-drat)/qsec"
 # good_mutate_arg_enc <- .encode_tidy_eval(good_mutate_arg, .get_encode_dictionary())
@@ -75,22 +67,22 @@ test_that("mutateDS passes when called directly", {
   datashield.assign(conns, "test", cally)
 
   expect_equal(
-    ds.class("test")[[1]],
+    ds.class("test", datasources = conns)[[1]],
     "data.frame"
   )
 
   expect_equal(
-    ds.colnames("test")[[1]],
+    ds.colnames("test", datasources = conns)[[1]],
     c("mpg", "cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", "gear", "carb", "new_var", "new_var2")
   )
 
   expect_equal(
-    ds.mean("test$new_var")$Mean.by.Study[1, 1],
+    ds.mean("test$new_var", datasources = conns)$Mean.by.Study[1, 1],
     20090.625
   )
 
   expect_equal(
-    round(ds.mean("test$new_var2")$Mean.by.Study[1, 1], 2),
+    round(ds.mean("test$new_var2", datasources = conns)$Mean.by.Study[1, 1], 2),
     143.09
   )
 })

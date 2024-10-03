@@ -5,49 +5,18 @@ library(dsBase)
 library(dsBaseClient)
 library(DSI)
 
-options(datashield.env = environment())
 data("mtcars")
-mtcars_group <- mtcars %>%
-  group_by(cyl) %>%
-  mutate(drop_test = factor("a", levels = c("a", "b")))
-
+mtcars_group <- mtcars %>% group_by(cyl) %>% mutate(drop_test = factor("a", levels = c("a", "b")))
 mtcars_bad_group <- mtcars %>% group_by(qsec)
 
-dslite.server <- newDSLiteServer(
-  tables = list(
-    mtcars = mtcars,
-    mtcars_group = mtcars_group,
-    mtcars_bad_group = mtcars_bad_group
-  )
-)
+login_data <- .prepare_dslite(
+  NULL, "groupKeysDS",
+  list(mtcars = mtcars, mtcars_group = mtcars_group, mtcars_bad_group = mtcars_bad_group))
+conns <- datashield.login(logins = login_data)
 
-dslite.server$config(defaultDSConfiguration(include = c("dsBase", "dsTidyverse", "dsDanger")))
-dslite.server$aggregateMethod("groupKeysDS", "groupKeysDS")
-dslite.server$aggregateMethod("listDisclosureSettingsDS", "listDisclosureSettingsDS")
-
-builder <- DSI::newDSLoginBuilder()
-
-builder$append(
-  server = "server_1",
-  url = "dslite.server",
-  table = "mtcars",
-  driver = "DSLiteDriver"
-)
-
-logindata <- builder$build()
-conns <- DSI::datashield.login(logins = logindata, assign = TRUE)
-
-datashield.assign.table(
-  conns = conns,
-  table = "mtcars_group",
-  symbol = "mtcars_group"
-)
-
-datashield.assign.table(
-  conns = conns,
-  table = "mtcars_bad_group",
-  symbol = "mtcars_bad_group"
-)
+datashield.assign.table(conns, "mtcars", "mtcars")
+datashield.assign.table(conns, "mtcars_group", "mtcars_group")
+datashield.assign.table(conns, "mtcars_bad_group", "mtcars_bad_group")
 
 test_that("groupKeysDS correctly returns keys when no disclosure risk", {
   good_keys_call <- .make_tidyverse_call("mtcars_group", "group_keys", tidy_select = NULL, other_args = NULL)
