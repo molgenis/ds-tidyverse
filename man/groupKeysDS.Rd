@@ -4,9 +4,11 @@
 \alias{groupKeysDS}
 \title{Performs dplyr \code{group_keys}.}
 \usage{
-groupKeysDS(x)
+groupKeysDS(tidy_select, x)
 }
 \arguments{
+\item{tidy_select}{Unused in this function.}
+
 \item{x}{a grouped tibble.}
 }
 \value{

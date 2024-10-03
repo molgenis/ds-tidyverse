@@ -5,9 +5,11 @@
 \title{Coerce a data frame or matrix to a tibble. Currently not implemented for lists or other
 object types.}
 \usage{
-asTibbleDS(x, .rows, .name_repair, rownames)
+asTibbleDS(tidy_select, x, .rows, .name_repair, rownames)
 }
 \arguments{
+\item{tidy_select}{Unused in present function.}
+
 \item{x}{A data frame or matrix.}
 
 \item{.rows}{The number of rows, useful to create a 0-column tibble or just as an additional

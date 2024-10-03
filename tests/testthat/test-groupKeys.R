@@ -36,7 +36,7 @@ test_that("groupKeysDS fails when data doesn't exist", {
 })
 
 test_that("groupKeys passes when called directly and no disclosure risk", {
-  call_direct <- call("groupKeysDS", "mtcars_group")
+  call_direct <- call("groupKeysDS", NULL, "mtcars_group")
   groups_returned <- datashield.aggregate(conns, call_direct)
 
   expect_equal(
