@@ -27,7 +27,7 @@ groupByDS <- function(expr, .data, .add, .drop) {
 #' @return the object specified by the \code{newobj} argument of \code{ds.ungroup} which is written
 #' to the serverside.
 #' @export
-ungroupDS <- function(x) {
+ungroupDS <- function(tidy_select, x) {
   .check_data_name_length(x, listDisclosureSettingsDS())
   call <- .make_tidyverse_call(x, "ungroup", tidy_select = NULL, other_args = NULL)
   out <- .execute_with_error_handling("ungroup", call)

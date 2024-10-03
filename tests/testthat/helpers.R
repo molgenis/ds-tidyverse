@@ -34,7 +34,7 @@
   }
 
   if (!is.null(aggregate_method)) {
-    dslite.server$aggregateMethod(assign_method, paste0("dsTidyverse::", assign_method))
+    dslite.server$aggregateMethod(aggregate_method, paste0("dsTidyverse::", aggregate_method))
   }
 
   builder <- DSI::newDSLoginBuilder()
