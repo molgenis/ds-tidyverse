@@ -341,7 +341,7 @@ listPermittedTidyverseFunctionsDS <- function() {
 #' @param threshold A numeric value specifying the threshold that each variable length is compared against.
 #' @importFrom purrr map_lgl
 #' @return A character vector of variable names where the corresponding lengths exceed the threshold.
-#' @export
+#' @noRd
 .check_exceeds_threshold <- function(variable_names, variable_lengths, threshold) {
   return(
     variable_names[variable_lengths |> map_lgl(~ .x > threshold)]
