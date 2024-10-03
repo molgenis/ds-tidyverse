@@ -411,6 +411,7 @@ listPermittedTidyverseFunctionsDS <- function() {
            "The length of `df.name` is: ", data_length)
   names(out) = c("", "i", "", "i", "")
   return(out)
+}
 
 #' Check Filter Disclosure Risk
 #'
