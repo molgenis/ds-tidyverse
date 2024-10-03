@@ -1,4 +1,5 @@
 #' @title Performs dplyr \code{group_keys}.
+#' @param tidy_select Unused in this function.
 #' @param x a grouped tibble.
 #' @return A tibble describing the groups is returned to the client.
 #' @export

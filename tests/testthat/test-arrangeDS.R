@@ -5,45 +5,12 @@ library(dsBase)
 library(dsBaseClient)
 library(DSI)
 
-options(datashield.env = environment())
 data("mtcars")
-mtcars_group <- mtcars %>%
-  group_by(cyl)
-
-dslite.server <- newDSLiteServer(
-  tables = list(
-    mtcars = mtcars,
-    mtcars_group = mtcars_group
-  )
-)
-
-dslite.server$config(defaultDSConfiguration(include = c("dsBase", "dsTidyverse", "dsDanger")))
-dslite.server$assignMethod("arrangeDS", "arrangeDS")
-dslite.server$aggregateMethod("listDisclosureSettingsDS", "listDisclosureSettingsDS")
-
-builder <- DSI::newDSLoginBuilder()
-
-builder$append(
-  server = "server_1",
-  url = "dslite.server",
-  table = "mtcars",
-  driver = "DSLiteDriver"
-)
-
-logindata <- builder$build()
-conns <- DSI::datashield.login(logins = logindata, assign = FALSE)
-
-datashield.assign.table(
-  conns = conns,
-  table = "mtcars",
-  symbol = "mtcars"
-)
-
-datashield.assign.table(
-  conns = conns,
-  table = "mtcars_group",
-  symbol = "mtcars_group"
-)
+mtcars_group <- mtcars %>% group_by(cyl)
+login_data <- .prepare_dslite("arrangeDS", NULL, list(mtcars = mtcars, mtcars_group = mtcars_group))
+conns <- datashield.login(logins = login_data)
+datashield.assign.table(conns, "mtcars", "mtcars")
+datashield.assign.table(conns, "mtcars_group", "mtcars_group")
 
 good_arrange_arg <- "mpg, cyl"
 
@@ -137,12 +104,12 @@ test_that("arrangeDS passes when called directly", {
   datashield.assign(conns, "sorted_df", cally)
 
   expect_equal(
-    ds.class("sorted_df")[[1]],
+    ds.class("sorted_df", datasources = conns)[[1]],
     "data.frame"
     )
 
   expect_equal(
-    ds.dim("sorted_df")[[1]],
+    ds.dim("sorted_df", datasources = conns)[[1]],
     c(32, 11)
   )
 })
@@ -152,12 +119,12 @@ test_that("arrangeDS works with desc option when called directly", {
   datashield.assign(conns, "sorted_df", cally)
 
   expect_equal(
-    ds.class("sorted_df")[[1]],
+    ds.class("sorted_df", datasources = conns)[[1]],
     "data.frame"
   )
 
   expect_equal(
-    ds.dim("sorted_df")[[1]],
+    ds.dim("sorted_df", datasources = conns)[[1]],
     c(32, 11)
   )
 })

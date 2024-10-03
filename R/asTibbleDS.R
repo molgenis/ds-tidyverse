@@ -1,6 +1,7 @@
 #' @title Coerce a data frame or matrix to a tibble. Currently not implemented for lists or other
 #' object types.
 #' @description DataSHIELD implementation of \code{tibble::as_tibble}.
+#' @param tidy_select Unused in present function.
 #' @param x A data frame or matrix.
 #' @param .rows The number of rows, useful to create a 0-column tibble or just as an additional
 #' check.
@@ -22,8 +23,7 @@
 #' @return the object specified by the \code{newobj} argument of \code{ds.as_tibble} which is
 #' written to the serverside.
 #' @export
-asTibbleDS <- function(x, .rows, .name_repair, rownames) {
-  .check_data_name_length(x, listDisclosureSettingsDS())
+asTibbleDS <- function(tidy_select, x, .rows, .name_repair, rownames) {
   other_args <- .paste_character_args(.rows, .name_repair, rownames)
   call <- .make_tidyverse_call(x, "as_tibble", other_args)
   out <- .execute_with_error_handling("as_tibble", call)

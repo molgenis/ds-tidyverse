@@ -42,11 +42,16 @@
 #' @return An expression object of the tidyverse call.
 #' @noRd
 .make_tidyverse_call <- function(.data, fun, tidy_select, other_args = NULL, inc_data = TRUE) {
-  if (is.null(other_args)) {
+  if (!is.null(tidy_select) & is.null(other_args)) {
     tidy_string <- paste0("dplyr::", fun, "(", tidy_select, ")")
-  } else {
+  } else if (!length(tidy_select) == 0 & !is.null(other_args)) {
     tidy_string <- paste0("dplyr::", fun, "(", tidy_select, ", ", other_args, ")")
+  } else if (length(tidy_select) == 0 & !is.null(other_args)) {
+    tidy_string <- paste0("dplyr::", fun, "(", other_args, ")")
+  } else if (length(tidy_select) == 0 & is.null(other_args)) {
+    tidy_string <- paste0("dplyr::", fun, "(",")")
   }
+
   if (inc_data) {
     tidy_string <- paste0(.data, " |> ", tidy_string)
   }
@@ -406,4 +411,22 @@ listPermittedTidyverseFunctionsDS <- function() {
            "The length of `df.name` is: ", data_length)
   names(out) = c("", "i", "", "i", "")
   return(out)
+
+#' Check Filter Disclosure Risk
+#'
+#' This function checks the disclosure risk when applying a filter on a dataset.
+#' It evaluates the subset size and the difference in rows between the original
+#' and subsetted data to ensure they meet the minimum threshold specified by
+#' `nfilter.subset`.
+#'
+#' @param .data A string representing the name of the original dataset.
+#' @param out The filtered dataset object.
+#' @keywords internal
+#' @return None. The function will throw an error if disclosure risk is detected.
+#' @noRd
+.check_subset_disclosure_risk <- function(original, out) {
+  nfilter.subset <- .get_nfilter_subset_value()
+  dims <- .get_dimensions(original, out)
+  .check_subset_size(dims$subset, nfilter.subset)
+  .check_rows_compared_with_original(dims$original, dims$subset, nfilter.subset)
 }

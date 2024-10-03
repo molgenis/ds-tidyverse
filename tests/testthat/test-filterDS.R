@@ -4,19 +4,10 @@ library(dsTidyverse)
 library(dsBase)
 library(dsBaseClient)
 
-options(datashield.env = environment())
 data("mtcars")
-dslite.server <- DSLite::newDSLiteServer(tables = list(mtcars = mtcars))
-data("logindata.dslite.cnsim")
-logindata.dslite.cnsim <- logindata.dslite.cnsim %>%
-  mutate(table = "mtcars")
-dslite.server$config(defaultDSConfiguration(include = c("dsBase", "dsTidyverse", "dsDanger")))
-dslite.server$assignMethod("filterDS", "dsTidyverse::filterDS")
-dslite.server$aggregateMethod("exists", "base::exists")
-dslite.server$aggregateMethod("classDS", "dsBase::classDS")
-dslite.server$aggregateMethod("lsDS", "dsBase::lsDS")
-dslite.server$aggregateMethod("dsListDisclosureSettingsTidyVerse", "dsTidyverse::dsListDisclosureSettingsTidyVerse")
-conns <- datashield.login(logins = logindata.dslite.cnsim, assign = TRUE)
+login_data <- .prepare_dslite("filterDS", NULL, list(mtcars = mtcars))
+conns <- datashield.login(login_data)
+datashield.assign.table(conns, "mtcars", "mtcars")
 
 good_filter_arg <- "mpg > 20 & gear > 2"
 mtcars_group <- mtcars %>% group_by(cyl)
@@ -104,12 +95,12 @@ test_that("filterDS passes when called directly", {
   datashield.assign(conns, "test", cally)
 
   expect_equal(
-    ds.class("test")[[1]],
+    ds.class("test", datasources = conns)[[1]],
     "data.frame"
   )
 
   expect_equal(
-    ds.dim("test")[[1]],
+    ds.dim("test", datasources = conns)[[1]],
     c(10, 11)
   )
 })

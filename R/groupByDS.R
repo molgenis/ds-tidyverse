@@ -22,6 +22,7 @@ groupByDS <- function(expr, .data, .add, .drop) {
 
 #' @title Performs dplyr ungroup
 #' @description This function is similar to R function \code{dplyr::ungroup}.
+#' @param tidy_select Unused in this function.
 #' @param x A tibble.
 #' @return the object specified by the \code{newobj} argument of \code{ds.ungroup} which is written
 #' to the serverside.
