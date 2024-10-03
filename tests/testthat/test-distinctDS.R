@@ -4,19 +4,10 @@ library(dsTidyverse)
 library(dsBase)
 library(dsBaseClient)
 
-options(datashield.env = environment())
 data("mtcars")
-dslite.server <- DSLite::newDSLiteServer(tables = list(mtcars = mtcars))
-data("logindata.dslite.cnsim")
-logindata.dslite.cnsim <- logindata.dslite.cnsim %>%
-  mutate(table = "mtcars")
-dslite.server$config(defaultDSConfiguration(include = c("dsBase", "dsTidyverse", "dsDanger")))
-dslite.server$assignMethod("distinctDS", "dsTidyverse::distinctDS")
-dslite.server$aggregateMethod("exists", "base::exists")
-dslite.server$aggregateMethod("classDS", "dsBase::classDS")
-dslite.server$aggregateMethod("lsDS", "dsBase::lsDS")
-dslite.server$aggregateMethod("dsListDisclosureSettingsTidyVerse", "dsTidyverse::dsListDisclosureSettingsTidyVerse")
-conns <- datashield.login(logins = logindata.dslite.cnsim, assign = TRUE)
+login_data <- .prepare_dslite("arrangeDS", NULL, list(mtcars = mtcars))
+conns <- datashield.login(logins = login_data)
+datashield.assign.table(conns, "mtcars", "mtcars")
 
 empty_distinct_arg <- character(0)
 
@@ -104,11 +95,11 @@ test_that("distinctDS passes when called directly", {
   datashield.assign(conns, "test_distinct", cally)
 
   expect_equal(
-    ds.class("test_distinct")[[1]],
+    ds.class("test_distinct", datasources = conns)[[1]],
     "data.frame")
 
   expect_equal(
-    ds.dim("test_distinct")[[1]],
+    ds.dim("test_distinct", datasources = conns)[[1]],
     c(27, 2)
   )
 })
