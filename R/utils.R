@@ -65,14 +65,14 @@
 #'
 #' @param ... Any number of arguments.
 #' @return A character string with the argument names and values.
-#' @importFrom purrr map imap set_names
 #' @noRd
 .paste_character_args <- function(...) {
-  arg_values <- list(...) |> purrr::map(deparse)
+  arg_values <- lapply(list(...), deparse)
   call_stack <- sys.call()
   arg_names <- as.character(call_stack)[-1]
-  arg_values <- purrr::set_names(arg_values, arg_names)
-  args_formatted <- arg_values |> purrr::imap(~ paste0(.y, " = ", .x))
+  names(arg_values) <- arg_names
+  args_formatted <- mapply(function(name, value) paste0(name, " = ", value),
+                           arg_names, arg_values, SIMPLIFY = FALSE)
   args_as_vector <- paste(unlist(args_formatted), collapse = ", ")
   return(args_as_vector)
 }
@@ -316,14 +316,13 @@ listPermittedTidyverseFunctionsDS <- function() {
 #' @param disclosure list of disclosure settings, length of number of cohorts
 #' @importFrom cli cli_abort
 #' @importFrom stringr str_extract_all
-#' @importFrom purrr map map_int map_lgl
 #' @details To check users are not passing variable names which are too long, first a regex extracts
 #' variable names from the list passed to `tidy_select`. It then checks the lengths of these against
 #' the value passed to nfilter.string.#'
 #' @noRd
 .check_variable_length <- function(args_as_string, disclosure) {
   variable_names <- unlist(str_extract_all(args_as_string, "\\b\\w+\\b(?!\\()", simplify = F))
-  variable_lengths <- variable_names |> map_int(str_length)
+  variable_lengths <- sapply(variable_names, nchar)
   over_filter_thresh <- .check_exceeds_threshold(variable_names, variable_lengths, disclosure$nfilter.string)
   if (length(over_filter_thresh) > 0) {
     disclosure_message <- .format_disclosure_errors(disclosure)
@@ -339,12 +338,11 @@ listPermittedTidyverseFunctionsDS <- function() {
 #' @param variable_names A character vector containing the names of the variables.
 #' @param variable_lengths A numeric vector containing the lengths of the variables, in the same order as `variable_names`.
 #' @param threshold A numeric value specifying the threshold that each variable length is compared against.
-#' @importFrom purrr map_lgl
 #' @return A character vector of variable names where the corresponding lengths exceed the threshold.
 #' @noRd
 .check_exceeds_threshold <- function(variable_names, variable_lengths, threshold) {
   return(
-    variable_names[variable_lengths |> map_lgl(~ .x > threshold)]
+    variable_names[sapply(variable_lengths, function(x) x > threshold)]
   )
 }
 
