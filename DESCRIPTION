@@ -29,7 +29,6 @@ LazyData: true
 RoxygenNote: 7.3.1
 Imports:
   rlang,
-  stringr, 
   cli
 Suggests: 
   testthat (>= 3.0.0), 
