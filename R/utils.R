@@ -325,11 +325,15 @@ listPermittedTidyverseFunctionsDS <- function() {
 .check_variable_length <- function(args_as_string, disclosure) {
   matches <- gregexpr("\\b\\w+\\b(?!\\()", args_as_string, perl = TRUE)
   variable_names <- unlist(regmatches(args_as_string, matches))
-  variable_lengths <- sapply(variable_names, nchar)
-  over_filter_thresh <- .check_exceeds_threshold(variable_names, variable_lengths, disclosure$nfilter.string)
+
+  if(length(variable_names) > 0) {
+    variable_lengths <- sapply(variable_names, nchar)
+    over_filter_thresh <- .check_exceeds_threshold(variable_names, variable_lengths, disclosure$nfilter.string)
+
   if (length(over_filter_thresh) > 0) {
     disclosure_message <- .format_disclosure_errors(disclosure)
     cli_abort(disclosure_message, call = NULL)
+  }
   }
 }
 
