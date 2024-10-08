@@ -2,13 +2,13 @@
 #' @description DataSHIELD implentation of \code{mutate}.
 #' @param .data A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).
 #' @param tidy_expr Name-value pairs. The name gives the name of the column in the output.
-#' @param .keep Control which columns from .data are retained in the output. Grouping columns and
-#' columns created by ... are always kept. "all" retains all columns from .data. This is the default.
-#' "used" retains only the columns used in \code{tidy_expr} to create new columns. "unused" retains
-#' only the columns not used in \code{tidy_expr} to create new columns. This is useful if you generate
-#' new columns, but no longer need the columns used to generate them. "none" doesn't retain any
-#' extra columns from \code{df.name}. Only the grouping variables and columns created by \code{tidy_expr}
-#' are kept.
+#' \itemize{
+#'   \item \code{"all"}: Retains all columns from \code{df.name}. This is the default.
+#'   \item \code{"used"}: Retains only the columns used in \code{tidy_expr} to create new columns.
+#'   \item \code{"unused"}: Retains only the columns not used in \code{tidy_expr} to create new columns. This is useful if you generate new columns but no longer need the columns used to generate them.
+#'   \item \code{"none"}: Doesn't retain any extra columns from \code{df.name}. Only the grouping variables and columns created by \code{tidy_expr} are kept.
+#' }
+#' Grouping columns and columns created by \code{tidy_expr} are always kept.
 #' @param .before <tidy-select> Optionally, control where new columns should appear (the default is
 #' to add to the right hand side). See \code{relocate} for more details.
 #' @param .after <tidy-select> Optionally, control where new columns should appear (the default is

@@ -1,7 +1,7 @@
 #' @title Rename columns
 #' @description DataSHIELD implentation of\code{dplyr::rename}.
 #' @param .data A data frame or tibble.
-#' @param tidy_expr Diffused expression passed to ds.rename.
+#' @param tidy_expr list containing diffused expression.
 #' @return the object specified by the \code{newobj} argument of \code{ds.rename} which is written
 #' to the serverside.
 #' @export
