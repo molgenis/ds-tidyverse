@@ -18,5 +18,5 @@ variables in the data frame.}
 this keeps the first row of values.}
 }
 \description{
-This function is similar to R function \code{dplyr::distinct}.
+DataSHIELD implentation of \code{dplyr::distinct}.
 }

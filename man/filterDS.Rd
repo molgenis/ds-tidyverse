@@ -7,7 +7,8 @@
 filterDS(tidy_expr, .data, .by, .preserve)
 }
 \arguments{
-\item{tidy_expr}{Diffused expression of dotdotdot passed to ds.filter}
+\item{tidy_expr}{Diffused expression that return a logical value, and are defined in terms of the
+variables in \code{.data}.}
 
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame
 (e.g. from dbplyr or dtplyr).}
@@ -23,8 +24,5 @@ the object specified by the \code{newobj} argument of \code{ds.filter} which is 
 to the serverside.
 }
 \description{
-This function is similar to R function \code{filter}.
-}
-\details{
-Performs dplyr filter
+DataSHIELD implentation of \code{dplyr::filter}.
 }

@@ -2,22 +2,19 @@
 % Please edit documentation in R/renameDS.R
 \name{renameDS}
 \alias{renameDS}
-\title{Performs dplyr rename}
+\title{Rename columns}
 \usage{
 renameDS(tidy_expr, .data)
 }
 \arguments{
-\item{tidy_expr}{Diffused expression passed to ds.rename}
+\item{tidy_expr}{Diffused expression passed to ds.rename.}
 
-\item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).}
+\item{.data}{A data frame or tibble.}
 }
 \value{
 the object specified by the \code{newobj} argument of \code{ds.rename} which is written
 to the serverside.
 }
 \description{
-This function is similar to R function \code{rename}.
-}
-\details{
-Performs dplyr rename
+DataSHIELD implentation of\code{dplyr::rename}.
 }

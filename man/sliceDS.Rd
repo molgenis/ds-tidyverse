@@ -26,5 +26,5 @@ the object specified by the \code{newobj} argument of \code{ds.slice} which is w
 to the serverside.
 }
 \description{
-This function is similar to R function \code{dplyr::slice}.
+DataSHIELD implentation of \code{dplyr::slice}.
 }

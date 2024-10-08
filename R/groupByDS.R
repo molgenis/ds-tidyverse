@@ -1,7 +1,6 @@
-#' @title Performs dplyr group_by
-#' @description This function is similar to R function \code{dplyr::group_by}.
-#' @details Performs dplyr group_by
-#' @param tidy_expr Diffused grouping expression passed to \code{ds.group_by}
+#' @title Group by one or more variables
+#' @description DataSHIELD implentation of \code{dplyr::group_by}.
+#' @param tidy_expr Diffused grouping expression.
 #' @param .data A data frame, data frame extension (e.g. a tibble), or a lazy data frame
 #' (e.g. from dbplyr or dtplyr).
 #' @param .add When FALSE, the default, \code{group_by()} will override existing groups. To add to
@@ -21,8 +20,8 @@ groupByDS <- function(tidy_expr, .data, .add, .drop) {
   return(out)
 }
 
-#' @title Performs dplyr ungroup
-#' @description This function is similar to R function \code{dplyr::ungroup}.
+#' @title Remove grouping from a tibble or data frame
+#' @description DataSHIELD implentation of \code{dplyr::ungroup}.
 #' @param tidy_expr Unused in this function.
 #' @param x A tibble.
 #' @return the object specified by the \code{newobj} argument of \code{ds.ungroup} which is written

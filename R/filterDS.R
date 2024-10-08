@@ -1,7 +1,7 @@
 #' @title Performs dplyr filter
-#' @description This function is similar to R function \code{filter}.
-#' @details Performs dplyr filter
-#' @param tidy_expr Diffused expression of dotdotdot passed to ds.filter
+#' @description DataSHIELD implentation of \code{dplyr::filter}.
+#' @param tidy_expr Diffused expression that return a logical value, and are defined in terms of the
+#' variables in \code{.data}.
 #' @param .data A data frame, data frame extension (e.g. a tibble), or a lazy data frame
 #' (e.g. from dbplyr or dtplyr).
 #' @param .by Optionally, a selection of columns to group by for just this operation, functioning as

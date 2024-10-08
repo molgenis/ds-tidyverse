@@ -2,21 +2,21 @@
 % Please edit documentation in R/selectDS.R
 \name{selectDS}
 \alias{selectDS}
-\title{Performs dplyr select}
+\title{Keep or drop columns using their names and types}
 \usage{
 selectDS(tidy_expr, .data)
 }
 \arguments{
-\item{tidy_expr}{Diffused expression of dotdotdot passed to ds.select}
+\item{tidy_expr}{One or more unquoted expressions separated by commas.}
 
-\item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).}
+\item{.data}{A data frame or tibble.}
 }
 \value{
 the object specified by the \code{newobj} argument of \code{ds.select} which is written
 to the serverside.
 }
 \description{
-This function is similar to R function \code{select}.
+DataSHIELD implentation of \code{dplyr::select}.
 }
 \details{
 Performs dplyr select

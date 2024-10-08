@@ -2,7 +2,7 @@
 % Please edit documentation in R/groupByDS.R
 \name{ungroupDS}
 \alias{ungroupDS}
-\title{Performs dplyr ungroup}
+\title{Remove grouping from a tibble or data frame}
 \usage{
 ungroupDS(tidy_expr, x)
 }
@@ -16,5 +16,5 @@ the object specified by the \code{newobj} argument of \code{ds.ungroup} which is
 to the serverside.
 }
 \description{
-This function is similar to R function \code{dplyr::ungroup}.
+DataSHIELD implentation of \code{dplyr::ungroup}.
 }

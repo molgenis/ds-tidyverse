@@ -1,8 +1,7 @@
-#' @title Performs dplyr rename
-#' @description This function is similar to R function \code{rename}.
-#' @details Performs dplyr rename
-#' @param .data A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).
-#' @param tidy_expr Diffused expression passed to ds.rename
+#' @title Rename columns
+#' @description DataSHIELD implentation of\code{dplyr::rename}.
+#' @param .data A data frame or tibble.
+#' @param tidy_expr Diffused expression passed to ds.rename.
 #' @return the object specified by the \code{newobj} argument of \code{ds.rename} which is written
 #' to the serverside.
 #' @export

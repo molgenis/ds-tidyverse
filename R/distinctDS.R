@@ -1,5 +1,5 @@
 #' @title Keep distinct/unique rows
-#' @description This function is similar to R function \code{dplyr::distinct}.
+#' @description DataSHIELD implentation of \code{dplyr::distinct}.
 #' @param tidy_expr Optional variables to use when determining uniqueness. If there are multiple rows for
 #' a given combination of inputs, only the first row will be preserved. If omitted, will use all
 #' variables in the data frame.

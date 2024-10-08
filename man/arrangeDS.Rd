@@ -7,7 +7,7 @@
 arrangeDS(tidy_expr, .data, .by_group)
 }
 \arguments{
-\item{tidy_expr}{Variables, or functions of variables. Use desc() to sort a variable in descending
+\item{tidy_expr}{Variables, or functions of variables. Use \code{desc()} to sort a variable in descending
 order.}
 
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).}
@@ -20,5 +20,5 @@ the object specified by the \code{newobj} argument of \code{ds.arrange} which is
 to the serverside.
 }
 \description{
-DataSHIELD implentation of  \code{dplyr::arrange}.
+DataSHIELD implentation of \code{dplyr::arrange}.
 }

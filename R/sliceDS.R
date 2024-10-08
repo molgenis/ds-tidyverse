@@ -1,5 +1,5 @@
 #' @title Subset rows using their positions
-#' @description This function is similar to R function \code{dplyr::slice}.
+#' @description DataSHIELD implentation of \code{dplyr::slice}.
 #' @param tidy_expr Provide either positive values to keep, or negative values to drop. The values
 #' provided must be either all positive or all negative. Indices beyond the number of rows in the
 #' input are silently ignored.

@@ -1,24 +1,23 @@
-#' @title Coerce a data frame or matrix to a tibble. Currently not implemented for lists or other
-#' object types.
-#' @description DataSHIELD implementation of \code{tibble::as_tibble}.
+#' @title Coerce a data frame or matrix to a tibble
+#' @description DataSHIELD implementation of \code{tibble::as_tibble}. Currently only implemented for data frames and matrices.
 #' @param tidy_expr Unused in present function.
 #' @param x A data frame or matrix.
 #' @param .rows The number of rows, useful to create a 0-column tibble or just as an additional
 #' check.
 #' @param .name_repair Treatment of problematic column names:
 #'   \itemize{
-#'     \item "minimal": No name repair or checks, beyond basic existence
-#'     \item "unique": Make sure names are unique and not empty
-#'     \item "check_unique": (default value), no name repair, but check they are unique
-#'     \item "universal": Make the names unique and syntactic
+#'     \item "minimal": No name repair or checks, beyond basic existence.
+#'     \item "unique": Make sure names are unique and not empty.
+#'     \item "check_unique": (default value), no name repair, but check they are unique.
+#'     \item "universal": Make the names unique and syntactic.
 #'   }
 #' @param rownames How to treat existing row names of a data frame or matrix:
 #'   \itemize{
 #'     \item `NULL`: remove row names. This is the default.
 #'     \item `NA`: keep row names.
 #'     \item A string: the name of a new column. Existing rownames are transferred
-#'     into this column and the `row.names` attribute is deleted. No name repair is applied
-#'     to the new column name, even if `x` already contains a column of that name.
+#'     into this column and the \code{row.names} attribute is deleted. No name repair is applied
+#'     to the new column name, even if \code{x} already contains a column of that name.
 #'   }
 #' @return the object specified by the \code{newobj} argument of \code{ds.as_tibble} which is
 #' written to the serverside.

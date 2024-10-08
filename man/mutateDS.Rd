@@ -2,36 +2,33 @@
 % Please edit documentation in R/mutateDS.R
 \name{mutateDS}
 \alias{mutateDS}
-\title{Performs dplyr mutate}
+\title{Create, modify, and delete columns}
 \usage{
 mutateDS(tidy_expr, .data, .keep = NULL, .before = NULL, .after = NULL)
 }
 \arguments{
-\item{tidy_expr}{Diffused expression of dotdotdot passed to ds.rename}
+\item{tidy_expr}{Name-value pairs. The name gives the name of the column in the output.}
 
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).}
 
 \item{.keep}{Control which columns from .data are retained in the output. Grouping columns and
 columns created by ... are always kept. "all" retains all columns from .data. This is the default.
-"used" retains only the columns used in `tidy_select` to create new columns. "unused" retains
-only the columns not used in `tidy_select` to create new columns. This is useful if you generate
+"used" retains only the columns used in \code{tidy_expr} to create new columns. "unused" retains
+only the columns not used in \code{tidy_expr} to create new columns. This is useful if you generate
 new columns, but no longer need the columns used to generate them. "none" doesn't retain any
-extra columns from `df.name`. Only the grouping variables and columns created by `tidy_select`
+extra columns from \code{df.name}. Only the grouping variables and columns created by \code{tidy_expr}
 are kept.}
 
 \item{.before}{<tidy-select> Optionally, control where new columns should appear (the default is
-to add to the right hand side). See `relocate` for more details.}
+to add to the right hand side). See \code{relocate} for more details.}
 
 \item{.after}{<tidy-select> Optionally, control where new columns should appear (the default is
-to add to the right hand side). See `relocate` for more details.}
+to add to the right hand side). See \code{relocate} for more details.}
 }
 \value{
 the object specified by the \code{newobj} argument of \code{ds.mutate} which is written
 to the serverside.
 }
 \description{
-This function is similar to R function \code{rename}.
-}
-\details{
-Performs dplyr rename
+DataSHIELD implentation of \code{mutate}.
 }

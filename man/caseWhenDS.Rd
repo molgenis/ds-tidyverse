@@ -2,7 +2,7 @@
 % Please edit documentation in R/caseWhenDS.R
 \name{caseWhenDS}
 \alias{caseWhenDS}
-\title{Performs dplyr if_else}
+\title{Performs dplyr case_when}
 \usage{
 caseWhenDS(tidy_expr = NULL, .default = NULL, .ptype = NULL, .size = NULL)
 }
@@ -23,12 +23,9 @@ NULL inputs are ignored.}
 \item{.size}{An optional size declaring the desired output size. If supplied, this overrides the size of condition.}
 }
 \value{
-the object specified by the \code{newobj} argument of \code{ds.case_when}which is
+the object specified by the \code{newobj} argument of \code{ds.case_when} which is
 written to the serverside.
 }
 \description{
-This function is similar to R function \code{rename}.
-}
-\details{
-Performs dplyr rename
+DataSHIELD implentation of \code{dplyr::case_when}.
 }

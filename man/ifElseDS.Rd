@@ -2,7 +2,7 @@
 % Please edit documentation in R/ifElseDS.R
 \name{ifElseDS}
 \alias{ifElseDS}
-\title{Performs dplyr if_else}
+\title{Vectorised if-else}
 \usage{
 ifElseDS(
   condition = NULL,
@@ -14,7 +14,7 @@ ifElseDS(
 )
 }
 \arguments{
-\item{condition}{A list, specifying a logical vector in `tidy-select` syntax, ie data and column names unquoted.}
+\item{condition}{A list, specifying a logical vector in tidyverse syntax, ie data and column names unquoted.}
 
 \item{true}{Vector to use for TRUE value of condition.}
 
@@ -27,9 +27,8 @@ ifElseDS(
 \item{size}{An optional size declaring the desired output size. If supplied, this overrides the size of condition.}
 }
 \value{
-the object specified by the \code{newobj} argument
-of \code{ds.if_else} which is written to the serverside.
+the object specified by the \code{newobj} argument of \code{ds.if_else} which is written to the serverside.
 }
 \description{
-This function is similar to R function \code{if_else}.
+DataSHIELD implentation of \code{dply::if_else}.
 }

@@ -1,6 +1,5 @@
-#' @title Performs dplyr if_else
-#' @description This function is similar to R function \code{rename}.
-#' @details Performs dplyr rename
+#' @title Performs dplyr case_when
+#' @description DataSHIELD implentation of \code{dplyr::case_when}.
 #' @param tidy_expr A sequence of two-sided formulas. The left hand side (LHS) determines which
 #' values match this case. The right hand side (RHS) provides the replacement value.
 #' The LHS inputs must evaluate to logical vectors.
@@ -12,7 +11,7 @@
 #' @param .default The value used when all of the LHS inputs return either FALSE or NA.
 #' @param .ptype An optional prototype declaring the desired output type. If supplied, this overrides the common type of true, false, and missing.
 #' @param .size An optional size declaring the desired output size. If supplied, this overrides the size of condition.
-#' @return the object specified by the \code{newobj} argument of \code{ds.case_when}which is
+#' @return the object specified by the \code{newobj} argument of \code{ds.case_when} which is
 #' written to the serverside.
 #' @export
 caseWhenDS <- function(tidy_expr = NULL, .default = NULL, .ptype = NULL, .size = NULL) {
