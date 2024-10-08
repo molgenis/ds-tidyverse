@@ -14,7 +14,9 @@ login_data <- .prepare_dslite(
   tables = list(
     mtcars = mtcars,
     mtcars_dup_names = mtcars_dup_names,
-    test_matrix = test_matrix))
+    test_matrix = test_matrix
+  )
+)
 
 conns <- datashield.login(logins = login_data)
 datashield.assign.table(conns, "mtcars", "mtcars")
@@ -37,7 +39,6 @@ test_that("asTibbleDS correctly converts a data frame to a tibble", {
     dim(now_a_tibble),
     c(32, 11)
   )
-
 })
 
 test_that("asTibbleDS correctly converts a matrix to a tibble", {
@@ -54,7 +55,6 @@ test_that("asTibbleDS correctly converts a matrix to a tibble", {
     dim(matrix_to_tibble),
     c(5, 4)
   )
-
 })
 
 test_that("asTibbleDS fails when data doesn't exist", {
@@ -67,7 +67,6 @@ test_that("asTibbleDS fails when data doesn't exist", {
 
 
 test_that("asTibbleDS works with the name_repair argument", {
-
   repair_min_call <- .make_tidyverse_call("mtcars_dup_names", "as_tibble", tidy_expr = NULL, '.name_repair = "minimal"')
   tib_min_repair <- eval(repair_min_call)
 
@@ -118,12 +117,10 @@ test_that("asTibbleDS works with the name_repair argument", {
     colnames(tib_uni_repair),
     c("mpg", "cyl...2", "disp", "hp", "drat", "wt", "qsec", "vs", "am", "gear", "carb", "cyl...12")
   )
-
 })
 
 test_that("asTibbleDS works with the rownames argument", {
-
-  row_null_call <- .make_tidyverse_call("mtcars", "as_tibble", tidy_expr = NULL, 'rownames = NULL')
+  row_null_call <- .make_tidyverse_call("mtcars", "as_tibble", tidy_expr = NULL, "rownames = NULL")
   row_null_tibble <- eval(row_null_call)
 
   expect_equal(
@@ -136,7 +133,7 @@ test_that("asTibbleDS works with the rownames argument", {
     as.character(rep(1:32))
   )
 
-  row_na_call <- .make_tidyverse_call("mtcars", "as_tibble", tidy_expr = NULL, 'rownames = NA')
+  row_na_call <- .make_tidyverse_call("mtcars", "as_tibble", tidy_expr = NULL, "rownames = NA")
   row_na_tibble <- eval(row_na_call)
 
   expect_equal(
@@ -180,7 +177,6 @@ test_that("asTibbleDS works with the rownames argument", {
     tib_with_col$col_with_names,
     car_names
   )
-
 })
 
 test_that("asTibbleDS passes when called directly", {
@@ -190,7 +186,7 @@ test_that("asTibbleDS passes when called directly", {
   expect_equal(
     ds.class("new_tibble", datasources = conns)[[1]],
     tibble_class
-    )
+  )
 
   expect_equal(
     ds.colnames("new_tibble", datasources = conns)[[1]],

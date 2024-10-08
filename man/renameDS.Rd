@@ -7,7 +7,7 @@
 renameDS(tidy_expr, .data)
 }
 \arguments{
-\item{tidy_expr}{Diffused expression of dotdotdot passed to ds.rename}
+\item{tidy_expr}{Diffused expression passed to ds.rename}
 
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).}
 }

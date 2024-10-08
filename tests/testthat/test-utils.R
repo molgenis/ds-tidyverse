@@ -182,7 +182,8 @@ test_that(".paste_character_args creates correct string", {
 test_that(".get_nfilter_subset_value retrieves value correctly", {
   expect_equal(
     .get_nfilter_subset_value(),
-    3)
+    3
+  )
 })
 
 test_that(".get_dimensions correctly returns dimensions", {
@@ -234,7 +235,8 @@ test_that(".check_subset_disclosure_risk returns an error correctly", {
 
   expect_error(
     .check_subset_disclosure_risk(original, out),
-    ".*Subset to be created is too small \\(< nfilter\\.subset\\).*")
+    ".*Subset to be created is too small \\(< nfilter\\.subset\\).*"
+  )
 
   original <- tibble(a = 1:10, b = 1:10)
   out <- tibble(a = 1:9, b = 1:9)
@@ -243,7 +245,6 @@ test_that(".check_subset_disclosure_risk returns an error correctly", {
     .check_subset_disclosure_risk(original, out),
     "The difference in row length between the original dataframe and the new dataframe"
   )
-
 })
 
 test_that(".check_subset_disclosure_risk doesn't return errors if subset sizes are ok", {
@@ -260,7 +261,6 @@ test_that(".check_subset_disclosure_risk doesn't return errors if subset sizes a
   expect_silent(
     .check_subset_disclosure_risk(original, out)
   )
-
 })
 
 test_that(".check_data_name_length throws an error if length of .data exceeds nfilter.string", {
@@ -291,7 +291,6 @@ test_that(".check_function_names blocks unpermitted function names", {
 })
 
 test_that(".check_variable_length allows variables with value less than nfilter.string", {
-
   expect_silent(
     .check_variable_length(small_var, disc_settings)
   )

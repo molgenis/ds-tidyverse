@@ -6,12 +6,15 @@ library(dsBaseClient)
 library(DSI)
 
 data("mtcars")
-mtcars_group <- mtcars %>% group_by(cyl) %>% mutate(drop_test = factor("a", levels = c("a", "b")))
+mtcars_group <- mtcars %>%
+  group_by(cyl) %>%
+  mutate(drop_test = factor("a", levels = c("a", "b")))
 mtcars_bad_group <- mtcars %>% group_by(qsec)
 
 login_data <- .prepare_dslite(
   NULL, "groupKeysDS",
-  list(mtcars = mtcars, mtcars_group = mtcars_group, mtcars_bad_group = mtcars_bad_group))
+  list(mtcars = mtcars, mtcars_group = mtcars_group, mtcars_bad_group = mtcars_bad_group)
+)
 conns <- datashield.login(logins = login_data)
 
 datashield.assign.table(conns, "mtcars", "mtcars")
@@ -59,7 +62,6 @@ test_that(".check_n_groups_compared_with_original doesn't through error if numbe
   density_val <- 0.3
   dims_valid <- list(original = 100, subset = 10)
   expect_silent(.check_n_groups_compared_with_original(dims_valid, density_val))
-
 })
 
 test_that(".check_n_groups_compared_with_original detects disclosure risk correctly", {
@@ -82,7 +84,6 @@ test_that(".check_group_keys_disclosure_risk doesn't through error if number of 
       ".get_disclosure_value" = function(value) 0.33
     )
   )
-
 })
 
 test_that(".check_group_keys_disclosure_risk throws error if number of groups too high", {
@@ -95,5 +96,4 @@ test_that(".check_group_keys_disclosure_risk throws error if number of groups to
       ".get_disclosure_value" = function(value) 0.33
     )
   )
-
 })

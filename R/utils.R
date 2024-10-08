@@ -51,7 +51,7 @@
   } else if (length(tidy_expr) == 0 & !is.null(other_args)) {
     tidy_string <- paste0("dplyr::", fun, "(", other_args, ")")
   } else if (length(tidy_expr) == 0 & is.null(other_args)) {
-    tidy_string <- paste0("dplyr::", fun, "(",")")
+    tidy_string <- paste0("dplyr::", fun, "(", ")")
   }
 
   if (inc_data) {
@@ -176,7 +176,8 @@ listPermittedTidyverseFunctionsDS <- function() {
       "case_when", "mean", "median", "mode", "desc", "last_col", "nth", "where", "num_range",
       "exp", "sqrt", "scale", "round", "floor", "ceiling", "trunc", "abs", "sign", "sd", "var",
       "sin", "cos", "tan", "asin", "acos", "atan", "cumsum", "cumprod", "cummin", "cummax",
-      "rank", "diff", "lag")
+      "rank", "diff", "lag"
+    )
   )
 }
 
@@ -243,7 +244,7 @@ listPermittedTidyverseFunctionsDS <- function() {
 #' @return None. The function will throw an error if the subset size is too small.
 #' @noRd
 .check_subset_size <- function(subset_rows, nfilter.subset) {
-  if(subset_rows < nfilter.subset){
+  if (subset_rows < nfilter.subset) {
     cli_abort(
       "Subset to be created is too small (< nfilter.subset)",
       call = NULL
@@ -267,7 +268,7 @@ listPermittedTidyverseFunctionsDS <- function() {
 #' @noRd
 .check_rows_compared_with_original <- function(original_rows, subset_rows, nfilter.subset) {
   diff <- original_rows - subset_rows
-  if((diff < nfilter.subset) & (diff > 0)) {
+  if ((diff < nfilter.subset) & (diff > 0)) {
     cli_abort(
       "The difference in row length between the original dataframe and the new dataframe is {diff},
       which is lower than the value of nfilter.subset ({nfilter.subset}). This could indicate a potential subsetting
@@ -306,9 +307,10 @@ listPermittedTidyverseFunctionsDS <- function() {
     message <- c(
       "Values passed to `expr` may only contain permitted functions.",
       "Permitted functions are {permitted_tidy_select}.",
-      "`{any_banned_functions}` {?is/are} not {?a/} permitted function{?s}.")
+      "`{any_banned_functions}` {?is/are} not {?a/} permitted function{?s}."
+    )
     names(message) <- c("", "i", "i")
-    cli_abort(message,call = NULL)
+    cli_abort(message, call = NULL)
   }
 }
 
@@ -364,9 +366,11 @@ listPermittedTidyverseFunctionsDS <- function() {
 #' @return A character vector containing formatted error messages.
 #' @noRd
 .format_disclosure_errors <- function(disclosure) {
-  out <- c("Error: The maximum length of columns specified in `tidy_select` must be shorter than
+  out <- c(
+    "Error: The maximum length of columns specified in `tidy_select` must be shorter than
            nfilter.string. ", "The values of nfilter.string are: ", disclosure$nfilter.string,
-           "{over_filter_thresh} {?is/are} longer than this: ")
+    "{over_filter_thresh} {?is/are} longer than this: "
+  )
   names(out) <- c("", "i", "", "i")
   return(out)
 }
@@ -409,10 +413,12 @@ listPermittedTidyverseFunctionsDS <- function() {
 #' `.data` and the allowed length specified in the `disclosure` argument.
 #' @noRd
 .format_data_length_errors <- function(data_length, disclosure) {
-  out <- c("Error: The length of string passed to `df.name` must be less than nfilter.string.",
-           "The value of nfilter.string is: ",  disclosure$nfilter.string,
-           "The length of `df.name` is: ", data_length)
-  names(out) = c("", "i", "", "i", "")
+  out <- c(
+    "Error: The length of string passed to `df.name` must be less than nfilter.string.",
+    "The value of nfilter.string is: ", disclosure$nfilter.string,
+    "The length of `df.name` is: ", data_length
+  )
+  names(out) <- c("", "i", "", "i", "")
   return(out)
 }
 

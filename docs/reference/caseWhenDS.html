@@ -25,6 +25,9 @@
       <ul class="nav navbar-nav"><li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -44,12 +47,12 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">caseWhenDS</span><span class="op">(</span>dynamic_dots <span class="op">=</span> <span class="cn">NULL</span>, .default <span class="op">=</span> <span class="cn">NULL</span>, .ptype <span class="op">=</span> <span class="cn">NULL</span>, .size <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">caseWhenDS</span><span class="op">(</span>tidy_expr <span class="op">=</span> <span class="cn">NULL</span>, .default <span class="op">=</span> <span class="cn">NULL</span>, .ptype <span class="op">=</span> <span class="cn">NULL</span>, .size <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>dynamic_dots</dt>
+    <dl><dt>tidy_expr</dt>
 <dd><p>A sequence of two-sided formulas. The left hand side (LHS) determines which
 values match this case. The right hand side (RHS) provides the replacement value.
 The LHS inputs must evaluate to logical vectors.
