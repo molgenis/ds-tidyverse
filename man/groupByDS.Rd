@@ -4,10 +4,10 @@
 \alias{groupByDS}
 \title{Performs dplyr group_by}
 \usage{
-groupByDS(expr, .data, .add, .drop)
+groupByDS(tidy_expr, .data, .add, .drop)
 }
 \arguments{
-\item{expr}{Diffused grouping expression passed to \code{ds.group_by}}
+\item{tidy_expr}{Diffused grouping expression passed to \code{ds.group_by}}
 
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame
 (e.g. from dbplyr or dtplyr).}

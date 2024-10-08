@@ -4,10 +4,10 @@
 \alias{selectDS}
 \title{Performs dplyr select}
 \usage{
-selectDS(expr, .data)
+selectDS(tidy_expr, .data)
 }
 \arguments{
-\item{expr}{Diffused expression of dotdotdot passed to ds.select}
+\item{tidy_expr}{Diffused expression of dotdotdot passed to ds.select}
 
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).}
 }

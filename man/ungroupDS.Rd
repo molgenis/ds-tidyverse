@@ -4,10 +4,10 @@
 \alias{ungroupDS}
 \title{Performs dplyr ungroup}
 \usage{
-ungroupDS(tidy_select, x)
+ungroupDS(tidy_expr, x)
 }
 \arguments{
-\item{tidy_select}{Unused in this function.}
+\item{tidy_expr}{Unused in this function.}
 
 \item{x}{A tibble.}
 }

@@ -4,10 +4,10 @@
 \alias{caseWhenDS}
 \title{Performs dplyr if_else}
 \usage{
-caseWhenDS(dynamic_dots = NULL, .default = NULL, .ptype = NULL, .size = NULL)
+caseWhenDS(tidy_expr = NULL, .default = NULL, .ptype = NULL, .size = NULL)
 }
 \arguments{
-\item{dynamic_dots}{A sequence of two-sided formulas. The left hand side (LHS) determines which
+\item{tidy_expr}{A sequence of two-sided formulas. The left hand side (LHS) determines which
 values match this case. The right hand side (RHS) provides the replacement value.
 The LHS inputs must evaluate to logical vectors.
 The RHS inputs will be coerced to their common type.

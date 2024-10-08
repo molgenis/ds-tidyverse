@@ -4,10 +4,10 @@
 \alias{filterDS}
 \title{Performs dplyr filter}
 \usage{
-filterDS(expr, .data, .by, .preserve)
+filterDS(tidy_expr, .data, .by, .preserve)
 }
 \arguments{
-\item{expr}{Diffused expression of dotdotdot passed to ds.filter}
+\item{tidy_expr}{Diffused expression of dotdotdot passed to ds.filter}
 
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame
 (e.g. from dbplyr or dtplyr).}

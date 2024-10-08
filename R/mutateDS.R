@@ -17,13 +17,12 @@
 #' @return the object specified by the \code{newobj} argument of \code{ds.mutate} which is written
 #' to the serverside.
 #' @export
-#'
-mutateDS <- function(expr, .data, .keep = NULL, .before = NULL, .after = NULL) {
+mutateDS <- function(tidy_expr, .data, .keep = NULL, .before = NULL, .after = NULL) {
   checkPermissivePrivacyControlLevel(c('permissive', 'banana', 'avacado'))
-  tidy_select <- .decode_tidy_eval(expr, .get_encode_dictionary())
-  .check_tidy_disclosure(.data, tidy_select)
+  tidy_expr <- .decode_tidy_eval(tidy_expr, .get_encode_dictionary())
+  .check_tidy_disclosure(.data, tidy_expr)
   other_args <- .paste_character_args(.keep, .before, .after)
-  call <- .make_tidyverse_call(.data, "mutate", tidy_select, other_args)
+  call <- .make_tidyverse_call(.data, "mutate", tidy_expr, other_args)
   out <- .execute_with_error_handling("mutate", call)
   return(out)
 }

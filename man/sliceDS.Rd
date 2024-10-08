@@ -4,10 +4,10 @@
 \alias{sliceDS}
 \title{Subset rows using their positions}
 \usage{
-sliceDS(expr, .data, .by, .preserve)
+sliceDS(tidy_expr, .data, .by, .preserve)
 }
 \arguments{
-\item{expr}{Provide either positive values to keep, or negative values to drop. The values
+\item{tidy_expr}{Provide either positive values to keep, or negative values to drop. The values
 provided must be either all positive or all negative. Indices beyond the number of rows in the
 input are silently ignored.}
 

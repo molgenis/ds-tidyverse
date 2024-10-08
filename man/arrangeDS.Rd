@@ -4,10 +4,10 @@
 \alias{arrangeDS}
 \title{Order the rows of a data frame by the values of selected columns}
 \usage{
-arrangeDS(expr, .data, .by_group)
+arrangeDS(tidy_expr, .data, .by_group)
 }
 \arguments{
-\item{expr}{Variables, or functions of variables. Use desc() to sort a variable in descending
+\item{tidy_expr}{Variables, or functions of variables. Use desc() to sort a variable in descending
 order.}
 
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).}
