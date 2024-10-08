@@ -23,10 +23,9 @@
 .decode_tidy_eval <- function(input_string, encode_key) {
   encode_vec <- encode_key$input
   names(encode_vec) <- encode_key$output
-  output_string <- input_string
-  for (pattern in names(encode_vec)) {
-    output_string <- gsub(pattern, encode_vec[[pattern]], output_string, fixed = TRUE)
-  }
+  output_string <- Reduce(function(out, pattern) {
+    gsub(pattern, encode_vec[[pattern]], out, fixed = TRUE)
+  }, names(encode_vec), input_string)
   return(output_string)
 }
 
