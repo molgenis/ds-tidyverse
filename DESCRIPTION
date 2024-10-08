@@ -32,9 +32,7 @@ Imports:
   stringr, 
   cli, 
   purrr,
-  dplyr, 
-  tibble, 
-  tidyselect
+  dplyr
 Suggests: 
   testthat (>= 3.0.0), 
   DSLite, 
