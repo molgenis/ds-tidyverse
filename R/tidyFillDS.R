@@ -16,6 +16,8 @@ classAllColsDS <- function(df.name){
 #' @param target_class A character vector specifying the new classes for each column (1 = factor,
 #' 2 = integer, 3 = numeric, 4 = character, 5 = logical).
 #' @return A modified data frame with the specified columns converted to the target classes.
+#' @importFrom dplyr mutate across
+#' @importFrom tidyselect all_of
 #' @export
 fixClassDS <- function(df.name, target_vars, target_class) {
   df <- eval(parse(text = df.name), envir = parent.frame())
@@ -47,12 +49,15 @@ convert_class <- function(x, class_name) {
 #' @param .data A string representing the name of the data frame.
 #' @param cols A character vector specifying the columns to be added if missing.
 #' @return A modified data frame with missing columns added and filled with NA.
+#' @importFrom dplyr mutate select
+#' @importFrom tidyselect peek_vars
+#' @importFrom purrr set_names
 #' @export
 makeColsSameDS <- function(.data, cols) {
   .data <- eval(parse(text = .data), envir = parent.frame())
   missing <- setdiff(cols, colnames(.data))
   out <- .data %>%
-    mutate(!!!setNames(rep(list(NA), length(missing)), missing)) %>%
+    mutate(!!!set_names(rep(list(NA), length(missing)), missing)) %>%
     select(sort(peek_vars()))
   return(out)
 }
@@ -61,6 +66,7 @@ makeColsSameDS <- function(.data, cols) {
 #' @param df.name A string representing the name of the data frame.
 #' @param factor_vars A character vector specifying the factor columns.
 #' @return A list of factor levels for the specified columns.
+#' @importFrom tidyselect all_of
 #' @export
 getAllLevelsDS <- function(df.name, factor_vars) {
   df <- eval(parse(text = df.name), envir = parent.frame())
