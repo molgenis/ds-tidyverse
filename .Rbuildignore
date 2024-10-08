@@ -3,3 +3,4 @@
 .circleci
 ^_pkgdown\.yml$
 ^pkgdown$
+^docs$
