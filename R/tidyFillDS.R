@@ -1,6 +1,8 @@
 #' Get the Class of All Columns in a Data Frame
 #' @param df.name A string representing the name of the data frame.
 #' @return A tibble with the class of each column in the data frame.
+#' @importFrom dplyr %>%
+#' @importFrom tibble as_tibble
 #' @export
 classAllColsDS <- function(df.name){
   df.name <- eval(parse(text = df.name), envir = parent.frame())
@@ -23,33 +25,6 @@ fixClassDS <- function(df.name, target_vars, target_class) {
              ~ convert_class(., target_class[which(target_vars == cur_column())])))
   return(df_transformed)
 }
-
-
-
-
-#' Set Factor Levels for Specific Columns in a Data Frame
-#' @param df.name A string representing the name of the data frame to modify.
-#' @param vars A character vector specifying the columns to be modified.
-#' @param levels A named list where each element contains the levels for the corresponding factor variable.
-#' @return A modified data frame with the specified columns converted to factors with the provided levels.
-#' @export
-setAllLevelsDS <- function(df.name, vars, levels) {
-  df.name <- eval(parse(text = df.name), envir = parent.frame())
-  out <- df.name %>%
-    mutate(across(all_of(vars), ~factor(., levels = levels[[cur_column()]])))
-}
-
-#' Retrieve Factor Levels for Specific Columns
-#' @param df.name A string representing the name of the data frame.
-#' @param factor_vars A character vector specifying the factor columns.
-#' @return A list of factor levels for the specified columns.
-#' @export
-getAllLevelsDS <- function(df.name, factor_vars) {
-  df <- eval(parse(text = df.name), envir = parent.frame())
-  return(df %>% dplyr::select(all_of(factor_vars)) %>% map(levels))
-}
-
-
 
 #' Convert a Vector to a Specified Class
 #' @param x The vector to be converted.
@@ -77,6 +52,30 @@ makeColsSameDS <- function(.data, cols) {
   .data <- eval(parse(text = .data), envir = parent.frame())
   missing <- setdiff(cols, colnames(.data))
   out <- .data %>%
-    mutate(!!!setNames(rep(list(NA), length(missing)), missing))
+    mutate(!!!setNames(rep(list(NA), length(missing)), missing)) %>%
+    select(sort(peek_vars()))
   return(out)
+}
+
+#' Retrieve Factor Levels for Specific Columns
+#' @param df.name A string representing the name of the data frame.
+#' @param factor_vars A character vector specifying the factor columns.
+#' @return A list of factor levels for the specified columns.
+#' @export
+getAllLevelsDS <- function(df.name, factor_vars) {
+  df <- eval(parse(text = df.name), envir = parent.frame())
+  return(df %>% dplyr::select(all_of(factor_vars)) %>% map(levels))
+}
+
+
+#' Set Factor Levels for Specific Columns in a Data Frame
+#' @param df.name A string representing the name of the data frame to modify.
+#' @param vars A character vector specifying the columns to be modified.
+#' @param levels A named list where each element contains the levels for the corresponding factor variable.
+#' @return A modified data frame with the specified columns converted to factors with the provided levels.
+#' @export
+setAllLevelsDS <- function(df.name, vars, levels) {
+  df.name <- eval(parse(text = df.name), envir = parent.frame())
+  out <- df.name %>%
+    mutate(across(all_of(vars), ~factor(., levels = levels[[cur_column()]])))
 }
