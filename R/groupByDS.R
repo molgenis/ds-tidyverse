@@ -30,7 +30,7 @@ groupByDS <- function(tidy_expr, .data, .add, .drop) {
 #' @export
 ungroupDS <- function(tidy_expr, x) {
   .check_data_name_length(x, listDisclosureSettingsDS())
-  call <- .make_tidyverse_call(x, "ungroup", expr = NULL, other_args = NULL)
+  call <- .make_tidyverse_call(x, "ungroup", tidy_expr = NULL, other_args = NULL)
   out <- .execute_with_error_handling("ungroup", call)
   return(out)
 }

@@ -13,7 +13,7 @@ disc_settings <- listDisclosureSettingsDS()
 test_that(".make_tidyverse_call creates call with no additional arguments", {
   input_string <- "asd, qwe, starts_with('test')"
   expected_string <- rlang::parse_expr('test |> dplyr::select(asd, qwe, starts_with("test"))')
-  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_select = input_string)
+  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_expr = input_string)
   expect_equal(expected_string, observed_string)
 })
 
@@ -23,40 +23,40 @@ input_string <- "asd, qwe, starts_with('test')"
 test_that(".make_tidyverse_call creates call with additional arguments", {
   expected_string <- rlang::parse_expr('test |> dplyr::select(asd, qwe, starts_with("test"), .keep = "all",
     .before = NULL, .after = "disp")')
-  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_select = input_string, other_args = extra_args)
+  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_expr = input_string, other_args = extra_args)
   expect_equal(expected_string, observed_string)
 })
 
 test_that(".make_tidyverse_call creates call when inc_data = F", {
   expected_string <- rlang::parse_expr('dplyr::select(asd, qwe, starts_with("test"), .keep = "all",
   .before = NULL, .after = "disp")')
-  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_select = input_string, other_args = extra_args, inc_data = F)
+  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_expr = input_string, other_args = extra_args, inc_data = F)
   expect_equal(expected_string, observed_string)
 })
 
 test_that(".make_tidyverse_call creates call when inc_data = F", {
   expected_string <- rlang::parse_expr('dplyr::select(asd, qwe, starts_with("test"), .keep = "all",
   .before = NULL, .after = "disp")')
-  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_select = input_string, other_args = extra_args, inc_data = F)
+  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_expr = input_string, other_args = extra_args, inc_data = F)
   expect_equal(expected_string, observed_string)
 })
 
 test_that(".make_tidyverse_call creates call when inc_data = F", {
   expected_string <- rlang::parse_expr('dplyr::select(asd, qwe, starts_with("test"), .keep = "all",
   .before = NULL, .after = "disp")')
-  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_select = input_string, other_args = extra_args, inc_data = F)
+  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_expr = input_string, other_args = extra_args, inc_data = F)
   expect_equal(expected_string, observed_string)
 })
 
 mtcars_good_arg <- "mpg, cyl, starts_with('g'), ends_with('b')"
-mtcars_good_str <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_select = mtcars_good_arg)
+mtcars_good_str <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_expr = mtcars_good_arg)
 
 test_that(".execute_with_error_handling works where data and object exists", {
   observed <- .execute_with_error_handling("select", mtcars_good_str)
   expect_equal(colnames(observed), c("mpg", "cyl", "gear", "carb"))
 })
 
-mtcars_wrong_data_str <- .make_tidyverse_call(.data = "data_not_here", fun = "select", tidy_select = mtcars_good_arg)
+mtcars_wrong_data_str <- .make_tidyverse_call(.data = "data_not_here", fun = "select", tidy_expr = mtcars_good_arg)
 
 test_that(".execute_with_error_handling fails with correct message if object doesn't exist", {
   expect_error(
@@ -66,7 +66,7 @@ test_that(".execute_with_error_handling fails with correct message if object doe
 })
 
 mtcars_missing_col_arg <- "all_of('test_col'), mpg, cyl, starts_with('g'), ends_with('b')"
-mtcars_missing_col_str <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_select = mtcars_missing_col_arg)
+mtcars_missing_col_str <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_expr = mtcars_missing_col_arg)
 
 test_that(".execute_with_error_handling fails with correct message if column doesn't exist", {
   expect_error(
@@ -76,7 +76,7 @@ test_that(".execute_with_error_handling fails with correct message if column doe
 })
 
 mtcars_random_arg <- "filter('mpg'), mpg, cyl, starts_with('g'), ends_with('b')"
-mtcars_random_str <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_select = mtcars_random_arg)
+mtcars_random_str <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_expr = mtcars_random_arg)
 
 test_that(".execute_with_error_handling fails with correct message when unrecognised function passed", {
   expect_error(
@@ -86,7 +86,7 @@ test_that(".execute_with_error_handling fails with correct message when unrecogn
 })
 
 mtcars_good_arg <- "mpg, cyl, starts_with('g'), ends_with('b')"
-mtcars_good_expr <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_select = mtcars_good_arg)
+mtcars_good_expr <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_expr = mtcars_good_arg)
 # mtcars_good_expr <- rlang::parse_expr(mtcars_good_str)
 
 test_that(".tidy_eval_handle_errors works where data and object exists", {
@@ -95,7 +95,7 @@ test_that(".tidy_eval_handle_errors works where data and object exists", {
 })
 
 mtcars_good_arg <- "mpg, cyl, starts_with('g'), ends_with('b')"
-mtcars_wrong_data_expr <- .make_tidyverse_call(.data = "data_not_here", fun = "select", tidy_select = mtcars_good_arg)
+mtcars_wrong_data_expr <- .make_tidyverse_call(.data = "data_not_here", fun = "select", tidy_expr = mtcars_good_arg)
 
 test_that(".tidy_eval_handle_errors fails with correct message if object doesn't exist", {
   expect_error(
@@ -105,7 +105,7 @@ test_that(".tidy_eval_handle_errors fails with correct message if object doesn't
 })
 
 mtcars_missing_col_arg <- "all_of('test_col'), mpg, cyl, starts_with('g'), ends_with('b')"
-mtcars_missing_col_expr <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_select = mtcars_missing_col_arg)
+mtcars_missing_col_expr <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_expr = mtcars_missing_col_arg)
 
 test_that(".tidy_eval_handle_errors fails with correct message if column doesn't exist", {
   expect_error(
@@ -115,7 +115,7 @@ test_that(".tidy_eval_handle_errors fails with correct message if column doesn't
 })
 
 mtcars_random_arg <- "filter('mpg'), mpg, cyl, starts_with('g'), ends_with('b')"
-mtcars_random_expr <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_select = mtcars_random_arg)
+mtcars_random_expr <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_expr = mtcars_random_arg)
 
 test_that(".tidy_eval_handle_errors fails with correct message when unrecognised function passed", {
   expect_error(

@@ -43,14 +43,14 @@
 #' @importFrom rlang parse_expr
 #' @return An expression object of the tidyverse call.
 #' @noRd
-.make_tidyverse_call <- function(.data, fun, tidy_select, other_args = NULL, inc_data = TRUE) {
-  if (!is.null(tidy_select) & is.null(other_args)) {
-    tidy_string <- paste0("dplyr::", fun, "(", tidy_select, ")")
-  } else if (!length(tidy_select) == 0 & !is.null(other_args)) {
-    tidy_string <- paste0("dplyr::", fun, "(", tidy_select, ", ", other_args, ")")
-  } else if (length(tidy_select) == 0 & !is.null(other_args)) {
+.make_tidyverse_call <- function(.data, fun, tidy_expr, other_args = NULL, inc_data = TRUE) {
+  if (!is.null(tidy_expr) & is.null(other_args)) {
+    tidy_string <- paste0("dplyr::", fun, "(", tidy_expr, ")")
+  } else if (!length(tidy_expr) == 0 & !is.null(other_args)) {
+    tidy_string <- paste0("dplyr::", fun, "(", tidy_expr, ", ", other_args, ")")
+  } else if (length(tidy_expr) == 0 & !is.null(other_args)) {
     tidy_string <- paste0("dplyr::", fun, "(", other_args, ")")
-  } else if (length(tidy_select) == 0 & is.null(other_args)) {
+  } else if (length(tidy_expr) == 0 & is.null(other_args)) {
     tidy_string <- paste0("dplyr::", fun, "(",")")
   }
 

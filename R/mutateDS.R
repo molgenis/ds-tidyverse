@@ -2,7 +2,7 @@
 #' @description This function is similar to R function \code{rename}.
 #' @details Performs dplyr rename
 #' @param .data A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).
-#' @param expr Diffused expression of dotdotdot passed to ds.rename
+#' @param tidy_expr Diffused expression of dotdotdot passed to ds.rename
 #' @param .keep Control which columns from .data are retained in the output. Grouping columns and
 #' columns created by ... are always kept. "all" retains all columns from .data. This is the default.
 #' "used" retains only the columns used in `tidy_select` to create new columns. "unused" retains

@@ -13,7 +13,7 @@
 #' @export
 filterDS <- function(tidy_expr, .data, .by, .preserve) {
   checkPermissivePrivacyControlLevel(c('permissive', 'banana'))
-  tidy_select <- .decode_tidy_eval(tidy_expr, .get_encode_dictionary())
+  tidy_expr <- .decode_tidy_eval(tidy_expr, .get_encode_dictionary())
   .check_tidy_disclosure(.data, tidy_expr)
   other_args <- .paste_character_args(.by, .preserve)
   call <- .make_tidyverse_call(.data, "filter", tidy_expr, other_args)

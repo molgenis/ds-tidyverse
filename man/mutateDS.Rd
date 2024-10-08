@@ -7,6 +7,8 @@
 mutateDS(tidy_expr, .data, .keep = NULL, .before = NULL, .after = NULL)
 }
 \arguments{
+\item{tidy_expr}{Diffused expression of dotdotdot passed to ds.rename}
+
 \item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).}
 
 \item{.keep}{Control which columns from .data are retained in the output. Grouping columns and
@@ -22,8 +24,6 @@ to add to the right hand side). See `relocate` for more details.}
 
 \item{.after}{<tidy-select> Optionally, control where new columns should appear (the default is
 to add to the right hand side). See `relocate` for more details.}
-
-\item{expr}{Diffused expression of dotdotdot passed to ds.rename}
 }
 \value{
 the object specified by the \code{newobj} argument of \code{ds.mutate} which is written

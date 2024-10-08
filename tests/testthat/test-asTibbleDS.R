@@ -24,7 +24,7 @@ datashield.assign.table(conns, "test_matrix", "test_matrix")
 tibble_class <- c("tbl_df", "tbl", "data.frame")
 
 test_that("asTibbleDS correctly converts a data frame to a tibble", {
-  good_tibble_cally <- .make_tidyverse_call("mtcars", "as_tibble", tidy_select = NULL)
+  good_tibble_cally <- .make_tidyverse_call("mtcars", "as_tibble", tidy_expr = NULL)
 
   now_a_tibble <- eval(good_tibble_cally)
 
@@ -41,7 +41,7 @@ test_that("asTibbleDS correctly converts a data frame to a tibble", {
 })
 
 test_that("asTibbleDS correctly converts a matrix to a tibble", {
-  good_matrix_cally <- .make_tidyverse_call("test_matrix", "as_tibble", tidy_select = NULL, ".name_repair = 'minimal'")
+  good_matrix_cally <- .make_tidyverse_call("test_matrix", "as_tibble", tidy_expr = NULL, ".name_repair = 'minimal'")
 
   matrix_to_tibble <- eval(good_matrix_cally)
 
@@ -58,7 +58,7 @@ test_that("asTibbleDS correctly converts a matrix to a tibble", {
 })
 
 test_that("asTibbleDS fails when data doesn't exist", {
-  no_data <- .make_tidyverse_call("doesnt_exist", "as_tibble", tidy_select = NULL)
+  no_data <- .make_tidyverse_call("doesnt_exist", "as_tibble", tidy_expr = NULL)
   expect_error(
     eval(no_data),
     "object 'doesnt_exist' not found"
@@ -68,7 +68,7 @@ test_that("asTibbleDS fails when data doesn't exist", {
 
 test_that("asTibbleDS works with the name_repair argument", {
 
-  repair_min_call <- .make_tidyverse_call("mtcars_dup_names", "as_tibble", tidy_select = NULL, '.name_repair = "minimal"')
+  repair_min_call <- .make_tidyverse_call("mtcars_dup_names", "as_tibble", tidy_expr = NULL, '.name_repair = "minimal"')
   tib_min_repair <- eval(repair_min_call)
 
   expect_equal(
@@ -81,7 +81,7 @@ test_that("asTibbleDS works with the name_repair argument", {
     c("mpg", "cyl", "disp", "hp", "drat", "wt", "qsec", "vs", "am", "gear", "carb", "cyl")
   )
 
-  repair_unique_call <- .make_tidyverse_call("mtcars_dup_names", "as_tibble", tidy_select = NULL, '.name_repair = "unique"')
+  repair_unique_call <- .make_tidyverse_call("mtcars_dup_names", "as_tibble", tidy_expr = NULL, '.name_repair = "unique"')
 
   expect_message(
     tib_unique_repair <- eval(repair_unique_call)
@@ -97,13 +97,13 @@ test_that("asTibbleDS works with the name_repair argument", {
     c("mpg", "cyl...2", "disp", "hp", "drat", "wt", "qsec", "vs", "am", "gear", "carb", "cyl...12")
   )
 
-  repair_check_call <- .make_tidyverse_call("mtcars_dup_names", "as_tibble", tidy_select = NULL, '.name_repair = "check_unique"')
+  repair_check_call <- .make_tidyverse_call("mtcars_dup_names", "as_tibble", tidy_expr = NULL, '.name_repair = "check_unique"')
 
   expect_error(
     tib_unique_repair <- eval(repair_check_call)
   )
 
-  repair_uni_call <- .make_tidyverse_call("mtcars_dup_names", "as_tibble", tidy_select = NULL, '.name_repair = "universal"')
+  repair_uni_call <- .make_tidyverse_call("mtcars_dup_names", "as_tibble", tidy_expr = NULL, '.name_repair = "universal"')
 
   expect_message(
     tib_uni_repair <- eval(repair_uni_call)
@@ -123,7 +123,7 @@ test_that("asTibbleDS works with the name_repair argument", {
 
 test_that("asTibbleDS works with the rownames argument", {
 
-  row_null_call <- .make_tidyverse_call("mtcars", "as_tibble", tidy_select = NULL, 'rownames = NULL')
+  row_null_call <- .make_tidyverse_call("mtcars", "as_tibble", tidy_expr = NULL, 'rownames = NULL')
   row_null_tibble <- eval(row_null_call)
 
   expect_equal(
@@ -136,7 +136,7 @@ test_that("asTibbleDS works with the rownames argument", {
     as.character(rep(1:32))
   )
 
-  row_na_call <- .make_tidyverse_call("mtcars", "as_tibble", tidy_select = NULL, 'rownames = NA')
+  row_na_call <- .make_tidyverse_call("mtcars", "as_tibble", tidy_expr = NULL, 'rownames = NA')
   row_na_tibble <- eval(row_na_call)
 
   expect_equal(
@@ -160,7 +160,7 @@ test_that("asTibbleDS works with the rownames argument", {
     car_names
   )
 
-  row_col_call <- .make_tidyverse_call("mtcars", "as_tibble", tidy_select = NULL, 'rownames = "col_with_names"')
+  row_col_call <- .make_tidyverse_call("mtcars", "as_tibble", tidy_expr = NULL, 'rownames = "col_with_names"')
   tib_with_col <- eval(row_col_call)
 
   expect_equal(

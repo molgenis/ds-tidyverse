@@ -19,7 +19,7 @@ datashield.assign.table(conns, "mtcars_group", "mtcars_group")
 datashield.assign.table(conns, "mtcars_bad_group", "mtcars_bad_group")
 
 test_that("groupKeysDS correctly returns keys when no disclosure risk", {
-  good_keys_call <- .make_tidyverse_call("mtcars_group", "group_keys", tidy_select = NULL, other_args = NULL)
+  good_keys_call <- .make_tidyverse_call("mtcars_group", "group_keys", tidy_expr = NULL, other_args = NULL)
 
   expect_equal(
     eval(good_keys_call),
@@ -28,7 +28,7 @@ test_that("groupKeysDS correctly returns keys when no disclosure risk", {
 })
 
 test_that("groupKeysDS fails when data doesn't exist", {
-  no_data_call <- .make_tidyverse_call("doesnt_exist", "group_keys", tidy_select = NULL, other_args = NULL)
+  no_data_call <- .make_tidyverse_call("doesnt_exist", "group_keys", tidy_expr = NULL, other_args = NULL)
   expect_error(
     eval(no_data_call),
     "object 'doesnt_exist' not found"

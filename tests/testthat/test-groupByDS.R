@@ -102,7 +102,7 @@ grouped_add_true <- eval(add_true_call)
 
 
 test_that("ungroupDS correctly ungroups data", {
-  ungroup_call <- .make_tidyverse_call("mtcars_group", "ungroup", tidy_select = NULL, other_args = NULL)
+  ungroup_call <- .make_tidyverse_call("mtcars_group", "ungroup", tidy_expr = NULL, other_args = NULL)
   ungrouped_data <- eval(ungroup_call)
 
   expect_equal(
@@ -112,7 +112,7 @@ test_that("ungroupDS correctly ungroups data", {
 })
 
 test_that("ungroupDS works with already ungrouped data", {
-  ungroup_call <- .make_tidyverse_call("mtcars", "ungroup", tidy_select = NULL, other_args = NULL)
+  ungroup_call <- .make_tidyverse_call("mtcars", "ungroup", tidy_expr = NULL, other_args = NULL)
   ungrouped_data <- eval(ungroup_call)
 
   expect_equal(
@@ -122,7 +122,7 @@ test_that("ungroupDS works with already ungrouped data", {
 })
 
 test_that("ungroupDS fails when data doesn't exist", {
-  no_data_call <- .make_tidyverse_call("doesntexist", "ungroup", tidy_select = NULL, other_args = NULL)
+  no_data_call <- .make_tidyverse_call("doesntexist", "ungroup", tidy_expr = NULL, other_args = NULL)
   expect_error(
     eval(no_data_call),
     "object 'doesntexist' not found"
