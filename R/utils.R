@@ -93,7 +93,7 @@
     eval_tidy(string_as_expr, env = parent.frame(2)),
     error = function(e) {
       cli_abort(
-        c("x" = "`{fun}DS` returned the following error:", "i" = conditionMessage(e)),
+        c("`{fun}DS` returned the following error:", "i" = conditionMessage(e)),
         call = NULL
       )
     }
