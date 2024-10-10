@@ -1,7 +1,7 @@
 Package: dsTidyverse
 Type: Package
 Title: DataSHIELD Tidyverse Serverside Package
-Version: 0.13.0
+Version: 0.13.1
 Authors@R:
     c(
       person(given = "Tim",
