@@ -3,7 +3,6 @@ library(dplyr)
 library(dsTidyverse)
 library(dsBase)
 library(dsBaseClient)
-library(purrr)
 
 data("mtcars")
 login_data <- .prepare_dslite("bindColsDS", NULL, list(mtcars = mtcars))
