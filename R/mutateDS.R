@@ -19,6 +19,7 @@
 #' @export
 #'
 mutateDS <- function(expr, .data, .keep = NULL, .before = NULL, .after = NULL) {
+  checkPermissivePrivacyControlLevel(c('permissive', 'banana', 'avacado'))
   tidy_select <- .decode_tidy_eval(expr, .get_encode_dictionary())
   .check_tidy_disclosure(.data, tidy_select)
   other_args <- .paste_character_args(.keep, .before, .after)

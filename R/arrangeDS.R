@@ -9,6 +9,7 @@
 #' to the serverside.
 #' @export
 arrangeDS <- function(expr, .data, .by_group) {
+  checkPermissivePrivacyControlLevel(c('permissive', 'banana'))
   tidy_select <- .decode_tidy_eval(expr, .get_encode_dictionary())
   .check_tidy_disclosure(.data, tidy_select)
   call <- .make_tidyverse_call(.data, "arrange", tidy_select, list(.by_group))

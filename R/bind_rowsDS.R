@@ -10,6 +10,7 @@
 #' first element of `to_combine`.
 #' @export
 bindRowsDS <- function(to_combine = NULL, .id = NULL) {
+  checkPermissivePrivacyControlLevel(c('permissive', 'banana'))
   to_combine <- .decode_tidy_eval(to_combine, .get_encode_dictionary())
   .check_tidy_disclosure(NULL, to_combine, check_df = F)
   other_args <- .paste_character_args(.id)

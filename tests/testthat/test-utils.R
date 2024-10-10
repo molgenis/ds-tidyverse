@@ -2,6 +2,12 @@ library(dplyr)
 library(DSLite)
 library(rlang)
 
+data("mtcars")
+mtcars_group <- mtcars %>% group_by(cyl)
+login_data <- .prepare_dslite("filterDS", NULL, list(mtcars = mtcars, mtcars_group = mtcars_group))
+conns <- datashield.login(logins = login_data)
+datashield.assign.table(conns, "mtcars", "mtcars")
+
 disc_settings <- listDisclosureSettingsDS()
 
 test_that(".make_tidyverse_call creates call with no additional arguments", {
@@ -324,4 +330,38 @@ test_that(".tidy_disclosure_checks blocks argument with single unpermitted funct
     .check_tidy_disclosure("dataset", arg_unpermitted_4),
     error = TRUE
   )
+})
+
+test_that("checkPermissivePrivacyControlLevel blocks certain functions when not in permissive mode", {
+  cally <- call("filterDS", "carb$SPACE$$EQU$$EQU$$SPACE$4", "mtcars", NULL, FALSE)
+
+  options(datashield.privacyControlLevel =  "banana")
+  expect_silent(
+    datashield.assign(conns, "test", cally)
+  )
+
+  options(datashield.privacyControlLevel =  "non-permissive")
+  expect_error(
+    datashield.assign(conns, "test", cally)
+  )
+
+  options(datashield.privacyControlLevel = "NULL")
+  expect_error(
+    datashield.assign(conns, "test", cally)
+  )
+
+  expect_error(
+    testthat::with_mocked_bindings(
+      datashield.assign(conns, "test", cally),
+      listDisclosureSettingsDS = function() NULL
+      )
+  )
+
+  expect_error(
+    testthat::with_mocked_bindings(
+      datashield.assign(conns, "test", cally),
+      listDisclosureSettingsDS = function() list(datashield.privacyControlLevel = "NULL")
+    )
+  )
+
 })

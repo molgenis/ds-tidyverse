@@ -11,6 +11,7 @@
 #' @export
 ifElseDS <- function(condition = NULL, true = NULL, false = NULL, missing = NULL,
                      ptype = NULL, size = NULL) {
+  checkPermissivePrivacyControlLevel(c('permissive', 'banana', 'avacado'))
   tidyselect <- .decode_tidy_eval(condition, .get_encode_dictionary())
   .check_tidy_disclosure(NULL, tidyselect, check_df = F)
   other_args <- .paste_character_args(true, false, missing, ptype, size)
