@@ -17,6 +17,7 @@
 #' @export
 #'
 caseWhenDS <- function(dynamic_dots = NULL, .default = NULL, .ptype = NULL, .size = NULL) {
+  checkPermissivePrivacyControlLevel(c('permissive', 'banana'))
   dynamic_dots <- .decode_tidy_eval(dynamic_dots, .get_encode_dictionary())
   .check_tidy_disclosure(NULL, dynamic_dots, check_df = F)
   other_args <- .paste_character_args(.default, .ptype, .size)

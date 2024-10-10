@@ -9,6 +9,7 @@
 #' first element of `to_combine`.
 #' @export
 bindColsDS <- function(to_combine = NULL, .name_repair = NULL) {
+  checkPermissivePrivacyControlLevel(c('permissive', 'banana'))
   to_combine <- .decode_tidy_eval(to_combine, .get_encode_dictionary())
   .check_tidy_disclosure(NULL, to_combine, check_df = F)
   other_args <- .paste_character_args(.name_repair)

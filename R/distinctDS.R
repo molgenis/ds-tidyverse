@@ -9,6 +9,7 @@
 #' this keeps the first row of values.
 #' @export
 distinctDS <- function(expr, .data, .keep_all) {
+  checkPermissivePrivacyControlLevel(c('permissive', 'banana'))
   tidy_select <- .decode_tidy_eval(expr, .get_encode_dictionary())
   other_args <- .paste_character_args(.keep_all)
   call <- .make_tidyverse_call(.data, "distinct", tidy_select, other_args)

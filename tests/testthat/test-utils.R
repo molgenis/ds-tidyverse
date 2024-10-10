@@ -3,6 +3,12 @@ library(dplyr)
 library(DSLite)
 library(rlang)
 
+data("mtcars")
+mtcars_group <- mtcars %>% group_by(cyl)
+login_data <- .prepare_dslite("filterDS", NULL, list(mtcars = mtcars, mtcars_group = mtcars_group))
+conns <- datashield.login(logins = login_data)
+datashield.assign.table(conns, "mtcars", "mtcars")
+
 disc_settings <- listDisclosureSettingsDS()
 
 test_that(".make_tidyverse_call creates call with no additional arguments", {
@@ -324,5 +330,12 @@ test_that(".tidy_disclosure_checks blocks argument with single unpermitted funct
   expect_snapshot(
     .check_tidy_disclosure("dataset", arg_unpermitted_4),
     error = TRUE
+  )
+})
+
+test_that("checkPermissivePrivacyControlLevel blocks certain functions when not in permissive mode", {
+  options(datashield.privacyControlLevel =  "non-permissive")
+  expect_error(
+    ds.filter("mtcars", list(mpg > 10), newobj = "test_df", datasources = conns)
   )
 })

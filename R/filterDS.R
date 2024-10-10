@@ -12,6 +12,7 @@
 #' to the serverside.
 #' @export
 filterDS <- function(expr, .data, .by, .preserve) {
+  checkPermissivePrivacyControlLevel(c('permissive', 'banana'))
   tidy_select <- .decode_tidy_eval(expr, .get_encode_dictionary())
   .check_tidy_disclosure(.data, tidy_select)
   other_args <- .paste_character_args(.by, .preserve)

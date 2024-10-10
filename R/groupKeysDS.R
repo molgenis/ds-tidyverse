@@ -4,6 +4,7 @@
 #' @return A tibble describing the groups is returned to the client.
 #' @export
 groupKeysDS <- function(tidy_select, x) {
+  dsBase::checkPermissivePrivacyControlLevel(c('permissive', 'banana'))
   .check_data_name_length(x, listDisclosureSettingsDS())
   call <- .make_tidyverse_call(x, "group_keys", tidy_select = NULL, other_args = NULL)
   out <- .execute_with_error_handling("group_keys", call)
