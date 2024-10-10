@@ -333,21 +333,43 @@ test_that(".tidy_disclosure_checks blocks argument with single unpermitted funct
 })
 
 test_that("checkPermissivePrivacyControlLevel blocks certain functions when not in permissive mode", {
+  cally <- call("filterDS", "carb$SPACE$$EQU$$EQU$$SPACE$4", "mtcars", NULL, FALSE)
+
+  options(datashield.privacyControlLevel =  "banana")
+  expect_silent(
+    datashield.assign(conns, "test", cally)
+  )
+
   options(datashield.privacyControlLevel =  "non-permissive")
   expect_error(
-    ds.filter("mtcars", list(mpg > 10), newobj = "test_df", datasources = conns)
+    datashield.assign(conns, "test", cally)
   )
 
   options(datashield.privacyControlLevel = "NULL")
   expect_error(
-    ds.filter("mtcars", list(mpg > 10), newobj = "test_df", datasources = conns)
+    datashield.assign(conns, "test", cally)
   )
 
   expect_error(
     testthat::with_mocked_bindings(
-      ds.filter("mtcars", list(mpg > 10), newobj = "test_df", datasources = conns),
+      datashield.assign(conns, "test", cally),
       listDisclosureSettingsDS = function() NULL
       )
   )
+
+  expect_error(
+    testthat::with_mocked_bindings(
+      datashield.assign(conns, "test", cally),
+      listDisclosureSettingsDS = function() list(datashield.privacyControlLevel = "NULL")
+    )
+  )
+
+  # options(datashield.privacyControlLevel =  "non-permissive")
+  # cli_abort_mock <- mockery::mock()
+  # testthat::with_mocked_bindings(
+  #   datashield.assign(conns, "test", cally),
+  #   cli_abort = cli_abort_mock)
+  #
+  # mockery::expect_called(cli_abort_mock, 1)
 
 })
