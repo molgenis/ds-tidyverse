@@ -364,12 +364,4 @@ test_that("checkPermissivePrivacyControlLevel blocks certain functions when not 
     )
   )
 
-  # options(datashield.privacyControlLevel =  "non-permissive")
-  # cli_abort_mock <- mockery::mock()
-  # testthat::with_mocked_bindings(
-  #   datashield.assign(conns, "test", cally),
-  #   cli_abort = cli_abort_mock)
-  #
-  # mockery::expect_called(cli_abort_mock, 1)
-
 })
