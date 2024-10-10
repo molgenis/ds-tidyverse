@@ -4,12 +4,12 @@
 \alias{renameDS}
 \title{Rename columns}
 \usage{
-renameDS(tidy_expr, .data)
+renameDS(tidy_expr, df.name)
 }
 \arguments{
-\item{tidy_expr}{Diffused expression passed to ds.rename.}
+\item{tidy_expr}{list containing diffused expression.}
 
-\item{.data}{A data frame or tibble.}
+\item{df.name}{A data frame or tibble.}
 }
 \value{
 the object specified by the \code{newobj} argument of \code{ds.rename} which is written

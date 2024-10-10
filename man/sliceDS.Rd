@@ -4,20 +4,20 @@
 \alias{sliceDS}
 \title{Subset rows using their positions}
 \usage{
-sliceDS(tidy_expr, .data, .by, .preserve)
+sliceDS(tidy_expr, df.name, .by, .preserve)
 }
 \arguments{
 \item{tidy_expr}{Provide either positive values to keep, or negative values to drop. The values
 provided must be either all positive or all negative. Indices beyond the number of rows in the
 input are silently ignored.}
 
-\item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame
+\item{df.name}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame
 (e.g. from dbplyr or dtplyr).}
 
 \item{.by}{Optionally, a selection of columns to group by for just this operation, functioning as
 an alternative to \code{group_by}.}
 
-\item{.preserve}{Relevant when the .data input is grouped. If .preserve = FALSE (the default),
+\item{.preserve}{Relevant when the df.name input is grouped. If .preserve = FALSE (the default),
 the grouping structure is recalculated based on the resulting data, otherwise the grouping is
 kept as is.}
 }

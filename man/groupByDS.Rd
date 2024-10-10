@@ -4,19 +4,19 @@
 \alias{groupByDS}
 \title{Group by one or more variables}
 \usage{
-groupByDS(tidy_expr, .data, .add, .drop)
+groupByDS(tidy_expr, df.name, .add, .drop)
 }
 \arguments{
 \item{tidy_expr}{Diffused grouping expression.}
 
-\item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame
+\item{df.name}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame
 (e.g. from dbplyr or dtplyr).}
 
 \item{.add}{When FALSE, the default, \code{group_by()} will override existing groups. To add to
 the existing groups, use .add = TRUE.}
 
 \item{.drop}{Drop groups formed by factor levels that don't appear in the data? The default is
-TRUE except when .data has been previously grouped with .drop = FALSE.}
+TRUE except when df.name has been previously grouped with .drop = FALSE.}
 }
 \value{
 the object specified by the \code{newobj} argument of \code{ds.group_by} which is written

@@ -4,12 +4,12 @@
 \alias{selectDS}
 \title{Keep or drop columns using their names and types}
 \usage{
-selectDS(tidy_expr, .data)
+selectDS(tidy_expr, df.name)
 }
 \arguments{
 \item{tidy_expr}{One or more unquoted expressions separated by commas.}
 
-\item{.data}{A data frame or tibble.}
+\item{df.name}{A data frame or tibble.}
 }
 \value{
 the object specified by the \code{newobj} argument of \code{ds.select} which is written

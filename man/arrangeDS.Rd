@@ -4,13 +4,13 @@
 \alias{arrangeDS}
 \title{Order the rows of a data frame by the values of selected columns}
 \usage{
-arrangeDS(tidy_expr, .data, .by_group)
+arrangeDS(tidy_expr, df.name, .by_group)
 }
 \arguments{
 \item{tidy_expr}{Variables, or functions of variables. Use \code{desc()} to sort a variable in descending
 order.}
 
-\item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).}
+\item{df.name}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).}
 
 \item{.by_group}{If TRUE, will sort first by grouping variable. Applies to grouped data frames
 only.}
