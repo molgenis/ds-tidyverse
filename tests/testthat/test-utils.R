@@ -338,4 +338,17 @@ test_that("checkPermissivePrivacyControlLevel blocks certain functions when not 
   expect_error(
     ds.filter("mtcars", list(mpg > 10), newobj = "test_df", datasources = conns)
   )
+
+  options(datashield.privacyControlLevel = "NULL")
+  expect_error(
+    ds.filter("mtcars", list(mpg > 10), newobj = "test_df", datasources = conns)
+  )
+
+  expect_error(
+    testthat::with_mocked_bindings(
+      ds.filter("mtcars", list(mpg > 10), newobj = "test_df", datasources = conns),
+      listDisclosureSettingsDS = function() NULL
+      )
+  )
+
 })

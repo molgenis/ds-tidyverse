@@ -439,12 +439,13 @@ listPermittedTidyverseFunctionsDS <- function() {
 #' will cause a call to stop() with the message "BLOCKED: The server is running in 'non-permissive' mode which
 #' has caused this method to be blocked".
 #' @param privacyControlLevels is a vector of strings which contains the privacy control level names which are permitted by the calling method.
+#' @importFrom cli cli_abort
 #' @author Wheater, Dr SM., DataSHIELD Team.
 #' @export
 #'
 checkPermissivePrivacyControlLevel <- function(privacyControlLevels){
 
-  disclosureSettings <- dsBase::listDisclosureSettingsDS()
+  disclosureSettings <- listDisclosureSettingsDS()
   if (is.null(disclosureSettings) || is.null(disclosureSettings$datashield.privacyControlLevel) ||
       (! any(disclosureSettings$datashield.privacyControlLevel %in% privacyControlLevels))) {
     cli_abort("BLOCKED: The server is running in 'non-permissive' mode which has caused this method
