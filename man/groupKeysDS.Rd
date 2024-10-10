@@ -15,5 +15,5 @@ groupKeysDS(tidy_select, x)
 A tibble describing the groups is returned to the client.
 }
 \description{
-Performs dplyr \code{group_keys}.
+DataSHIELD implentation of \code{dplyr::group_keys}
 }

@@ -42,6 +42,9 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="news/index.html">Changelog</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right"></ul>
 </div>
@@ -58,22 +61,68 @@
 <div class="section level1">
 <div class="page-header"><h1 id="dstidyverse">dsTidyverse<a class="anchor" aria-label="anchor" href="#dstidyverse"></a>
 </h1></div>
-<div class="section level2">
-<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
-</h2>
-<p><code>dsTidyverse</code> is the serverside implementation of the DataSHIELD Tidyverse package.</p>
-</div>
+<!-- badges: start -->
+
+<p>This is the DataSHIELD implementation of selected <a href="https://www.tidyverse.org/" class="external-link">Tidyverse</a> functions. Currently most of these functions are from dplyr, however in the future functions from other Tidyverse packages can be included.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<pre><code><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"molgenis/dsTidyverse"</span><span class="op">)</span></span></code></pre>
+<ul>
+<li>Install dsTidyverse on your armadillo or opal server.</li>
+<li>Whitelist dsTidyverse if required</li>
+<li>Install dsTidyverseClient on your local machine</li>
+</ul>
 </div>
 <div class="section level2">
-<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+<h2 id="functionsfeatures">Functions/Features<a class="anchor" aria-label="anchor" href="#functionsfeatures"></a>
 </h2>
-<p>Please see the documentation on the client side package (<a href="https://github.com/molgenis/ds-tidyverse-client" class="external-link uri">https://github.com/molgenis/ds-tidyverse-client</a>) for full details.</p>
+<div class="section level3">
+<h3 id="from-the-dplyr-package">From the <code>dplyr</code> package:<a class="anchor" aria-label="anchor" href="#from-the-dplyr-package"></a>
+</h3>
+<ul>
+<li>
+<strong><code>select</code></strong>: Choose columns from a data frame.</li>
+<li>
+<strong><code>rename</code></strong>: Rename columns in a data frame.</li>
+<li>
+<strong><code>mutate</code></strong>: Create or modify columns.</li>
+<li>
+<strong><code>if_else</code></strong>: A vectorized conditional function.</li>
+<li>
+<strong><code>case_when</code></strong>: A general vectorized conditional function.</li>
+<li>
+<strong><code>bind_cols</code></strong>: Combine data frames by columns.</li>
+<li>
+<strong><code>bind_rows</code></strong>: Combine data frames by rows.</li>
+<li>
+<strong><code>filter</code></strong>: Filter rows based on conditions.</li>
+<li>
+<strong><code>slice</code></strong>: Select rows by position.</li>
+<li>
+<strong><code>arrange</code></strong>: Arrange rows by values of a column or multiple columns.</li>
+<li>
+<strong><code>group_by</code></strong>: Group data by one or more columns.</li>
+<li>
+<strong><code>ungroup</code></strong>: Remove grouping from data.</li>
+<li>
+<strong><code>group_keys</code></strong>: Retrieve the group keys from a grouped data frame.</li>
+<li>
+<strong><code>distinct</code></strong>: Return unique rows based on certain columns.</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="from-the-tibble-package">From the <code>tibble</code> package:<a class="anchor" aria-label="anchor" href="#from-the-tibble-package"></a>
+</h3>
+<ul>
+<li>
+<strong><code>as_tibble</code></strong>: Convert data to a tibble.</li>
+</ul>
+</div>
+</div>
+<div class="section level2">
+<h2 id="contributing">Contributing<a class="anchor" aria-label="anchor" href="#contributing"></a>
+</h2>
+<p>If there are functions in this list you would like implemented, please either attempt to do so yourself and submit a pull request, or submit a feature request in the <code>issues</code> section. See the “CONTRIBUTING” file for more information.</p>
 </div>
 </div>
   </div>
@@ -86,6 +135,12 @@
 </ul>
 </div>
 
+<div class="community">
+<h2 data-toc-skip>Community</h2>
+<ul class="list-unstyled">
+<li><a href="CONTRIBUTING.html">Contributing guide</a></li>
+</ul>
+</div>
 
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
@@ -104,7 +159,13 @@
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://circleci.com/gh/molgenis/ds-tidyverse-client" class="external-link"><img src="https://circleci.com/gh/molgenis/ds-tidyverse-client.svg?style=shield" alt="CircleCI"></a></li>
+<li><a href="https://app.codecov.io/gh/molgenis/ds-tidyverse-client" class="external-link"><img src="https://codecov.io/gh/molgenis/ds-tidyverse-client/branch/master/graph/badge.svg?token=ITPMERAWYI" alt="codecov"></a></li>
+</ul>
+</div>
 
   </div>
 </div>

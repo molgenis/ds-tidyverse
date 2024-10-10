@@ -4,18 +4,19 @@
 \alias{filterDS}
 \title{Performs dplyr filter}
 \usage{
-filterDS(expr, .data, .by, .preserve)
+filterDS(tidy_expr, df.name, .by, .preserve)
 }
 \arguments{
-\item{expr}{Diffused expression of dotdotdot passed to ds.filter}
+\item{tidy_expr}{Diffused expression that return a logical value, and are defined in terms of the
+variables in \code{df.name}.}
 
-\item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame
+\item{df.name}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame
 (e.g. from dbplyr or dtplyr).}
 
 \item{.by}{Optionally, a selection of columns to group by for just this operation, functioning as
 an alternative to \code{group_by}.}
 
-\item{.preserve}{Relevant when the .data input is grouped. If .preserve = FALSE (the default),
+\item{.preserve}{Relevant when the df.name input is grouped. If .preserve = FALSE (the default),
 the grouping structure is recalculated based on the resulting data, otherwise the grouping is kept as is.}
 }
 \value{
@@ -23,8 +24,5 @@ the object specified by the \code{newobj} argument of \code{ds.filter} which is 
 to the serverside.
 }
 \description{
-This function is similar to R function \code{filter}.
-}
-\details{
-Performs dplyr filter
+DataSHIELD implentation of \code{dplyr::filter}.
 }
