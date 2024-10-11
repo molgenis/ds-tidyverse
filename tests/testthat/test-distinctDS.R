@@ -1,8 +1,8 @@
-library(DSLite)
-library(dplyr)
-library(dsTidyverse)
-library(dsBase)
-library(dsBaseClient)
+require(DSI)
+require(DSLite)
+require(dplyr)
+require(dsBase)
+require(dsBaseClient)
 
 data("mtcars")
 login_data <- .prepare_dslite("arrangeDS", NULL, list(mtcars = mtcars))
@@ -24,7 +24,6 @@ test_that("distinctDS correctly works where no `expr` argument is provided", {
     dim(out_empty),
     c(32, 11)
   )
-
 })
 
 test_that("distinctDS correctly works where variables specified in `expr` argument", {
@@ -79,7 +78,6 @@ test_that("distinctDS correctly works with `.keep_all` argument", {
     colnames(keep_all_n_out),
     c("cyl", "drat")
   )
-
 })
 
 test_that("distinctDS fails when data doesn't exist", {
@@ -91,12 +89,14 @@ test_that("distinctDS fails when data doesn't exist", {
 })
 
 test_that("distinctDS passes when called directly", {
+  skip_if_not_installed("dsBaseClient")
   cally <- call("distinctDS", "mpg$COMMA$$SPACE$cyl", "mtcars", FALSE)
   datashield.assign(conns, "test_distinct", cally)
 
   expect_equal(
     ds.class("test_distinct", datasources = conns)[[1]],
-    "data.frame")
+    "data.frame"
+  )
 
   expect_equal(
     ds.dim("test_distinct", datasources = conns)[[1]],
@@ -109,5 +109,4 @@ test_that("distinctDS fails if subset is too small", {
   expect_error(
     datashield.assign(conns, "test_distinct", cally)
   )
-
 })

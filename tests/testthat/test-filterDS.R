@@ -1,8 +1,8 @@
-library(DSLite)
-library(dplyr)
-library(dsTidyverse)
-library(dsBase)
-library(dsBaseClient)
+require(DSI)
+require(DSLite)
+require(dplyr)
+require(dsBase)
+require(dsBaseClient)
 
 data("mtcars")
 login_data <- .prepare_dslite("filterDS", NULL, list(mtcars = mtcars))
@@ -90,6 +90,7 @@ test_that("filterDS fails with bad argument", {
 })
 
 test_that("filterDS passes when called directly", {
+  skip_if_not_installed("dsBaseClient")
   cally <- call("filterDS", "carb$SPACE$$EQU$$EQU$$SPACE$4", "mtcars", NULL, FALSE)
 
   datashield.assign(conns, "test", cally)

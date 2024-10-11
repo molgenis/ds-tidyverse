@@ -1,4 +1,5 @@
 #' @title Performs dplyr \code{group_keys}.
+#' @description DataSHIELD implentation of \code{dplyr::group_keys}
 #' @param tidy_select Unused in this function.
 #' @param x a grouped tibble.
 #' @return A tibble describing the groups is returned to the client.
@@ -6,7 +7,7 @@
 groupKeysDS <- function(tidy_select, x) {
   dsBase::checkPermissivePrivacyControlLevel(c('permissive', 'banana'))
   .check_data_name_length(x, listDisclosureSettingsDS())
-  call <- .make_tidyverse_call(x, "group_keys", tidy_select = NULL, other_args = NULL)
+  call <- .make_tidyverse_call(x, "group_keys", tidy_expr = NULL, other_args = NULL)
   out <- .execute_with_error_handling("group_keys", call)
   .check_group_keys_disclosure_risk(eval(parse(text = x), envir = parent.frame()), out)
   return(out)

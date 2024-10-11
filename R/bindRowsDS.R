@@ -7,7 +7,7 @@
 #' that identifies each input. The column will use names if available, otherwise it will use
 #' positions.
 #' @return A serverside data frame with name specified in \code{newobj} and the same type as the
-#' first element of `to_combine`.
+#' first element of \code{to_combine}.
 #' @export
 bindRowsDS <- function(to_combine = NULL, .id = NULL) {
   checkPermissivePrivacyControlLevel(c('permissive', 'banana'))

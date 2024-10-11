@@ -1,9 +1,8 @@
-library(DSLite)
-library(dplyr)
-library(dsTidyverse)
-library(dsBase)
-library(dsBaseClient)
-library(DSI)
+require(DSI)
+require(DSLite)
+require(dplyr)
+require(dsBase)
+require(dsBaseClient)
 
 data("mtcars")
 mtcars_group <- mtcars %>% group_by(cyl)
@@ -26,21 +25,24 @@ test_that("arrangeDS correctly arranges data", {
 
   expect_equal(
     sorted_df$mpg,
-    c(10.4, 10.4, 13.3, 14.3, 14.7, 15.0, 15.2, 15.2, 15.5, 15.8, 16.4, 17.3, 17.8, 18.1, 18.7,
+    c(
+      10.4, 10.4, 13.3, 14.3, 14.7, 15.0, 15.2, 15.2, 15.5, 15.8, 16.4, 17.3, 17.8, 18.1, 18.7,
       19.2, 19.2, 19.7, 21.0, 21.0, 21.4, 21.4, 21.5, 22.8, 22.8, 24.4, 26.0, 27.3, 30.4, 30.4,
-      32.4, 33.9)
+      32.4, 33.9
     )
+  )
 
   expect_equal(
     sorted_df$cyl,
-    c(8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 6, 6, 8, 6, 8, 6, 6, 6, 4, 6, 4, 4, 4, 4, 4, 4, 4, 4, 4,
-      4)
+    c(
+      8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 6, 6, 8, 6, 8, 6, 6, 6, 4, 6, 4, 4, 4, 4, 4, 4, 4, 4, 4,
+      4
     )
+  )
 })
 
 
 test_that("arrangeDS works with .by_group argument", {
-
   by_cally <- .make_tidyverse_call("mtcars_group", "arrange", "drat", ".by_group = TRUE")
   no_by_cally <- .make_tidyverse_call("mtcars_group", "arrange", "drat", ".by_group = FALSE")
 
@@ -59,16 +61,20 @@ test_that("arrangeDS works with .by_group argument", {
 
   expect_equal(
     arrange_by_t$drat,
-    c(3.69, 3.70, 3.77, 3.85, 3.92, 4.08, 4.08, 4.11, 4.22, 4.43, 4.93, 2.76, 3.08, 3.62, 3.90,
-    3.90, 3.92, 3.92, 2.76, 2.93, 3.00, 3.07, 3.07, 3.07, 3.08, 3.15, 3.15, 3.21, 3.23, 3.54,
-    3.73, 4.22)
+    c(
+      3.69, 3.70, 3.77, 3.85, 3.92, 4.08, 4.08, 4.11, 4.22, 4.43, 4.93, 2.76, 3.08, 3.62, 3.90,
+      3.90, 3.92, 3.92, 2.76, 2.93, 3.00, 3.07, 3.07, 3.07, 3.08, 3.15, 3.15, 3.21, 3.23, 3.54,
+      3.73, 4.22
+    )
   )
 
   expect_equal(
     arrange_by_f$drat,
-    c(2.76, 2.76, 2.93, 3.00, 3.07, 3.07, 3.07, 3.08, 3.08, 3.15, 3.15, 3.21, 3.23, 3.54, 3.62,
-    3.69, 3.70, 3.73, 3.77, 3.85, 3.90, 3.90, 3.92, 3.92, 3.92, 4.08, 4.08, 4.11, 4.22, 4.22,
-    4.43, 4.93)
+    c(
+      2.76, 2.76, 2.93, 3.00, 3.07, 3.07, 3.07, 3.08, 3.08, 3.15, 3.15, 3.21, 3.23, 3.54, 3.62,
+      3.69, 3.70, 3.73, 3.77, 3.85, 3.90, 3.90, 3.92, 3.92, 3.92, 4.08, 4.08, 4.11, 4.22, 4.22,
+      4.43, 4.93
+    )
   )
 })
 
@@ -85,9 +91,11 @@ test_that("arrangeDS works with desc option", {
 
   expect_equal(
     desc_df$mpg,
-    c(21.0, 21.0, 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2, 17.8,
+    c(
+      21.0, 21.0, 22.8, 21.4, 18.7, 18.1, 14.3, 24.4, 22.8, 19.2, 17.8,
       16.4, 17.3, 15.2, 10.4, 10.4, 14.7, 32.4, 30.4, 33.9, 21.5,
-      15.5, 15.2, 13.3, 19.2, 27.3, 26.0, 30.4, 15.8, 19.7, 15.0, 21.4)
+      15.5, 15.2, 13.3, 19.2, 27.3, 26.0, 30.4, 15.8, 19.7, 15.0, 21.4
+    )
   )
 })
 
@@ -100,13 +108,14 @@ test_that("arrangeDS fails when data doesn't exist", {
 })
 
 test_that("arrangeDS passes when called directly", {
+  skip_if_not_installed("dsBaseClient")
   cally <- call("arrangeDS", "drat", "mtcars", NULL)
   datashield.assign(conns, "sorted_df", cally)
 
   expect_equal(
     ds.class("sorted_df", datasources = conns)[[1]],
     "data.frame"
-    )
+  )
 
   expect_equal(
     ds.dim("sorted_df", datasources = conns)[[1]],
@@ -115,6 +124,7 @@ test_that("arrangeDS passes when called directly", {
 })
 
 test_that("arrangeDS works with desc option when called directly", {
+  skip_if_not_installed("dsBaseClient")
   cally <- call("arrangeDS", "desc$LB$drat$RB$", "mtcars", NULL)
   datashield.assign(conns, "sorted_df", cally)
 

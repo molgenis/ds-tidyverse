@@ -1,12 +1,13 @@
-library(DSLite)
-library(dplyr)
-library(dsTidyverse)
-library(dsBase)
-library(dsBaseClient)
-library(DSI)
+require(DSI)
+require(DSLite)
+require(dplyr)
+require(dsBase)
+require(dsBaseClient)
 
 data("mtcars")
-mtcars_group <- mtcars %>% group_by(cyl) %>% mutate(drop_test = factor("a", levels = c("a", "b")))
+mtcars_group <- mtcars %>%
+  group_by(cyl) %>%
+  mutate(drop_test = factor("a", levels = c("a", "b")))
 login_data <- .prepare_dslite("groupByDS", NULL, list(mtcars = mtcars, mtcars_group = mtcars_group))
 conns <- datashield.login(logins = login_data)
 datashield.assign.table(conns, "mtcars", "mtcars")
@@ -87,6 +88,7 @@ test_that("groupByDS fails with bad argument", {
 })
 
 test_that("groupByDS passes when called directly", {
+  skip_if_not_installed("dsBaseClient")
   call_direct <- call("groupByDS", "cyl", "mtcars", FALSE, TRUE)
   datashield.assign(conns, "test_group", call_direct)
 
@@ -102,7 +104,7 @@ grouped_add_true <- eval(add_true_call)
 
 
 test_that("ungroupDS correctly ungroups data", {
-  ungroup_call <- .make_tidyverse_call("mtcars_group", "ungroup", tidy_select = NULL, other_args = NULL)
+  ungroup_call <- .make_tidyverse_call("mtcars_group", "ungroup", tidy_expr = NULL, other_args = NULL)
   ungrouped_data <- eval(ungroup_call)
 
   expect_equal(
@@ -112,7 +114,7 @@ test_that("ungroupDS correctly ungroups data", {
 })
 
 test_that("ungroupDS works with already ungrouped data", {
-  ungroup_call <- .make_tidyverse_call("mtcars", "ungroup", tidy_select = NULL, other_args = NULL)
+  ungroup_call <- .make_tidyverse_call("mtcars", "ungroup", tidy_expr = NULL, other_args = NULL)
   ungrouped_data <- eval(ungroup_call)
 
   expect_equal(
@@ -122,7 +124,7 @@ test_that("ungroupDS works with already ungrouped data", {
 })
 
 test_that("ungroupDS fails when data doesn't exist", {
-  no_data_call <- .make_tidyverse_call("doesntexist", "ungroup", tidy_select = NULL, other_args = NULL)
+  no_data_call <- .make_tidyverse_call("doesntexist", "ungroup", tidy_expr = NULL, other_args = NULL)
   expect_error(
     eval(no_data_call),
     "object 'doesntexist' not found"
@@ -130,15 +132,15 @@ test_that("ungroupDS fails when data doesn't exist", {
 })
 
 data("mtcars")
-mtcars_group <- mtcars %>% group_by(cyl) %>% mutate(drop_test = factor("a", levels = c("a", "b")))
+mtcars_group <- mtcars %>%
+  group_by(cyl) %>%
+  mutate(drop_test = factor("a", levels = c("a", "b")))
 login_data <- .prepare_dslite("ungroupDS", NULL, list(mtcars_group = mtcars_group))
 conns <- datashield.login(logins = login_data)
 datashield.assign.table(conns, "mtcars_group", "mtcars_group")
 
-print(datashield.tables(conns))
-print(ds.ls(datasources = conns))
-
 test_that("ungroupDS works correctly when called directly", {
+  skip_if_not_installed("dsBaseClient")
   ungroup_call <- call("ungroupDS", NULL, "mtcars_group")
   datashield.assign(conns, "ungrouped_data", ungroup_call)
 

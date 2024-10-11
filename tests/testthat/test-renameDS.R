@@ -1,8 +1,8 @@
-library(DSLite)
-library(dplyr)
-library(dsTidyverse)
-library(dsBase)
-library(dsBaseClient)
+require(DSI)
+require(DSLite)
+require(dplyr)
+require(dsBase)
+require(dsBaseClient)
 
 data("mtcars")
 mtcars_group <- mtcars %>% group_by(cyl)
@@ -39,6 +39,7 @@ test_that("renameDS fails with bad argument", {
 })
 
 test_that("renameDS passes when called directly", {
+  skip_if_not_installed("dsBaseClient")
   cally <- call(
     "renameDS", "new_name_1$SPACE$$EQU$$SPACE$mpg$COMMA$$SPACE$new_name_2$SPACE$$EQU$$SPACE$drat",
     "mtcars"

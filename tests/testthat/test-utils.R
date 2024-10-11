@@ -1,6 +1,8 @@
-library(dplyr)
-library(DSLite)
-library(rlang)
+require(DSI)
+require(DSLite)
+require(dplyr)
+require(dsBase)
+require(dsBaseClient)
 
 data("mtcars")
 mtcars_group <- mtcars %>% group_by(cyl)
@@ -8,12 +10,26 @@ login_data <- .prepare_dslite("filterDS", NULL, list(mtcars = mtcars, mtcars_gro
 conns <- datashield.login(logins = login_data)
 datashield.assign.table(conns, "mtcars", "mtcars")
 
+options(
+  datashield.privacyControlLevel = "banana",
+  nfilter.tab = 3,
+  nfilter.subset = 3,
+  nfilter.glm = 0.33,
+  nfilter.string = 80,
+  nfilter.stringShort = 20,
+  nfilter.kNN = 3,
+  nfilter.levels.density = 0.33,
+  nfilter.levels.max = 40,
+  nfilter.noise = 0.25,
+  nfilter.privacy.old = 5
+)
+
 disc_settings <- listDisclosureSettingsDS()
 
 test_that(".make_tidyverse_call creates call with no additional arguments", {
   input_string <- "asd, qwe, starts_with('test')"
   expected_string <- rlang::parse_expr('test |> dplyr::select(asd, qwe, starts_with("test"))')
-  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_select = input_string)
+  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_expr = input_string)
   expect_equal(expected_string, observed_string)
 })
 
@@ -23,40 +39,40 @@ input_string <- "asd, qwe, starts_with('test')"
 test_that(".make_tidyverse_call creates call with additional arguments", {
   expected_string <- rlang::parse_expr('test |> dplyr::select(asd, qwe, starts_with("test"), .keep = "all",
     .before = NULL, .after = "disp")')
-  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_select = input_string, other_args = extra_args)
+  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_expr = input_string, other_args = extra_args)
   expect_equal(expected_string, observed_string)
 })
 
 test_that(".make_tidyverse_call creates call when inc_data = F", {
   expected_string <- rlang::parse_expr('dplyr::select(asd, qwe, starts_with("test"), .keep = "all",
   .before = NULL, .after = "disp")')
-  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_select = input_string, other_args = extra_args, inc_data = F)
+  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_expr = input_string, other_args = extra_args, inc_data = F)
   expect_equal(expected_string, observed_string)
 })
 
 test_that(".make_tidyverse_call creates call when inc_data = F", {
   expected_string <- rlang::parse_expr('dplyr::select(asd, qwe, starts_with("test"), .keep = "all",
   .before = NULL, .after = "disp")')
-  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_select = input_string, other_args = extra_args, inc_data = F)
+  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_expr = input_string, other_args = extra_args, inc_data = F)
   expect_equal(expected_string, observed_string)
 })
 
 test_that(".make_tidyverse_call creates call when inc_data = F", {
   expected_string <- rlang::parse_expr('dplyr::select(asd, qwe, starts_with("test"), .keep = "all",
   .before = NULL, .after = "disp")')
-  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_select = input_string, other_args = extra_args, inc_data = F)
+  observed_string <- .make_tidyverse_call(.data = "test", fun = "select", tidy_expr = input_string, other_args = extra_args, inc_data = F)
   expect_equal(expected_string, observed_string)
 })
 
 mtcars_good_arg <- "mpg, cyl, starts_with('g'), ends_with('b')"
-mtcars_good_str <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_select = mtcars_good_arg)
+mtcars_good_str <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_expr = mtcars_good_arg)
 
 test_that(".execute_with_error_handling works where data and object exists", {
   observed <- .execute_with_error_handling("select", mtcars_good_str)
   expect_equal(colnames(observed), c("mpg", "cyl", "gear", "carb"))
 })
 
-mtcars_wrong_data_str <- .make_tidyverse_call(.data = "data_not_here", fun = "select", tidy_select = mtcars_good_arg)
+mtcars_wrong_data_str <- .make_tidyverse_call(.data = "data_not_here", fun = "select", tidy_expr = mtcars_good_arg)
 
 test_that(".execute_with_error_handling fails with correct message if object doesn't exist", {
   expect_error(
@@ -66,7 +82,7 @@ test_that(".execute_with_error_handling fails with correct message if object doe
 })
 
 mtcars_missing_col_arg <- "all_of('test_col'), mpg, cyl, starts_with('g'), ends_with('b')"
-mtcars_missing_col_str <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_select = mtcars_missing_col_arg)
+mtcars_missing_col_str <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_expr = mtcars_missing_col_arg)
 
 test_that(".execute_with_error_handling fails with correct message if column doesn't exist", {
   expect_error(
@@ -76,7 +92,7 @@ test_that(".execute_with_error_handling fails with correct message if column doe
 })
 
 mtcars_random_arg <- "filter('mpg'), mpg, cyl, starts_with('g'), ends_with('b')"
-mtcars_random_str <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_select = mtcars_random_arg)
+mtcars_random_str <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_expr = mtcars_random_arg)
 
 test_that(".execute_with_error_handling fails with correct message when unrecognised function passed", {
   expect_error(
@@ -86,7 +102,7 @@ test_that(".execute_with_error_handling fails with correct message when unrecogn
 })
 
 mtcars_good_arg <- "mpg, cyl, starts_with('g'), ends_with('b')"
-mtcars_good_expr <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_select = mtcars_good_arg)
+mtcars_good_expr <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_expr = mtcars_good_arg)
 # mtcars_good_expr <- rlang::parse_expr(mtcars_good_str)
 
 test_that(".tidy_eval_handle_errors works where data and object exists", {
@@ -95,7 +111,7 @@ test_that(".tidy_eval_handle_errors works where data and object exists", {
 })
 
 mtcars_good_arg <- "mpg, cyl, starts_with('g'), ends_with('b')"
-mtcars_wrong_data_expr <- .make_tidyverse_call(.data = "data_not_here", fun = "select", tidy_select = mtcars_good_arg)
+mtcars_wrong_data_expr <- .make_tidyverse_call(.data = "data_not_here", fun = "select", tidy_expr = mtcars_good_arg)
 
 test_that(".tidy_eval_handle_errors fails with correct message if object doesn't exist", {
   expect_error(
@@ -105,7 +121,7 @@ test_that(".tidy_eval_handle_errors fails with correct message if object doesn't
 })
 
 mtcars_missing_col_arg <- "all_of('test_col'), mpg, cyl, starts_with('g'), ends_with('b')"
-mtcars_missing_col_expr <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_select = mtcars_missing_col_arg)
+mtcars_missing_col_expr <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_expr = mtcars_missing_col_arg)
 
 test_that(".tidy_eval_handle_errors fails with correct message if column doesn't exist", {
   expect_error(
@@ -115,7 +131,7 @@ test_that(".tidy_eval_handle_errors fails with correct message if column doesn't
 })
 
 mtcars_random_arg <- "filter('mpg'), mpg, cyl, starts_with('g'), ends_with('b')"
-mtcars_random_expr <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_select = mtcars_random_arg)
+mtcars_random_expr <- .make_tidyverse_call(.data = "mtcars", fun = "select", tidy_expr = mtcars_random_arg)
 
 test_that(".tidy_eval_handle_errors fails with correct message when unrecognised function passed", {
   expect_error(
@@ -182,7 +198,8 @@ test_that(".paste_character_args creates correct string", {
 test_that(".get_nfilter_subset_value retrieves value correctly", {
   expect_equal(
     .get_nfilter_subset_value(),
-    3)
+    3
+  )
 })
 
 test_that(".get_dimensions correctly returns dimensions", {
@@ -234,7 +251,8 @@ test_that(".check_subset_disclosure_risk returns an error correctly", {
 
   expect_error(
     .check_subset_disclosure_risk(original, out),
-    ".*Subset to be created is too small \\(< nfilter\\.subset\\).*")
+    ".*Subset to be created is too small \\(< nfilter\\.subset\\).*"
+  )
 
   original <- tibble(a = 1:10, b = 1:10)
   out <- tibble(a = 1:9, b = 1:9)
@@ -243,7 +261,6 @@ test_that(".check_subset_disclosure_risk returns an error correctly", {
     .check_subset_disclosure_risk(original, out),
     "The difference in row length between the original dataframe and the new dataframe"
   )
-
 })
 
 test_that(".check_subset_disclosure_risk doesn't return errors if subset sizes are ok", {
@@ -260,7 +277,6 @@ test_that(".check_subset_disclosure_risk doesn't return errors if subset sizes a
   expect_silent(
     .check_subset_disclosure_risk(original, out)
   )
-
 })
 
 test_that(".check_data_name_length throws an error if length of .data exceeds nfilter.string", {
@@ -291,7 +307,6 @@ test_that(".check_function_names blocks unpermitted function names", {
 })
 
 test_that(".check_variable_length allows variables with value less than nfilter.string", {
-
   expect_silent(
     .check_variable_length(small_var, disc_settings)
   )

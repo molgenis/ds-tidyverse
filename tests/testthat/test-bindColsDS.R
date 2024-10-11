@@ -1,8 +1,8 @@
-library(DSLite)
-library(dplyr)
-library(dsTidyverse)
-library(dsBase)
-library(dsBaseClient)
+require(DSI)
+require(DSLite)
+require(dplyr)
+require(dsBase)
+require(dsBaseClient)
 
 data("mtcars")
 login_data <- .prepare_dslite("bindColsDS", NULL, list(mtcars = mtcars))
@@ -89,6 +89,7 @@ test_that("bindColsDS fails with .name_repair argument as 'check_unique'", {
 })
 
 test_that("bindColsDS passes when called directly", {
+  skip_if_not_installed("dsBaseClient")
   cally <- call("bindColsDS", "mtcars$COMMA$$SPACE$mtcars", c("unique", "universal", "check_unique", "minimal"))
   datashield.assign(conns, "test", cally)
 

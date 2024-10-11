@@ -4,10 +4,10 @@
 \alias{distinctDS}
 \title{Keep distinct/unique rows}
 \usage{
-distinctDS(expr, .data, .keep_all)
+distinctDS(tidy_expr, .data, .keep_all)
 }
 \arguments{
-\item{expr}{Optional variables to use when determining uniqueness. If there are multiple rows for
+\item{tidy_expr}{Optional variables to use when determining uniqueness. If there are multiple rows for
 a given combination of inputs, only the first row will be preserved. If omitted, will use all
 variables in the data frame.}
 
@@ -18,5 +18,5 @@ variables in the data frame.}
 this keeps the first row of values.}
 }
 \description{
-This function is similar to R function \code{dplyr::distinct}.
+DataSHIELD implentation of \code{dplyr::distinct}.
 }

@@ -15,8 +15,8 @@
 #'   assign_method = "customAssign",
 #'   aggregate_method = "customAggregate",
 #'   tables = list(mtcars = mtcars, mtcars_group = mtcars_group)
-#'   )
-#'
+#' )
+#' }
 #' @importFrom DSLite newDSLiteServer
 #' @importFrom DSI newDSLoginBuilder
 #' @export

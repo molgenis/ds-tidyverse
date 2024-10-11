@@ -2,12 +2,12 @@
 % Please edit documentation in R/caseWhenDS.R
 \name{caseWhenDS}
 \alias{caseWhenDS}
-\title{Performs dplyr if_else}
+\title{Performs dplyr case_when}
 \usage{
-caseWhenDS(dynamic_dots = NULL, .default = NULL, .ptype = NULL, .size = NULL)
+caseWhenDS(tidy_expr = NULL, .default = NULL, .ptype = NULL, .size = NULL)
 }
 \arguments{
-\item{dynamic_dots}{A sequence of two-sided formulas. The left hand side (LHS) determines which
+\item{tidy_expr}{A sequence of two-sided formulas. The left hand side (LHS) determines which
 values match this case. The right hand side (RHS) provides the replacement value.
 The LHS inputs must evaluate to logical vectors.
 The RHS inputs will be coerced to their common type.
@@ -23,12 +23,9 @@ NULL inputs are ignored.}
 \item{.size}{An optional size declaring the desired output size. If supplied, this overrides the size of condition.}
 }
 \value{
-the object specified by the \code{newobj} argument of \code{ds.case_when}which is
+the object specified by the \code{newobj} argument of \code{ds.case_when} which is
 written to the serverside.
 }
 \description{
-This function is similar to R function \code{rename}.
-}
-\details{
-Performs dplyr rename
+DataSHIELD implentation of \code{dplyr::case_when}.
 }
