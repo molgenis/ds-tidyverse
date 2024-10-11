@@ -139,9 +139,6 @@ login_data <- .prepare_dslite("ungroupDS", NULL, list(mtcars_group = mtcars_grou
 conns <- datashield.login(logins = login_data)
 datashield.assign.table(conns, "mtcars_group", "mtcars_group")
 
-print(datashield.tables(conns))
-print(ds.ls(datasources = conns))
-
 test_that("ungroupDS works correctly when called directly", {
   skip_if_not_installed("dsBaseClient")
   ungroup_call <- call("ungroupDS", NULL, "mtcars_group")
