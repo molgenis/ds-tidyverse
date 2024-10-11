@@ -1,9 +1,8 @@
-library(DSLite)
-library(dplyr)
-library(dsTidyverse)
-library(dsBase)
-library(dsBaseClient)
-library(DSI)
+require(DSI)
+require(DSLite)
+require(dplyr)
+require(dsBase)
+require(dsBaseClient)
 
 data("mtcars")
 mtcars_group <- mtcars %>% group_by(cyl)
@@ -109,6 +108,7 @@ test_that("arrangeDS fails when data doesn't exist", {
 })
 
 test_that("arrangeDS passes when called directly", {
+  skip_if_not_installed("dsBaseClient")
   cally <- call("arrangeDS", "drat", "mtcars", NULL)
   datashield.assign(conns, "sorted_df", cally)
 
@@ -124,6 +124,7 @@ test_that("arrangeDS passes when called directly", {
 })
 
 test_that("arrangeDS works with desc option when called directly", {
+  skip_if_not_installed("dsBaseClient")
   cally <- call("arrangeDS", "desc$LB$drat$RB$", "mtcars", NULL)
   datashield.assign(conns, "sorted_df", cally)
 

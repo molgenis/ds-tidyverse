@@ -1,8 +1,8 @@
-library(DSLite)
-library(dplyr)
-library(dsTidyverse)
-library(dsBase)
-library(dsBaseClient)
+require(DSI)
+require(DSLite)
+require(dplyr)
+require(dsBase)
+require(dsBaseClient)
 
 data("mtcars")
 login_data <- .prepare_dslite("caseWhenDS", NULL, list(mtcars = mtcars))
@@ -97,6 +97,7 @@ test_that("caseWhenDS passes with .default argument", {
 })
 
 test_that("caseWhenDS passes when called directly", {
+  skip_if_not_installed("dsBaseClient")
   cally <- call("caseWhenDS", "mtcars$mpg$SPACE$$LT$$SPACE$20$SPACE$$TILDE$$SPACE$$QUOTE$low$QUOTE$$COMMA$$SPACE$mtcars$mpg$SPACE$$GT$$EQU$$SPACE$20$SPACE$$AND$$SPACE$mtcars$mpg$SPACE$$LT$$SPACE$$LINE$$SPACE$$SPACE$$SPACE$$SPACE$30$SPACE$$TILDE$$SPACE$$QUOTE$medium$QUOTE$$COMMA$$SPACE$mtcars$mpg$SPACE$$GT$$EQU$$SPACE$30$SPACE$$TILDE$$SPACE$$QUOTE$high$QUOTE$", NULL, NULL, NULL)
   datashield.assign(conns, "test", cally)
 

@@ -1,8 +1,8 @@
-library(DSLite)
-library(dplyr)
-library(dsTidyverse)
-library(dsBase)
-library(dsBaseClient)
+require(DSI)
+require(DSLite)
+require(dplyr)
+require(dsBase)
+require(dsBaseClient)
 
 data("mtcars")
 login_data <- .prepare_dslite("arrangeDS", NULL, list(mtcars = mtcars))
@@ -89,6 +89,7 @@ test_that("distinctDS fails when data doesn't exist", {
 })
 
 test_that("distinctDS passes when called directly", {
+  skip_if_not_installed("dsBaseClient")
   cally <- call("distinctDS", "mpg$COMMA$$SPACE$cyl", "mtcars", FALSE)
   datashield.assign(conns, "test_distinct", cally)
 

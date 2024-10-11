@@ -1,8 +1,8 @@
-library(DSLite)
-library(dplyr)
-library(dsTidyverse)
-library(dsBase)
-library(dsBaseClient)
+require(DSI)
+require(DSLite)
+require(dplyr)
+require(dsBase)
+require(dsBaseClient)
 
 data("mtcars")
 mtcars_group <- mtcars %>% group_by(cyl)
@@ -59,6 +59,7 @@ test_that("mutateDS passes with different .afterb argument", {
 })
 
 test_that("mutateDS passes when called directly", {
+  skip_if_not_installed("dsBaseClient")
   cally <- call(
     "mutateDS", "new_var$SPACE$$EQU$$SPACE$mpg$SPACE$$MULT$$SPACE$1000$COMMA$$SPACE$new_var2$SPACE$$EQU$$SPACE$hp$SPACE$$SUB$$SPACE$drat",
     "mtcars", "all", NULL, NULL

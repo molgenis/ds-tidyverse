@@ -1,9 +1,8 @@
-library(DSLite)
-library(dplyr)
-library(dsTidyverse)
-library(dsBase)
-library(dsBaseClient)
-library(DSI)
+require(DSI)
+require(DSLite)
+require(dplyr)
+require(dsBase)
+require(dsBaseClient)
 
 data("mtcars")
 mtcars_dup_names <- cbind(mtcars, tibble(cyl = 2))
@@ -180,6 +179,7 @@ test_that("asTibbleDS works with the rownames argument", {
 })
 
 test_that("asTibbleDS passes when called directly", {
+  skip_if_not_installed("dsBaseClient")
   cally <- call("asTibbleDS", NULL, "mtcars", NULL, "minimal", NULL)
   datashield.assign(conns, "new_tibble", cally)
 

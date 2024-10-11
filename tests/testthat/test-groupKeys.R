@@ -1,9 +1,8 @@
-library(DSLite)
-library(dplyr)
-library(dsTidyverse)
-library(dsBase)
-library(dsBaseClient)
-library(DSI)
+require(DSI)
+require(DSLite)
+require(dplyr)
+require(dsBase)
+require(dsBaseClient)
 
 data("mtcars")
 mtcars_group <- mtcars %>%
@@ -39,6 +38,7 @@ test_that("groupKeysDS fails when data doesn't exist", {
 })
 
 test_that("groupKeys passes when called directly and no disclosure risk", {
+  skip_if_not_installed("dsBaseClient")
   call_direct <- call("groupKeysDS", NULL, "mtcars_group")
   groups_returned <- datashield.aggregate(conns, call_direct)
 
@@ -54,6 +54,7 @@ test_that("groupKeys passes when called directly and no disclosure risk", {
 })
 
 test_that("groupKeys fails when called directly with disclosure risk", {
+  skip_if_not_installed("dsBaseClient")
   call_disc <- call("groupKeysDS", "mtcars_bad_group")
   expect_error(datashield.aggregate(conns, call_disc))
 })

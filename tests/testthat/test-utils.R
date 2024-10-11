@@ -1,6 +1,8 @@
-library(dplyr)
-library(DSLite)
-library(rlang)
+require(DSI)
+require(DSLite)
+require(dplyr)
+require(dsBase)
+require(dsBaseClient)
 
 data("mtcars")
 mtcars_group <- mtcars %>% group_by(cyl)

@@ -1,8 +1,8 @@
-library(dplyr)
-library(cli)
-library(DSLite)
-library(dsBase)
-library(dsBaseClient)
+require(DSI)
+require(DSLite)
+require(dplyr)
+require(dsBase)
+require(dsBaseClient)
 
 data("mtcars")
 mtcars_group <- mtcars %>% group_by(cyl)
@@ -41,6 +41,7 @@ test_that(".execute_tidyverse_function fails with correct message when unrecogni
 })
 
 test_that("select passes when called directly", {
+  skip_if_not_installed("dsBaseClient")
   cally <- call(
     "selectDS", "mpg$COMMA$$SPACE$starts_with$LB$$QUOTE$m$QUOTE$$RB$$COMMA$$SPACE$ends_with$LB$$QUOTE$t$QUOTE$$RB$",
     "mtcars"

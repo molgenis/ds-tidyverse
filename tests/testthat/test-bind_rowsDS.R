@@ -1,9 +1,9 @@
-library(DSLite)
-library(dplyr)
-library(dsTidyverse)
-library(dsBase)
-library(dsBaseClient)
-library(purrr)
+require(DSI)
+require(DSLite)
+require(dplyr)
+require(dsBase)
+require(dsBaseClient)
+require(purrr)
 
 data("mtcars")
 login_data <- .prepare_dslite("bindRowsDS", NULL, list(mtcars = mtcars))
@@ -50,6 +50,7 @@ test_that("bindRowsDS passes with .id argument", {
 })
 
 test_that("bindRowsDS passes when called directly", {
+  skip_if_not_installed("dsBaseClient")
   cally <- call("bindRowsDS", "mtcars$COMMA$$SPACE$mtcars", NULL)
   datashield.assign(conns, "test", cally)
 

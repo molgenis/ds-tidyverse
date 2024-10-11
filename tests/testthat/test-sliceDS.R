@@ -1,8 +1,8 @@
-library(DSLite)
-library(dplyr)
-library(dsTidyverse)
-library(dsBase)
-library(dsBaseClient)
+require(DSI)
+require(DSLite)
+require(dplyr)
+require(dsBase)
+require(dsBaseClient)
 
 data("mtcars")
 mtcars_group <- mtcars %>% group_by(cyl)
@@ -70,6 +70,7 @@ test_that("sliceDS fails when data doesn't exist", {
 })
 
 test_that("sliceDS passes when called directly", {
+  skip_if_not_installed("dsBaseClient")
   cally <- call("sliceDS", "1:5", "mtcars", NULL, FALSE)
 
   datashield.assign(conns, "test", cally)

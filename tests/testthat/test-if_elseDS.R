@@ -1,8 +1,8 @@
-library(DSLite)
-library(dplyr)
-library(dsTidyverse)
-library(dsBase)
-library(dsBaseClient)
+require(DSI)
+require(DSLite)
+require(dplyr)
+require(dsBase)
+require(dsBaseClient)
 
 data("mtcars")
 mtcars_group <- mtcars %>% group_by(cyl)
@@ -71,6 +71,7 @@ test_that("ifElseDS passes when `missing` argument used", {
 })
 
 test_that("ifElseDS passes when called directly", {
+  skip_if_not_installed("dsBaseClient")
   cally <- call("ifElseDS", "mtcars$mpg$SPACE$$GT$$SPACE$20", "high", "low", NULL, NULL, NULL)
   datashield.assign(conns, "test", cally)
 
@@ -103,7 +104,6 @@ test_that("ifElseDS passes when `ptype` argument used", {
 })
 
 test_that("ifElseDS passes when `size` argument used", {
-  data(mtcars)
   other_args <- "true = \"high\", false = \"low\", missing = NULL, ptype = NULL, size = 32"
   good_if_else_cally <- .make_tidyverse_call("mtcars_mis", "if_else", if_else_num_arg, other_args, inc_data = F)
   result <- eval(good_if_else_cally)

@@ -1,9 +1,8 @@
-library(DSLite)
-library(dplyr)
-library(dsTidyverse)
-library(dsBase)
-library(dsBaseClient)
-library(DSI)
+require(DSI)
+require(DSLite)
+require(dplyr)
+require(dsBase)
+require(dsBaseClient)
 
 data("mtcars")
 mtcars_group <- mtcars %>%
@@ -89,6 +88,7 @@ test_that("groupByDS fails with bad argument", {
 })
 
 test_that("groupByDS passes when called directly", {
+  skip_if_not_installed("dsBaseClient")
   call_direct <- call("groupByDS", "cyl", "mtcars", FALSE, TRUE)
   datashield.assign(conns, "test_group", call_direct)
 
@@ -143,6 +143,7 @@ print(datashield.tables(conns))
 print(ds.ls(datasources = conns))
 
 test_that("ungroupDS works correctly when called directly", {
+  skip_if_not_installed("dsBaseClient")
   ungroup_call <- call("ungroupDS", NULL, "mtcars_group")
   datashield.assign(conns, "ungrouped_data", ungroup_call)
 
