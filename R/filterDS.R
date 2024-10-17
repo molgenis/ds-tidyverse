@@ -8,8 +8,7 @@
 #' an alternative to \code{group_by}.
 #' @param .preserve Relevant when the df.name input is grouped. If .preserve = FALSE (the default),
 #' the grouping structure is recalculated based on the resulting data, otherwise the grouping is kept as is.
-#' @return the object specified by the \code{newobj} argument of \code{ds.filter} which is written
-#' to the serverside.
+#' @return An object of the same type as \code{df.name}, typically a data frame or tibble.
 #' @export
 filterDS <- function(tidy_expr, df.name, .by, .preserve) {
   checkPermissivePrivacyControlLevel(c('permissive', 'banana'))

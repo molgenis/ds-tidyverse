@@ -7,8 +7,8 @@
 #' the existing groups, use .add = TRUE.
 #' @param .drop Drop groups formed by factor levels that don't appear in the data? The default is
 #' TRUE except when df.name has been previously grouped with .drop = FALSE.
-#' @return the object specified by the \code{newobj} argument of \code{ds.group_by} which is written
-#' to the serverside.
+#' @return A grouped data frame with class grouped_df, unless the combination of \code{tidy_expr}
+#' and \code{.add} yields a empty set of grouping columns, in which case a tibble will be returned.
 #' @export
 groupByDS <- function(tidy_expr, df.name, .add, .drop) {
   checkPermissivePrivacyControlLevel(c('permissive', 'banana'))
@@ -24,8 +24,7 @@ groupByDS <- function(tidy_expr, df.name, .add, .drop) {
 #' @description DataSHIELD implentation of \code{dplyr::ungroup}.
 #' @param tidy_expr Unused in this function.
 #' @param x A tibble.
-#' @return the object specified by the \code{newobj} argument of \code{ds.ungroup} which is written
-#' to the serverside.
+#' @return An ungrouped data frame or tibble.
 #' @export
 ungroupDS <- function(tidy_expr, x) {
   .check_data_name_length(x, listDisclosureSettingsDS())

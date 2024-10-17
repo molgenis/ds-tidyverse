@@ -2,7 +2,7 @@
 #' @description DataSHIELD implentation of \code{dplyr::group_keys}
 #' @param tidy_select Unused in this function.
 #' @param x a grouped tibble.
-#' @return A tibble describing the groups is returned to the client.
+#' @return A data frame describing the groups.
 #' @export
 groupKeysDS <- function(tidy_select, x) {
   dsBase::checkPermissivePrivacyControlLevel(c('permissive', 'banana'))

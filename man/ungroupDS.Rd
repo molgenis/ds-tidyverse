@@ -12,8 +12,7 @@ ungroupDS(tidy_expr, x)
 \item{x}{A tibble.}
 }
 \value{
-the object specified by the \code{newobj} argument of \code{ds.ungroup} which is written
-to the serverside.
+An ungrouped data frame or tibble.
 }
 \description{
 DataSHIELD implentation of \code{dplyr::ungroup}.

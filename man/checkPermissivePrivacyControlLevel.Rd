@@ -9,6 +9,9 @@ checkPermissivePrivacyControlLevel(privacyControlLevels)
 \arguments{
 \item{privacyControlLevels}{is a vector of strings which contains the privacy control level names which are permitted by the calling method.}
 }
+\value{
+Returns an error if the method is not permitted; otherwise, no value is returned.
+}
 \description{
 This serverside function check that the server is running in "permissive" privacy control level.
 }

@@ -2,10 +2,8 @@
 #' @description DataSHIELD implentation of\code{dplyr::rename}.
 #' @param df.name A data frame or tibble.
 #' @param tidy_expr list containing diffused expression.
-#' @return the object specified by the \code{newobj} argument of \code{ds.rename} which is written
-#' to the serverside.
+#' @return An object of the same type as \code{df.name}, typically a data frame or tibble.
 #' @export
-#'
 renameDS <- function(tidy_expr, df.name) {
   tidy_expr <- .decode_tidy_eval(tidy_expr, .get_encode_dictionary())
   .check_tidy_disclosure(df.name, tidy_expr)

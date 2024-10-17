@@ -11,8 +11,7 @@
 #' @param .default The value used when all of the LHS inputs return either FALSE or NA.
 #' @param .ptype An optional prototype declaring the desired output type. If supplied, this overrides the common type of true, false, and missing.
 #' @param .size An optional size declaring the desired output size. If supplied, this overrides the size of condition.
-#' @return the object specified by the \code{newobj} argument of \code{ds.case_when} which is
-#' written to the serverside.
+#' @return A vector with the same size as the common size computed from the inputs in \code{tidy_expr} and the same type as the common type of the RHS inputs in \code{tidy_expr}.
 #' @export
 caseWhenDS <- function(tidy_expr = NULL, .default = NULL, .ptype = NULL, .size = NULL) {
   checkPermissivePrivacyControlLevel(c('permissive', 'banana', 'avacado'))

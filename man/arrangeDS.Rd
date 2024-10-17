@@ -16,8 +16,7 @@ order.}
 only.}
 }
 \value{
-the object specified by the \code{newobj} argument of \code{ds.arrange} which is written
-to the serverside.
+An object of the same type as \code{df.name}, typically a data frame or tibble.
 }
 \description{
 DataSHIELD implentation of \code{dplyr::arrange}.

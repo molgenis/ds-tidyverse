@@ -5,8 +5,7 @@
 #' columns will be filled with NA.
 #' @param .name_repair One of "unique", "universal", or "check_unique". See
 #' \code{vctrs::vec_as_names()} for the meaning of these options.
-#' @return A serverside data frame with name specified in \code{newobj} and the same type as the
-#' first element of \code{to_combine}.
+#' @return A data frame the same type as the first element of \code{to_combine}
 #' @export
 bindColsDS <- function(to_combine = NULL, .name_repair = NULL) {
   checkPermissivePrivacyControlLevel(c('permissive', 'banana'))

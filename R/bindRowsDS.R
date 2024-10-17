@@ -6,8 +6,7 @@
 #' @param .id he name of an optional identifier column. Provide a string to create an output column
 #' that identifies each input. The column will use names if available, otherwise it will use
 #' positions.
-#' @return A serverside data frame with name specified in \code{newobj} and the same type as the
-#' first element of \code{to_combine}.
+#' @return A data frame the same type as the first element of \code{to_combine}
 #' @export
 bindRowsDS <- function(to_combine = NULL, .id = NULL) {
   checkPermissivePrivacyControlLevel(c('permissive', 'banana'))

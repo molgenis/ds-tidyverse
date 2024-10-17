@@ -19,8 +19,8 @@ the existing groups, use .add = TRUE.}
 TRUE except when df.name has been previously grouped with .drop = FALSE.}
 }
 \value{
-the object specified by the \code{newobj} argument of \code{ds.group_by} which is written
-to the serverside.
+A grouped data frame with class grouped_df, unless the combination of \code{tidy_expr}
+and \code{.add} yields a empty set of grouping columns, in which case a tibble will be returned.
 }
 \description{
 DataSHIELD implentation of \code{dplyr::group_by}.

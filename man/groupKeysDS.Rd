@@ -12,7 +12,7 @@ groupKeysDS(tidy_select, x)
 \item{x}{a grouped tibble.}
 }
 \value{
-A tibble describing the groups is returned to the client.
+A data frame describing the groups.
 }
 \description{
 DataSHIELD implentation of \code{dplyr::group_keys}
