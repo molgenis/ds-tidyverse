@@ -15,8 +15,7 @@
 #' to add to the right hand side). See \code{relocate} for more details.
 #' @param .after <tidy-select> Optionally, control where new columns should appear (the default is
 #' to add to the right hand side). See \code{relocate} for more details.
-#' @return the object specified by the \code{newobj} argument of \code{ds.mutate} which is written
-#' to the serverside.
+#' @return An object of the same type as \code{df.name}, typically a data frame or tibble.
 #' @export
 mutateDS <- function(tidy_expr, df.name, .keep = NULL, .before = NULL, .after = NULL) {
   checkPermissivePrivacyControlLevel(c('permissive', 'banana', 'avacado'))

@@ -16,8 +16,7 @@ that identifies each input. The column will use names if available, otherwise it
 positions.}
 }
 \value{
-A serverside data frame with name specified in \code{newobj} and the same type as the
-first element of \code{to_combine}.
+A data frame the same type as the first element of \code{to_combine}
 }
 \description{
 DataSHIELD implementation of \code{dplyr::bind_rows}.

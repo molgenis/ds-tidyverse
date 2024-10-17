@@ -15,8 +15,7 @@ columns will be filled with NA.}
 \code{vctrs::vec_as_names()} for the meaning of these options.}
 }
 \value{
-A serverside data frame with name specified in \code{newobj} and the same type as the
-first element of \code{to_combine}.
+A data frame the same type as the first element of \code{to_combine}
 }
 \description{
 DataSHIELD implementation of \code{dplyr::bind_cols}.

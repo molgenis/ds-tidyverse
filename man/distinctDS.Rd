@@ -4,18 +4,21 @@
 \alias{distinctDS}
 \title{Keep distinct/unique rows}
 \usage{
-distinctDS(tidy_expr, .data, .keep_all)
+distinctDS(tidy_expr, df.name, .keep_all)
 }
 \arguments{
 \item{tidy_expr}{Optional variables to use when determining uniqueness. If there are multiple rows for
 a given combination of inputs, only the first row will be preserved. If omitted, will use all
 variables in the data frame.}
 
-\item{.data}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame
+\item{df.name}{A data frame, data frame extension (e.g. a tibble), or a lazy data frame
 (e.g. from dbplyr or dtplyr).}
 
-\item{.keep_all}{If TRUE, keep all variables in .data. If a combination of expr is not distinct,
+\item{.keep_all}{If TRUE, keep all variables in df.name If a combination of expr is not distinct,
 this keeps the first row of values.}
+}
+\value{
+An object of the same type as \code{df.name}, typically a data frame or tibble.
 }
 \description{
 DataSHIELD implentation of \code{dplyr::distinct}.

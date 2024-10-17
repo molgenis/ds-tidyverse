@@ -27,7 +27,7 @@ ifElseDS(
 \item{size}{An optional size declaring the desired output size. If supplied, this overrides the size of condition.}
 }
 \value{
-the object specified by the \code{newobj} argument of \code{ds.if_else} which is written to the serverside.
+A vector with the same size as \code{condition} and the same type as the common type of \code{true}, \code{false}, and \code{missing}.
 }
 \description{
 DataSHIELD implentation of \code{dply::if_else}.

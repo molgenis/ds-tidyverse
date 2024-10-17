@@ -19,8 +19,7 @@
 #'     into this column and the \code{row.names} attribute is deleted. No name repair is applied
 #'     to the new column name, even if \code{x} already contains a column of that name.
 #'   }
-#' @return the object specified by the \code{newobj} argument of \code{ds.as_tibble} which is
-#' written to the serverside.
+#' @return A tibble.
 #' @export
 asTibbleDS <- function(tidy_expr, x, .rows, .name_repair, rownames) {
   other_args <- .paste_character_args(.rows, .name_repair, rownames)

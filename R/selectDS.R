@@ -3,8 +3,7 @@
 #' @details Performs dplyr select
 #' @param df.name A data frame or tibble.
 #' @param tidy_expr One or more unquoted expressions separated by commas.
-#' @return the object specified by the \code{newobj} argument of \code{ds.select} which is written
-#' to the serverside.
+#' @return An object of the same type as \code{df.name}, typically a data frame or tibble.
 #' @export
 selectDS <- function(tidy_expr, df.name) {
   tidy_expr <- .decode_tidy_eval(tidy_expr, .get_encode_dictionary())

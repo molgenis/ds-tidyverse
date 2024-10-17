@@ -5,8 +5,7 @@
 #' order.
 #' @param .by_group If TRUE, will sort first by grouping variable. Applies to grouped data frames
 #' only.
-#' @return the object specified by the \code{newobj} argument of \code{ds.arrange} which is written
-#' to the serverside.
+#' @return An object of the same type as \code{df.name}, typically a data frame or tibble.
 #' @export
 arrangeDS <- function(tidy_expr, df.name, .by_group) {
   checkPermissivePrivacyControlLevel(c('permissive', 'banana'))

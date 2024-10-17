@@ -32,8 +32,7 @@ check.}
 }}
 }
 \value{
-the object specified by the \code{newobj} argument of \code{ds.as_tibble} which is
-written to the serverside.
+A tibble.
 }
 \description{
 DataSHIELD implementation of \code{tibble::as_tibble}. Currently only implemented for data frames and matrices.
