@@ -450,10 +450,9 @@ listPermittedTidyverseFunctionsDS <- function() {
 #' @param privacyControlLevels is a vector of strings which contains the privacy control level names which are permitted by the calling method.
 #' @importFrom cli cli_abort
 #' @author Wheater, Dr SM., DataSHIELD Team.
+#' @return Returns an error if the method is not permitted; otherwise, no value is returned.
 #' @export
-#'
 checkPermissivePrivacyControlLevel <- function(privacyControlLevels){
-
   disclosureSettings <- listDisclosureSettingsDS()
   if (is.null(disclosureSettings) || is.null(disclosureSettings$datashield.privacyControlLevel) ||
       (! any(disclosureSettings$datashield.privacyControlLevel %in% privacyControlLevels))) {
