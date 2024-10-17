@@ -22,7 +22,7 @@ Authors@R:
             role = c("aut"))
        )
 Maintainer: Tim Cadman <t.j.cadman@umcg.nl>
-Description: This package implements selected <['Tidyverse']https://www.tidyverse.org/> functions within <['DataSHIELD']https://datashield.org/>, an open-source federated analysis solution in R. DataSHIELD currently provides limited tools for data manipulation. This package enhances the researcher experience by introducing essential functions for tasks such as subsetting, filtering, grouping, and renaming variables, improving data management capabilities within the DataSHIELD framework.
+Description: Implementation of selected Tidyverse functions within DataSHIELD, an open-source federated analysis solution in R. Currently, DataSHIELD contains very limited tools for data manipulation, so the aim of this package is to improve the researcher experience by implementing essential functions for data manipulation, including subsetting, filtering, grouping, and renaming variables. For more information, see <https://www.tidyverse.org/> and <https://datashield.org/>.
 License: LGPL (>= 2.1)
 Encoding: UTF-8
 LazyData: true
