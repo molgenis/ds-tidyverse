@@ -3,6 +3,7 @@
 #' @return A tibble with the class of each column in the data frame.
 #' @importFrom dplyr %>%
 #' @importFrom tibble as_tibble
+#' @importFrom purrr map
 #' @export
 classAllColsDS <- function(df.name){
   df.name <- eval(parse(text = df.name), envir = parent.frame())
@@ -67,6 +68,7 @@ makeColsSameDS <- function(.data, cols) {
 #' @param factor_vars A character vector specifying the factor columns.
 #' @return A list of factor levels for the specified columns.
 #' @importFrom tidyselect all_of
+#' @importFrom purrr map
 #' @export
 getAllLevelsDS <- function(df.name, factor_vars) {
   df <- eval(parse(text = df.name), envir = parent.frame())
