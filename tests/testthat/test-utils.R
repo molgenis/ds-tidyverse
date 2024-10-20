@@ -1,6 +1,30 @@
-library(stringr)
-library(DSLite)
-library(rlang)
+require(DSI)
+require(DSLite)
+require(dplyr)
+require(dsBase)
+require(dsBaseClient)
+
+data("mtcars")
+mtcars_group <- mtcars %>% group_by(cyl)
+login_data <- .prepare_dslite("filterDS", NULL, list(mtcars = mtcars, mtcars_group = mtcars_group))
+conns <- datashield.login(logins = login_data)
+datashield.assign.table(conns, "mtcars", "mtcars")
+
+options(
+  datashield.privacyControlLevel = "banana",
+  nfilter.tab = 3,
+  nfilter.subset = 3,
+  nfilter.glm = 0.33,
+  nfilter.string = 80,
+  nfilter.stringShort = 20,
+  nfilter.kNN = 3,
+  nfilter.levels.density = 0.33,
+  nfilter.levels.max = 40,
+  nfilter.noise = 0.25,
+  nfilter.privacy.old = 5
+)
+
+disc_settings <- listDisclosureSettingsDS()
 
 test_that(".make_tidyverse_call creates call with no additional arguments", {
   input_string <- "asd, qwe, starts_with('test')"
