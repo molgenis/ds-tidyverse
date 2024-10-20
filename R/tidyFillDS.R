@@ -85,5 +85,5 @@ getAllLevelsDS <- function(df.name, factor_vars) {
 setAllLevelsDS <- function(df.name, vars, levels) {
   df.name <- eval(parse(text = df.name), envir = parent.frame())
   out <- df.name %>%
-    mutate(across(all_of(vars), ~factor(., levels = levels[[cur_column()]])))
+    mutate(across(all_of(vars), ~factor(., levels = levels[[dplyr::cur_column()]])))
 }
