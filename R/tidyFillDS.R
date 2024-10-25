@@ -25,7 +25,8 @@ fixClassDS <- function(df.name, target_vars, target_class) {
   df_transformed <- df %>%
     mutate(
       across(all_of(target_vars),
-             ~ convert_class(., target_class[which(target_vars == cur_column())])))
+             ~ convert_class(.x, target_class[which(target_vars == cur_column())])))
+  browser()
   return(df_transformed)
 }
 
@@ -33,16 +34,15 @@ fixClassDS <- function(df.name, target_vars, target_class) {
 #' @param x The vector to be converted.
 #' @param class_name A string indicating the target class (1 = factor, 2 = integer, 3 = numeric,
 #' 4 = character, 5 = logical).
-#'
 #' @return The converted vector.
 #' @export
-convert_class <- function(x, class_name) {
-  switch(class_name,
-         "1" = as.factor(x),
-         "2" = as.integer(x),
-         "3" = as.numeric(x),
-         "4" = as.character(x),
-         "5" = as.logical(x)
+convert_class <- function(target_var, target_class_code) {
+  switch(target_class_code,
+         "1" = as.factor(target_var),
+         "2" = as.integer(target_var),
+         "3" = as.numeric(target_var),
+         "4" = as.character(target_var),
+         "5" = as.logical(target_var)
   )
 }
 
