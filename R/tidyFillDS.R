@@ -26,7 +26,6 @@ fixClassDS <- function(df.name, target_vars, target_class) {
     mutate(
       across(all_of(target_vars),
              ~ convert_class(.x, target_class[which(target_vars == cur_column())])))
-  browser()
   return(df_transformed)
 }
 
