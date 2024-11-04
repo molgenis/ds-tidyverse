@@ -5,7 +5,7 @@
 #' @importFrom tibble as_tibble
 #' @importFrom purrr map
 #' @export
-classAllColsDS <- function(df.name){
+getClassAllColsDS <- function(df.name){
   df.name <- eval(parse(text = df.name), envir = parent.frame())
   all_classes <- map(df.name, class) %>% as_tibble()
   return(all_classes)
@@ -25,7 +25,7 @@ fixClassDS <- function(df.name, target_vars, target_class) {
   df_transformed <- df %>%
     mutate(
       across(all_of(target_vars),
-             ~ convert_class(.x, target_class[which(target_vars == cur_column())])))
+             ~ .convertClass(.x, target_class[which(target_vars == cur_column())])))
   return(df_transformed)
 }
 
@@ -34,8 +34,8 @@ fixClassDS <- function(df.name, target_vars, target_class) {
 #' @param class_name A string indicating the target class (1 = factor, 2 = integer, 3 = numeric,
 #' 4 = character, 5 = logical).
 #' @return The converted vector.
-#' @export
-convert_class <- function(target_var, target_class_code) {
+#' @noRd
+.convertClass <- function(target_var, target_class_code) {
   switch(target_class_code,
          "1" = as.factor(target_var),
          "2" = as.integer(target_var),
@@ -53,7 +53,7 @@ convert_class <- function(target_var, target_class_code) {
 #' @importFrom tidyselect peek_vars
 #' @importFrom purrr set_names
 #' @export
-makeColsSameDS <- function(.data, cols) {
+fixColsDS <- function(.data, cols) {
   .data <- eval(parse(text = .data), envir = parent.frame())
   missing <- setdiff(cols, colnames(.data))
   out <- .data %>%
@@ -81,7 +81,7 @@ getAllLevelsDS <- function(df.name, factor_vars) {
 #' @param levels A named list where each element contains the levels for the corresponding factor variable.
 #' @return A modified data frame with the specified columns converted to factors with the provided levels.
 #' @export
-setAllLevelsDS <- function(df.name, vars, levels) {
+fixLevelsDS <- function(df.name, vars, levels) {
   df.name <- eval(parse(text = df.name), envir = parent.frame())
   out <- df.name %>%
     mutate(across(all_of(vars), ~factor(., levels = levels[[dplyr::cur_column()]])))

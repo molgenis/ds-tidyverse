@@ -3,6 +3,8 @@ library(dsTidyverse)
 library(dsBase)
 library(dsBaseClient)
 library(DSI)
+library(purrr)
+library(dplyr)
 
 df <- create_mixed_dataframe()
 df_list <- create_additional_dataframes(df)
@@ -12,9 +14,9 @@ df_2 <- df_list[[1]]
 df_3 <- df_list[[2]]
 df_4 <- df_list[[3]]
 
-test_that("classAllColsDS returns correct classes", {
+test_that("getClassAllColsDS returns correct classes", {
   expect_equal(
-    classAllColsDS("df_1"),
+    getClassAllColsDS("df_1"),
     tibble(
       fac_col1 = "factor", fac_col2 = "factor", fac_col3 = "factor", fac_col4 = "factor", fac_col5 = "factor",
       fac_col6 = "factor", fac_col7 = "factor", fac_col8 = "factor", fac_col9 = "factor", fac_col10 = "factor",
@@ -32,7 +34,10 @@ test_that("fixClassDS sets classes correctly", {
                    "fac_col14", "fac_col3", "fac_col8")
 
   classes_to_set <- c("4", "1", "3", "5", "3", "2", "5", "5", "3", "2")
-  classes_changed_df <- fixClassDS("df_1", cols_to_set, classes_to_set)
+
+  expect_warning(
+    classes_changed_df <- fixClassDS("df_1", cols_to_set, classes_to_set)
+  )
 
   expect_equal(
     classes_changed_df %>% map_chr(class) %>% unname(),
@@ -45,27 +50,27 @@ test_that("fixClassDS sets classes correctly", {
 
 test_that("convert_class calls the correct function", {
 
-result <- convert_class(c(1, 2, 3), "1")
+result <- .convertClass(c(1, 2, 3), "1")
 expect_true(is.factor(result))
 
-result <- convert_class(c(1.5, 2.5, 3.7), "2")
+result <- .convertClass(c(1.5, 2.5, 3.7), "2")
 expect_true(is.integer(result))
 
-result <- convert_class(c("1", "2", "3"), "3")
+result <- .convertClass(c("1", "2", "3"), "3")
 expect_true(is.numeric(result))
 
-result <- convert_class(c(1, 2, 3), "4")
+result <- .convertClass(c(1, 2, 3), "4")
 expect_true(is.character(result))
 
-result <- convert_class(c(0, 1, 0), "5")
+result <- .convertClass(c(0, 1, 0), "5")
 expect_true(is.logical(result))
 
 })
 
-test_that("makeColsSameDS correctly adds missing columns", {
+test_that("fixColsDS correctly adds missing columns", {
 
   all_cols <- unique(c(colnames(df_1), colnames(df_2), colnames(df_3), colnames(df_4)))
-  out <- makeColsSameDS("df_3", all_cols)
+  out <- fixColsDS("df_3", all_cols)
 
   expect_equal(
     colnames(out),
@@ -110,7 +115,7 @@ example_df <- data.frame(
   stringsAsFactors = FALSE
 )
 
-test_that("setAllLevelsDS sets factor levels correctly", {
+test_that("fixLevelsDS sets factor levels correctly", {
 
   levels <- list(
     col1 = c("A", "B", "C"),
@@ -118,7 +123,7 @@ test_that("setAllLevelsDS sets factor levels correctly", {
     col3 = c("Yes", "No")
   )
 
-  modified_df <- setAllLevelsDS("example_df", c("col1", "col2", "col3"), levels)
+  modified_df <- fixLevelsDS("example_df", c("col1", "col2", "col3"), levels)
 
   expect_s3_class(modified_df$col1, "factor")
   expect_s3_class(modified_df$col2, "factor")
@@ -130,12 +135,12 @@ test_that("setAllLevelsDS sets factor levels correctly", {
 
 })
 
-test_that("setAllLevelsDS throws an error for invalid input", {
+test_that("fixLevelsDS throws an error for invalid input", {
 
   levels <- list(
     col1 = c("A", "B", "C"),
     col2 = c("X", "Y", "Z")
   )
 
-  expect_error(setAllLevelsDS("example_df", c("col1", "non_existent_col"), levels))
+  expect_error(fixLevelsDS("example_df", c("col1", "non_existent_col"), levels))
 })
