@@ -5,10 +5,10 @@
 #' @noRd
 .get_encode_dictionary <- function() {
   encode_list <- list(
-    input = c("(", ")", "\"", ",", " ", ":", "!", "&", "|", "'", "[", "]", "=", "+", "-", "*", "/", "^", ">", "<", "~", "\n"),
+    input = c("(", ")", "\"", ",", " ", ":", "!", "&", "|", "'", "=", "+", "-", "*", "/", "^", ">", "<", "~", "\n"),
     output = c(
       "$LB$", "$RB$", "$QUOTE$", "$COMMA$", "$SPACE$", "$COLON$", "$EXCL$", "$AND$", "$OR$",
-      "$APO$", "$LSQ$", "$RSQ", "$EQU$", "$ADD$", "$SUB$", "$MULT$", "$DIVIDE$", "$POWER$", "$GT$", "$LT$", "$TILDE$", "$LINE$"
+      "$APO$", "$EQU$", "$ADD$", "$SUB$", "$MULT$", "$DIVIDE$", "$POWER$", "$GT$", "$LT$", "$TILDE$", "$LINE$"
     )
   )
   return(encode_list)
