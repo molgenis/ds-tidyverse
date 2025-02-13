@@ -18,7 +18,7 @@
 #' @return An object of the same type as \code{df.name}, typically a data frame or tibble.
 #' @export
 mutateDS <- function(tidy_expr, df.name, .keep = NULL, .before = NULL, .after = NULL) {
-  checkPermissivePrivacyControlLevel(c('permissive', 'banana', 'avacado'))
+  checkPermissivePrivacyControlLevel(c('permissive', 'banana'))
   tidy_expr <- .decode_tidy_eval(tidy_expr, .get_encode_dictionary())
   .check_tidy_disclosure(df.name, tidy_expr)
   other_args <- .paste_character_args(.keep, .before, .after)

@@ -22,7 +22,6 @@
 #' @return A tibble.
 #' @export
 asTibbleDS <- function(tidy_expr, x, .rows, .name_repair, rownames) {
-  checkPermissivePrivacyControlLevel(c('permissive', 'banana', 'avacado'))
   other_args <- .paste_character_args(.rows, .name_repair, rownames)
   call <- .make_tidyverse_call(x, "as_tibble", other_args)
   out <- .execute_with_error_handling("as_tibble", call)
