@@ -142,9 +142,9 @@ test_that(".tidy_eval_handle_errors fails with correct message when unrecognised
 
 test_that(".get_encode_dictionary returns the expected encoding key", {
   expected_encode_list <- list(
-    input = c("(", ")", "\"", ",", " ", ":", "!", "&", "|", "'", "=", "+", "-", "*", "/", "^", ">", "<", "~", "\n"),
+    input = c("(", ")", "\"", ",", " ", "!", "&", "|", "'", "=", "+", "-", "*", "/", "^", ">", "<", "~", "\n"),
     output = c(
-      "$LB$", "$RB$", "$QUOTE$", "$COMMA$", "$SPACE$", "$COLON$", "$EXCL$", "$AND$", "$OR$", "$APO$", "$EQU$", "$ADD$", "$SUB$", "$MULT$",
+      "$LB$", "$RB$", "$QUOTE$", "$COMMA$", "$SPACE$", "$EXCL$", "$AND$", "$OR$", "$APO$", "$EQU$", "$ADD$", "$SUB$", "$MULT$",
       "$DIVIDE$", "$POWER$", "$GT$", "$LT$", "$TILDE$", "$LINE$"
     )
   )

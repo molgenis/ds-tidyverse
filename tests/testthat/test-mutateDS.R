@@ -66,6 +66,7 @@ test_that("mutateDS passes when called directly", {
   )
 
   datashield.assign(conns, "test", cally)
+  print(datashield.errors())
 
   expect_equal(
     ds.class("test", datasources = conns)[[1]],
@@ -86,4 +87,30 @@ test_that("mutateDS passes when called directly", {
     round(ds.mean("test$new_var2", datasources = conns)$Mean.by.Study[1, 1], 2),
     143.09
   )
+})
+
+test_that("mutateDS doesn't work with banned function calls that could create a vector", {
+  banned_arg_1 <- "banned = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32)"
+  banned_call_1 <- .make_tidyverse_call("mtcars", "mutate", banned_arg_1, list(".keep = \"all\", .before = NULL, .after = NULL"))
+  expect_error(
+    .check_tidy_disclosure("mtcars", banned_call_1),
+    "are not permitted functions")
+
+  banned_arg_2 <- "banned = row_number()"
+  banned_call_2 <- .make_tidyverse_call("mtcars", "mutate", banned_arg_2, list(".keep = \"all\", .before = NULL, .after = NULL"))
+  expect_error(
+    .check_tidy_disclosure("mtcars", banned_call_2),
+    "is not a permitted function")
+
+  banned_arg_3 <- "banned = seq(1, 32, 1)"
+  banned_call_3 <- .make_tidyverse_call("mtcars", "mutate", banned_arg_3, list(".keep = \"all\", .before = NULL, .after = NULL"))
+  expect_error(
+    .check_tidy_disclosure("mtcars", banned_call_3),
+    "are not permitted functions")
+
+  banned_arg_4 <- "banned = rep(1, 32)"
+  banned_call_4 <- .make_tidyverse_call("mtcars", "mutate", banned_arg_4, list(".keep = \"all\", .before = NULL, .after = NULL"))
+  expect_error(
+    .check_tidy_disclosure("mtcars", banned_call_4),
+    "are not permitted functions")
 })
