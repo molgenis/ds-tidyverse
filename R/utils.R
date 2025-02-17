@@ -172,7 +172,7 @@ listPermittedTidyverseFunctionsDS <- function() {
   return(
     c(
       "everything", "last_col", "group_cols", "starts_with", "ends_with", "contains",
-      "matches", "num_range", "all_of", "any_of", "where", "c", "rename", "mutate", "if_else",
+      "matches", "num_range", "all_of", "any_of", "where", "rename", "mutate", "if_else",
       "case_when", "mean", "median", "mode", "desc", "last_col", "nth", "where", "num_range",
       "exp", "sqrt", "scale", "round", "floor", "ceiling", "abs", "sd", "var",
       "sin", "cos", "tan", "asin", "acos", "atan"
@@ -298,7 +298,6 @@ listPermittedTidyverseFunctionsDS <- function() {
 #' helpers described in the ?select documentation.#'
 #' @noRd
 .check_function_names <- function(args_as_string) {
-  browser()
   permitted_tidy_select <- listPermittedTidyverseFunctionsDS()
   matches <- gregexpr("\\w+(?=\\()", args_as_string, perl = TRUE)
   function_names <- unlist(regmatches(args_as_string, matches))
