@@ -34,18 +34,17 @@ Tidyverse packages can be included.
 ### From the `tibble` package:
 - **`as_tibble`**: Convert data to a tibble.
 
-## Permissive levels
-DataSHIELD implements permission levels, which allows data owners to control which functions can be
-used by researchers ()[]. The table below shows which dsTidyverse functions are allowed in which
+## Privacy control levels
+DataSHIELD implements [privacy control levels](https://wiki.datashield.org/en/opmanag/privacy-control-level), which allows data owners to control which functions can be
+used by researchers. The table below shows which dsTidyverse functions are allowed in which
 permission mode.
-
 
 | **Privacy Level**       | **Functions** |
 |------------------------|--------------|
-| **permissive**        | `arrangeDS`, `asTibbleDS`, `bindColsDS`, `bindRowsDS`, `caseWhenDS`, `distinctDS`, `filterDS`, `groupByDS`, `groupKeysDS`, `mutateDS`, `renameDS`, `selectDS`, `sliceDS`, `ungroupDS` |
-| **banana**            | `arrangeDS`, `asTibbleDS`, `bindColsDS`, `bindRowsDS`, `caseWhenDS`, `distinctDS`, `filterDS`, `groupByDS`, `groupKeysDS`, `mutateDS`, `renameDS`, `selectDS`, `sliceDS`, `ungroupDS` |
-| **avocado**           | `ifElseDS` |
-
+| **permissive**        | `arrangeDS`, `asTibbleDS`, `bindColsDS`, `bindRowsDS`, `caseWhenDS`, `distinctDS`, `filterDS`, `groupByDS`, `ungroupDS`, `groupKeysDS`, `mutateDS`, `renameDS`, `selectDS`, `sliceDS`, `ungroupDS` |
+| **banana**            | `arrangeDS`, `asTibbleDS`, `bindColsDS`, `bindRowsDS`, `caseWhenDS`, `distinctDS`, `filterDS`, `groupByDS`, `ungroupDS`, `groupKeysDS`, `mutateDS`, `renameDS`, `selectDS`, `sliceDS`, `ungroupDS` |
+| **avocado**           | `asTibbleDS`, `distinctDS`, `renameDS`, `selectDS` |
+| **non-permissive** | `asTibbleDS`, `distinctDS`, `renameDS`, `selectDS`  | 
 
 ## Contributing
 If there are functions in this list you would like implemented, please either attempt to do so 
