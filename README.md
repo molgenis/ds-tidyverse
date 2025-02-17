@@ -50,7 +50,7 @@ privacy mode.
 | `filterDS` | ✔ | ✔ |  |  |
 | `groupByDS` | ✔ | ✔ |  |  |
 | `groupKeysDS` | ✔ | ✔ |  |  |
-| `mutateDS` | ✔ |  |  |  |
+| `mutateDS` | ✔ | ✔  |  |  |
 | `renameDS` | ✔ | ✔ | ✔  | ✔ |
 | `selectDS` | ✔ | ✔ | ✔  | ✔ |
 | `sliceDS` | ✔ | ✔ |  |  |
