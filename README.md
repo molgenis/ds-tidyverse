@@ -39,12 +39,23 @@ DataSHIELD implements [privacy control levels](https://wiki.datashield.org/en/op
 used by researchers. The table below shows which dsTidyverse functions are allowed in which
 permission mode.
 
-| **Privacy Level**       | **Functions** |
-|------------------------|--------------|
-| **permissive**        | `arrangeDS`, `asTibbleDS`, `bindColsDS`, `bindRowsDS`, `caseWhenDS`, `distinctDS`, `filterDS`, `groupByDS`, `ungroupDS`, `groupKeysDS`, `mutateDS`, `renameDS`, `selectDS`, `sliceDS`, `ungroupDS` |
-| **banana**            | `arrangeDS`, `asTibbleDS`, `bindColsDS`, `bindRowsDS`, `caseWhenDS`, `distinctDS`, `filterDS`, `groupByDS`, `ungroupDS`, `groupKeysDS`, `mutateDS`, `renameDS`, `selectDS`, `sliceDS`, `ungroupDS` |
-| **avocado**           | `asTibbleDS`, `distinctDS`, `renameDS`, `selectDS` |
-| **non-permissive** | `asTibbleDS`, `distinctDS`, `renameDS`, `selectDS`  | 
+| **Function**       | **Permissive** | **Banana** | **Avocado** | **Non-Permissive** |
+|------------------|-------------|---------|---------|---------------|
+| `arrangeDS` | ✔ | ✔ |  |  |
+| `asTibbleDS` | ✔ | ✔ | ✔  | ✔ |
+| `bindColsDS` | ✔ | ✔ |  |  |
+| `bindRowsDS` | ✔ | ✔ |  |  |
+| `caseWhenDS` | ✔ | ✔ |  |  |
+| `distinctDS` | ✔ | ✔ | ✔  | ✔ |
+| `filterDS` | ✔ | ✔ |  |  |
+| `groupByDS` | ✔ | ✔ |  |  |
+| `groupKeysDS` | ✔ | ✔ |  |  |
+| `mutateDS` | ✔ |  |  |  |
+| `renameDS` | ✔ | ✔ | ✔  | ✔ |
+| `selectDS` | ✔ | ✔ | ✔  | ✔ |
+| `sliceDS` | ✔ | ✔ |  |  |
+| `ungroupDS` | ✔ | ✔ |  |  |
+
 
 ## Contributing
 If there are functions in this list you would like implemented, please either attempt to do so 
