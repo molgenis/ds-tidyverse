@@ -10,7 +10,6 @@
 #' @return An object of the same type as \code{df.name}, typically a data frame or tibble.
 #' @export
 distinctDS <- function(tidy_expr, df.name, .keep_all) {
-  checkPermissivePrivacyControlLevel(c('permissive', 'banana'))
   tidy_expr <- .decode_tidy_eval(tidy_expr, .get_encode_dictionary())
   other_args <- .paste_character_args(.keep_all)
   call <- .make_tidyverse_call(df.name, "distinct", tidy_expr, other_args)

@@ -27,6 +27,7 @@ groupByDS <- function(tidy_expr, df.name, .add, .drop) {
 #' @return An ungrouped data frame or tibble.
 #' @export
 ungroupDS <- function(tidy_expr, x) {
+  checkPermissivePrivacyControlLevel(c('permissive', 'banana'))
   .check_data_name_length(x, listDisclosureSettingsDS())
   call <- .make_tidyverse_call(x, "ungroup", tidy_expr = NULL, other_args = NULL)
   out <- .execute_with_error_handling("ungroup", call)

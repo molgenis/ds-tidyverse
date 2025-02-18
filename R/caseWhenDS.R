@@ -14,7 +14,7 @@
 #' @return A vector with the same size as the common size computed from the inputs in \code{tidy_expr} and the same type as the common type of the RHS inputs in \code{tidy_expr}.
 #' @export
 caseWhenDS <- function(tidy_expr = NULL, .default = NULL, .ptype = NULL, .size = NULL) {
-  checkPermissivePrivacyControlLevel(c('permissive', 'banana', 'avacado'))
+  checkPermissivePrivacyControlLevel(c('permissive', 'banana'))
   tidy_expr <- .decode_tidy_eval(tidy_expr, .get_encode_dictionary())
   .check_tidy_disclosure(NULL, tidy_expr, check_df = F)
   other_args <- .paste_character_args(.default, .ptype, .size)
