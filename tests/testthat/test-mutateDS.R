@@ -66,7 +66,6 @@ test_that("mutateDS passes when called directly", {
   )
 
   datashield.assign(conns, "test", cally)
-  print(datashield.errors())
 
   expect_equal(
     ds.class("test", datasources = conns)[[1]],
@@ -109,4 +108,19 @@ test_that("mutateDS doesn't work with banned function calls that could create a 
   expect_error(
     .check_tidy_disclosure("mtcars", banned_arg_4),
     "`rep` is not a permitted function")
+})
+
+test_that(".check_mutate_disclosure blocks the use of ':'", {
+  banned_arg_1 <- "mutate(banned = 1:32)"
+  expect_error(
+    .check_mutate_disclosure(banned_arg_1),
+    "It is not permitted to use the character ':' within ds.mutate."
+  )
+})
+
+test_that(".check_mutate_disclosure doesn't block permitted strings", {
+  good_arg_1 <- "mutate(ok^2)"
+  expect_silent(
+    .check_mutate_disclosure(good_arg_1)
+  )
 })
