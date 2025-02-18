@@ -30,17 +30,18 @@ mutateDS <- function(tidy_expr, df.name, .keep = NULL, .before = NULL, .after = 
 
 #' @title Check for Disallowed Character in ds.mutate
 #' @description This internal function checks whether the provided expression contains a colon (`:`),
-#' which is not permitted in `ds.mutate`. If a colon is found, the function throws an error.
+#' which is not permitted in `ds.mutate`. If a colon or letter 'c' is found, the function throws an error.
 #' @param tidy_expr A character string representing the expression to be checked.
 #' @return This function does not return a value; it throws an error if `tidy_expr` contains `:`.
 #' @importFrom cli cli_abort
 #' @keywords internal
 #' @noRd
 .check_mutate_disclosure <- function(tidy_expr){
-  if(grepl(":", tidy_expr)){
+  matches <- regmatches(tidy_expr, gregexpr("(:|c)", tidy_expr))[[1]]
+  if (length(matches) > 0) {
     cli_abort(
       c(
-        "x" = "It is not permitted to use the character ':' within ds.mutate.",
+        "x" = "It is not permitted to use the character{?s} '{matches}' within ds.mutate.",
         "i" = "You passed the expression '{tidy_expr}'.",
         "i" = "Please remove this character and try again."
       )
