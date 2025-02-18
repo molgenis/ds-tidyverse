@@ -36,6 +36,7 @@ jobs:
         command: |
           Rscript -e 'install.packages("git2r")'
           Rscript -e "git2r::config(user.email = 'molgenis+ci@gmail.com', user.name = 'MOLGENIS Jenkins')"
+          svu --help
           export VERSION=$(svu --prefix "")
           install2.r --repo https://cloud.r-project.org desc
           Rscript -e "desc::desc_set_version('${VERSION}')"
