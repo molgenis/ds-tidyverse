@@ -58,3 +58,10 @@ test_that("select passes when called directly", {
     c("mpg", "drat", "wt")
   )
 })
+
+test_that("select passes strings that included 'c'", {
+  good_arg_1 <- "any_of(c(mpg, cyl, drat))"
+  expect_silent(
+    .check_tidy_disclosure("mtcars", good_arg_1)
+  )
+})
