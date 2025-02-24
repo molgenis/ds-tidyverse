@@ -117,14 +117,14 @@ test_that(".check_mutate_disclosure blocks the use of 'c'", {
   banned_arg_5 <- "banned = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32)"
   expect_error(
     .check_mutate_disclosure(banned_arg_5),
-    "It is not permitted to use the character 'c' within ds.mutate")
+    "It is not permitted to use the character 'c\\(' within ds.mutate")
 })
 
 test_that(".check_mutate_disclosure blocks the use of both 'c' and ':'", {
   banned_arg_6 <- "banned = c(1, 2, 3) + 1:32"
   expect_error(
     .check_mutate_disclosure(banned_arg_6),
-    "It is not permitted to use the characters 'c and :' within ds.mutate")
+    "It is not permitted to use the characters 'c\\( and :' within ds.mutate")
 })
 
 test_that(".check_mutate_disclosure doesn't block permitted strings", {
