@@ -1,3 +1,6 @@
+## Version 1.0.4
+* Introduced stricter privacy checks to block potential inference attacks
+
 ## Version 1.0.0
 
 * Initial release of the package with the following functions included:
