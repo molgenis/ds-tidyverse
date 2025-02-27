@@ -10,6 +10,20 @@ login_data <- .prepare_dslite("mutateDS", NULL, list(mtcars = mtcars))
 conns <- datashield.login(logins = login_data)
 datashield.assign.table(conns, "mtcars", "mtcars")
 
+options(
+  datashield.privacyControlLevel = "banana",
+  nfilter.tab = 3,
+  nfilter.subset = 3,
+  nfilter.glm = 0.33,
+  nfilter.string = 80,
+  nfilter.stringShort = 20,
+  nfilter.kNN = 3,
+  nfilter.levels.density = 0.33,
+  nfilter.levels.max = 40,
+  nfilter.noise = 0.25,
+  nfilter.privacy.old = 5
+)
+
 good_mutate_arg <- "mpg_trans = cyl*1000, new_var = (hp-drat)/qsec"
 # good_mutate_arg_enc <- .encode_tidy_eval(good_mutate_arg, .get_encode_dictionary())
 

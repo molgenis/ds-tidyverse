@@ -1,6 +1,6 @@
 # dsTidyverse
 <!-- badges: start -->
-[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/dsTidyverse)](https://CRAN.R-project.org/package=yourpackagename)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/dsTidyverse)](https://CRAN.R-project.org/package=dsTidyverse)
 [![CircleCI](https://circleci.com/gh/molgenis/ds-tidyverse.svg?style=shield)](https://app.circleci.com/pipelines/github/molgenis/ds-tidyverse)
 [![codecov](https://codecov.io/gh/molgenis/ds-tidyverse/branch/master/graph/badge.svg?token=ITPMERAWYI)](https://app.codecov.io/gh/molgenis/ds-tidyverse)
 <!-- badges: end -->
