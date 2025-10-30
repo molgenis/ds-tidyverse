@@ -380,3 +380,13 @@ test_that("checkPermissivePrivacyControlLevel blocks certain functions when not 
   )
 
 })
+
+test_that(".listPermittedTidyverseFunctionsDS allows functions to be specified via options", {
+
+  options("tidyverse.permitted.functions" = c("function1", "function2"))
+  expect_equal(
+    listPermittedTidyverseFunctionsDS(),
+    c("function1", "function2")
+  )
+
+})
