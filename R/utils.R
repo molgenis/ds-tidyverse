@@ -175,7 +175,7 @@ listPermittedTidyverseFunctionsDS <- function() {
     "case_when", "mean", "median", "mode", "desc", "last_col", "nth", "where", "num_range",
     "exp", "sqrt", "scale", "round", "floor", "ceiling", "abs", "sd", "var",
     "sin", "cos", "tan", "asin", "acos", "atan", "c", "as.character", "as.integer", "as.numeric",
-    "lag", "diff", "cumsum"
+    "lag", "diff", "cumsum", "is.na"
   )
 
   permittedFunctions <- getOption("tidyverse.permitted.functions", defaultFunctions)
