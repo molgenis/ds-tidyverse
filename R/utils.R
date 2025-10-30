@@ -169,16 +169,18 @@ listDisclosureSettingsDS <- function() {
 #' not included in this list will be blocked.
 #' @export
 listPermittedTidyverseFunctionsDS <- function() {
-  return(
-    c(
-      "everything", "last_col", "group_cols", "starts_with", "ends_with", "contains",
-      "matches", "num_range", "all_of", "any_of", "where", "rename", "mutate", "if_else",
-      "case_when", "mean", "median", "mode", "desc", "last_col", "nth", "where", "num_range",
-      "exp", "sqrt", "scale", "round", "floor", "ceiling", "abs", "sd", "var",
-      "sin", "cos", "tan", "asin", "acos", "atan", "c", "as.character", "as.integer",
-      "lag", "diff", "cumsum"
-    )
+  defaultFunctions <- c(
+    "everything", "last_col", "group_cols", "starts_with", "ends_with", "contains",
+    "matches", "num_range", "all_of", "any_of", "where", "rename", "mutate", "if_else",
+    "case_when", "mean", "median", "mode", "desc", "last_col", "nth", "where", "num_range",
+    "exp", "sqrt", "scale", "round", "floor", "ceiling", "abs", "sd", "var",
+    "sin", "cos", "tan", "asin", "acos", "atan", "c", "as.character", "as.integer",
+    "lag", "diff", "cumsum"
   )
+
+  permittedFunctions <- getOption("tidyverse.permitted.functions", defaultFunctions)
+
+  return(permittedFunctions)
 }
 
 #' Check Subset Disclosure Risk
