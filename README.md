@@ -34,28 +34,8 @@ Tidyverse packages can be included.
 ### From the `tibble` package:
 - **`as_tibble`**: Convert data to a tibble.
 
-## Privacy control levels
-DataSHIELD implements [privacy control levels](https://wiki.datashield.org/en/opmanag/privacy-control-level), which allows data owners to control which functions can be
-used by researchers. The table below shows which dsTidyverse functions are permitted in which
-privacy mode.
-
-| **Function**       | **Permissive** | **Banana** | **Avocado** | **Non-Permissive** |
-|------------------|-------------|---------|---------|---------------|
-| `arrangeDS` | ✔ | ✔ |  |  |
-| `asTibbleDS` | ✔ | ✔ | ✔  | ✔ |
-| `bindColsDS` | ✔ | ✔ |  |  |
-| `bindRowsDS` | ✔ | ✔ |  |  |
-| `caseWhenDS` | ✔ | ✔ |  |  |
-| `distinctDS` | ✔ | ✔ | ✔  | ✔ |
-| `filterDS` | ✔ | ✔ |  |  |
-| `groupByDS` | ✔ | ✔ |  |  |
-| `groupKeysDS` | ✔ | ✔ |  |  |
-| `mutateDS` | ✔ | ✔  |  |  |
-| `renameDS` | ✔ | ✔ | ✔  | ✔ |
-| `selectDS` | ✔ | ✔ | ✔  | ✔ |
-| `sliceDS` | ✔ | ✔ |  |  |
-| `ungroupDS` | ✔ | ✔ |  |  |
-
+## Privacy settings with dsTidyverse
+Please read the separate vignette for instructions on how to manage privacy settings with dsTidyverse.
 
 ## Contributing
 If there are functions in this list you would like implemented, please either attempt to do so 

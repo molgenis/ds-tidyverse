@@ -1,0 +1,55 @@
+---
+title: "Privacy settings within dsTidyverse"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Privacy settings within dsTidyverse}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Data owners can manage privacy settings in two main ways: (i) setting the privacy control level, and (ii) controlling which additional functions can be passed to `ds.tidyverse`.
+
+## Privacy control levels
+DataSHIELD implements [privacy control levels](https://wiki.datashield.org/en/opmanag/privacy-control-level), which allows data owners to control which functions can be
+used by researchers. The table below shows which dsTidyverse functions are permitted in which
+privacy mode. This option can be set on the server: for example to set to non-permissive mode use `datashield.privacyControlLevel = "non-permissive"`
+
+| **Function**       | **Permissive** | **Banana** | **Avocado** | **Non-Permissive** |
+|------------------|-------------|---------|---------|---------------|
+| `arrangeDS` | ✔ | ✔ |  |  |
+| `asTibbleDS` | ✔ | ✔ | ✔  | ✔ |
+| `bindColsDS` | ✔ | ✔ |  |  |
+| `bindRowsDS` | ✔ | ✔ |  |  |
+| `caseWhenDS` | ✔ | ✔ |  |  |
+| `distinctDS` | ✔ | ✔ | ✔  | ✔ |
+| `filterDS` | ✔ | ✔ |  |  |
+| `groupByDS` | ✔ | ✔ |  |  |
+| `groupKeysDS` | ✔ | ✔ |  |  |
+| `mutateDS` | ✔ | ✔  |  |  |
+| `renameDS` | ✔ | ✔ | ✔  | ✔ |
+| `selectDS` | ✔ | ✔ | ✔  | ✔ |
+| `sliceDS` | ✔ | ✔ |  |  |
+| `ungroupDS` | ✔ | ✔ |  |  |
+
+## Permitted functions
+dsTidyverse allows additional functions to be passed via the `tidy_expr` argument. For example, 
+using ds.mutate you can pass `as.numeric`: 
+```
+ds.mutate("mtcars", list(cyl = as.numeric(cyl)), "newobj")
+```
+Functions are only allowed to be passed which do not risk disclosing individual level data. The default 
+list of allowed functions is: 
+```
+"everything", "last_col", "group_cols", "starts_with", "ends_with", "contains",
+"matches", "num_range", "all_of", "any_of", "where", "rename", "mutate", "if_else",
+"case_when", "mean", "median", "mode", "desc", "last_col", "nth", "where", "num_range",
+"exp", "sqrt", "scale", "round", "floor", "ceiling", "abs", "sd", "var",
+"sin", "cos", "tan", "asin", "acos", "atan", "c", "as.character", "as.integer",
+"lag", "diff", "cumsum"
+```
+
+These defaults can be managed by the data owner on their server using the option 
+`tidyverse.permitted.functions`. For example, if as a data owner you want to restrict the permitted
+functions to `as.numeric` and `as.integer`, you can set the option 
+`tidyverse.permitted.functions = c("as.numeric", "as.integer")`.
+
