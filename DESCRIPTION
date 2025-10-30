@@ -39,6 +39,8 @@ Suggests:
   DSI, 
   dplyr, 
   purrr, 
-  mockery
+  mockery,
+  knitr
 Config/testthat/edition: 3
 Additional_repositories: https://cran.obiba.org/
+VignetteBuilder: knitr
