@@ -397,6 +397,3 @@ test_that(".check_function_names works with functions which contain a period", {
   expect_silent(.check_function_names("as.factor(cyl)"))
 
 })
-
-
-.check_function_names <- function(args_as_string)
