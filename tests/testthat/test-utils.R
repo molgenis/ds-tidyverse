@@ -390,3 +390,13 @@ test_that(".listPermittedTidyverseFunctionsDS allows functions to be specified v
   )
 
 })
+
+test_that(".check_function_names works with functions which contain a period", {
+
+  options("tidyverse.permitted.functions" = "as.factor")
+  expect_silent(.check_function_names("as.factor(cyl)"))
+
+})
+
+
+.check_function_names <- function(args_as_string)
