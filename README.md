@@ -35,7 +35,9 @@ Tidyverse packages can be included.
 - **`as_tibble`**: Convert data to a tibble.
 
 ## Privacy settings with dsTidyverse
-Please read the separate vignette for instructions on how to manage privacy settings with dsTidyverse.
+Please read the separate vignette 
+[Privacy settings with dsTidyverse](articles/tidyversePrivacy.html)
+for detailed instructions.
 
 ## Contributing
 If there are functions in this list you would like implemented, please either attempt to do so 
