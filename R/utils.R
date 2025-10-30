@@ -302,7 +302,7 @@ listPermittedTidyverseFunctionsDS <- function() {
 #' @noRd
 .check_function_names <- function(args_as_string) {
   permitted_tidy_select <- listPermittedTidyverseFunctionsDS()
-  matches <- gregexpr("\\w+(?=\\()", args_as_string, perl = TRUE)
+  matches <- gregexpr("[A-Za-z][A-Za-z0-9_]*(?:\\.[A-Za-z0-9_]+)*(?=\\()", args_as_string, perl = TRUE)
   function_names <- unlist(regmatches(args_as_string, matches))
   any_banned_functions <- function_names[!function_names %in% permitted_tidy_select]
   if (length(any_banned_functions) > 0) {
