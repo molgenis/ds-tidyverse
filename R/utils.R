@@ -174,7 +174,7 @@ listPermittedTidyverseFunctionsDS <- function() {
     "matches", "num_range", "all_of", "any_of", "where", "rename", "mutate", "if_else",
     "case_when", "mean", "median", "mode", "desc", "last_col", "nth", "where", "num_range",
     "exp", "sqrt", "scale", "round", "floor", "ceiling", "abs", "sd", "var",
-    "sin", "cos", "tan", "asin", "acos", "atan", "c", "as.character", "as.integer",
+    "sin", "cos", "tan", "asin", "acos", "atan", "c", "as.character", "as.integer", "as.numeric",
     "lag", "diff", "cumsum"
   )
 
