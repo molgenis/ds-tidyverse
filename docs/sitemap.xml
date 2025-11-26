@@ -1,72 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/arrangeDS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/asTibbleDS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bindColsDS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bindRowsDS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/caseWhenDS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/checkPermissivePrivacyControlLevel.html</loc>
-  </url>
-  <url>
-    <loc>/reference/distinctDS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/filterDS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/groupByDS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/groupKeysDS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ifElseDS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/listPermittedTidyverseFunctionsDS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mutateDS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/renameDS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/selectDS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sliceDS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/ungroupDS.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/CONTRIBUTING.html</loc></url>
+<url><loc>/LICENSE.html</loc></url>
+<url><loc>/articles/dstidyverse.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/articles/tidyversePrivacy.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/arrangeDS.html</loc></url>
+<url><loc>/reference/asTibbleDS.html</loc></url>
+<url><loc>/reference/bindColsDS.html</loc></url>
+<url><loc>/reference/bindRowsDS.html</loc></url>
+<url><loc>/reference/caseWhenDS.html</loc></url>
+<url><loc>/reference/checkPermissivePrivacyControlLevel.html</loc></url>
+<url><loc>/reference/distinctDS.html</loc></url>
+<url><loc>/reference/filterDS.html</loc></url>
+<url><loc>/reference/groupByDS.html</loc></url>
+<url><loc>/reference/groupKeysDS.html</loc></url>
+<url><loc>/reference/ifElseDS.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/listPermittedTidyverseFunctionsDS.html</loc></url>
+<url><loc>/reference/mutateDS.html</loc></url>
+<url><loc>/reference/renameDS.html</loc></url>
+<url><loc>/reference/selectDS.html</loc></url>
+<url><loc>/reference/sliceDS.html</loc></url>
+<url><loc>/reference/ungroupDS.html</loc></url>
 </urlset>
+
