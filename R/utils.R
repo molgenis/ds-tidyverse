@@ -169,15 +169,18 @@ listDisclosureSettingsDS <- function() {
 #' not included in this list will be blocked.
 #' @export
 listPermittedTidyverseFunctionsDS <- function() {
-  return(
-    c(
-      "everything", "last_col", "group_cols", "starts_with", "ends_with", "contains",
-      "matches", "num_range", "all_of", "any_of", "where", "rename", "mutate", "if_else",
-      "case_when", "mean", "median", "mode", "desc", "last_col", "nth", "where", "num_range",
-      "exp", "sqrt", "scale", "round", "floor", "ceiling", "abs", "sd", "var",
-      "sin", "cos", "tan", "asin", "acos", "atan", "c"
-    )
+  defaultFunctions <- c(
+    "everything", "last_col", "group_cols", "starts_with", "ends_with", "contains",
+    "matches", "num_range", "all_of", "any_of", "where", "rename", "mutate", "if_else",
+    "case_when", "mean", "median", "mode", "desc", "last_col", "nth", "where", "num_range",
+    "exp", "sqrt", "scale", "round", "floor", "ceiling", "abs", "sd", "var",
+    "sin", "cos", "tan", "asin", "acos", "atan", "c", "as.character", "as.integer", "as.numeric",
+    "lag", "diff", "cumsum", "is.na"
   )
+
+  permittedFunctions <- getOption("tidyverse.permitted.functions", defaultFunctions)
+
+  return(permittedFunctions)
 }
 
 #' Check Subset Disclosure Risk
@@ -299,7 +302,7 @@ listPermittedTidyverseFunctionsDS <- function() {
 #' @noRd
 .check_function_names <- function(args_as_string) {
   permitted_tidy_select <- listPermittedTidyverseFunctionsDS()
-  matches <- gregexpr("\\w+(?=\\()", args_as_string, perl = TRUE)
+  matches <- gregexpr("[A-Za-z][A-Za-z0-9_]*(?:\\.[A-Za-z0-9_]+)*(?=\\()", args_as_string, perl = TRUE)
   function_names <- unlist(regmatches(args_as_string, matches))
   any_banned_functions <- function_names[!function_names %in% permitted_tidy_select]
   if (length(any_banned_functions) > 0) {

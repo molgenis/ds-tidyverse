@@ -4,8 +4,9 @@ require(dplyr)
 require(dsBase)
 require(dsBaseClient)
 
+options(datashield.errors.print = TRUE)
 data("mtcars")
-login_data <- .prepare_dslite("arrangeDS", NULL, list(mtcars = mtcars))
+login_data <- .prepare_dslite("distinctDS", NULL, list(mtcars = mtcars))
 conns <- datashield.login(logins = login_data)
 datashield.assign.table(conns, "mtcars", "mtcars")
 
