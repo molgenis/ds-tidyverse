@@ -5,7 +5,7 @@
 [![codecov](https://codecov.io/gh/molgenis/ds-tidyverse/branch/master/graph/badge.svg?token=ITPMERAWYI)](https://app.codecov.io/gh/molgenis/ds-tidyverse)
 <!-- badges: end -->
 
-This is the DataSHIELD implementation of selected [Tidyverse](https://www.tidyverse.org/) functions. 
+This is the DataSHIELD implementation of selected [Tidyverse](https://tidyverse.org/) functions. 
 Currently most of these functions are from dplyr, however in the future functions from other
 Tidyverse packages can be included.
 
