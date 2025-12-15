@@ -53,9 +53,9 @@ These defaults can be managed by the data owner on their server using the option
 functions to `as.numeric` and `as.integer`, you can set the option
 `tidyverse.permitted.functions = c("as.numeric", "as.integer")`.
 
-**IMPORTANT:** This feature gives
+**WARNING:** This feature gives
 the data manager the option to restrict allowed functions, but also to allow additional functions.
-If you chose to allow functions not included in the default list, please take steps to ensure that
+If you choose to allow functions not included in the default list, please take steps to ensure that
 they are compatible with your research setting, and in sensitive settings with secure data they do not
 risk returning individual level data to the researcher. If you have doubts please contact the maintainers
 of dsTidyverse who can discuss the risks with you.
