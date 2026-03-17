@@ -45,7 +45,7 @@ list of allowed functions is:
 "case_when", "mean", "median", "mode", "desc", "last_col", "nth", "where", "num_range",
 "exp", "sqrt", "scale", "round", "floor", "ceiling", "abs", "sd", "var",
 "sin", "cos", "tan", "asin", "acos", "atan", "c", "as.character", "as.integer",
-"lag", "diff", "cumsum"
+"lag", "diff", "cumsum", "as.Date"
 ```
 
 These defaults can be managed by the data owner on their server using the option
