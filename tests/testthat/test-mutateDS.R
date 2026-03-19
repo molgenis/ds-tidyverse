@@ -6,9 +6,11 @@ require(dsBaseClient)
 
 data("mtcars")
 mtcars_group <- mtcars %>% group_by(cyl)
-login_data <- .prepare_dslite("mutateDS", NULL, list(mtcars = mtcars))
+date_df <- data.frame(date_str = c("2024-01-15", "2024-06-30", "2024-12-25"), stringsAsFactors = FALSE)
+login_data <- .prepare_dslite("mutateDS", NULL, list(mtcars = mtcars, date_df = date_df))
 conns <- datashield.login(logins = login_data)
 datashield.assign.table(conns, "mtcars", "mtcars")
+datashield.assign.table(conns, "date_df", "date_df")
 
 options(
   datashield.privacyControlLevel = "banana",
@@ -139,6 +141,22 @@ test_that(".check_mutate_disclosure blocks the use of both 'c' and ':'", {
   expect_error(
     .check_mutate_disclosure(banned_arg_6),
     "It is not permitted to use the characters 'c\\( and :' within ds.mutate")
+})
+
+test_that("mutateDS permits as.Date on a character column", {
+  as_date_arg <- "date_col = as.Date(date_str)"
+  as_date_cally <- .make_tidyverse_call("date_df", "mutate", as_date_arg, list(".keep = \"all\", .before = NULL, .after = NULL"))
+  result <- eval(as_date_cally)
+
+  expect_equal(
+    class(result$date_col),
+    "Date"
+  )
+
+  expect_equal(
+    result$date_col,
+    as.Date(c("2024-01-15", "2024-06-30", "2024-12-25"))
+  )
 })
 
 test_that(".check_mutate_disclosure doesn't block permitted strings", {
