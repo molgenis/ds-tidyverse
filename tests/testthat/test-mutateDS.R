@@ -166,4 +166,9 @@ test_that(".check_mutate_disclosure doesn't block permitted strings", {
   )
 })
 
+test_that(".check_mutate_disclosure doesn't false-positive on function names ending in c", {
+  expect_silent(.check_mutate_disclosure("new_col = as.numeric(mpg)"))
+  expect_silent(.check_mutate_disclosure("new_col = as.numeric(as.Date(date_str))"))
+})
+
 
