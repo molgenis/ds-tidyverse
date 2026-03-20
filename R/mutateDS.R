@@ -37,7 +37,7 @@ mutateDS <- function(tidy_expr, df.name, .keep = NULL, .before = NULL, .after = 
 #' @keywords internal
 #' @noRd
 .check_mutate_disclosure <- function(tidy_expr){
-  matches <- regmatches(tidy_expr, gregexpr("(:|c\\()", tidy_expr))[[1]]
+  matches <- regmatches(tidy_expr, gregexpr("(:|(?<![A-Za-z0-9_.])c\\()", tidy_expr, perl = TRUE))[[1]]
   if (length(matches) > 0) {
     cli_abort(
       c(
