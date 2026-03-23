@@ -87,6 +87,7 @@
 #'
 #' @param caller_env The environment containing the data objects (e.g. the DataSHIELD server environment).
 #' @return A new environment with permitted dplyr functions, parented by \code{caller_env}.
+#' @importFrom dplyr desc
 #' @noRd
 .build_eval_env <- function(caller_env) {
   eval_env <- new.env(parent = caller_env)
