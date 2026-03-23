@@ -388,7 +388,7 @@ test_that(".listPermittedTidyverseFunctionsDS returns correct default function l
     c(
       "everything", "last_col", "group_cols", "starts_with", "ends_with", "contains",
       "matches", "num_range", "all_of", "any_of", "where", "rename", "mutate", "if_else",
-      "case_when", "mean", "median", "mode", "desc", "last_col", "where", "num_range",
+      "case_when", "mean", "median", "desc",
       "exp", "sqrt", "scale", "round", "floor", "ceiling", "abs", "sd", "var",
       "sin", "cos", "tan", "asin", "acos", "atan", "c", "as.character", "as.integer", "as.numeric",
       "lag", "diff", "cumsum", "is.na", "as.Date"
@@ -412,4 +412,29 @@ test_that(".check_function_names works with functions which contain a period", {
   options("tidyverse.permitted.functions" = "as.factor")
   expect_silent(.check_function_names("as.factor(cyl)"))
 
+})
+
+# Reset permitted functions to default for .build_eval_env tests
+options("tidyverse.permitted.functions" = NULL)
+
+test_that(".build_eval_env contains permitted dplyr functions", {
+  eval_env <- .build_eval_env(globalenv())
+  expect_true(exists("desc", envir = eval_env, inherits = FALSE))
+  expect_true(exists("lag", envir = eval_env, inherits = FALSE))
+  expect_true(exists("if_else", envir = eval_env, inherits = FALSE))
+  expect_true(exists("case_when", envir = eval_env, inherits = FALSE))
+  expect_true(exists("mutate", envir = eval_env, inherits = FALSE))
+})
+
+test_that(".build_eval_env does not contain base R functions", {
+  eval_env <- .build_eval_env(globalenv())
+  expect_false(exists("mean", envir = eval_env, inherits = FALSE))
+  expect_false(exists("sqrt", envir = eval_env, inherits = FALSE))
+  expect_false(exists("is.na", envir = eval_env, inherits = FALSE))
+})
+
+test_that(".build_eval_env does not contain functions from other packages", {
+  eval_env <- .build_eval_env(globalenv())
+  expect_false(exists("str_detect", envir = eval_env, inherits = FALSE))
+  expect_false(exists("ggplot", envir = eval_env, inherits = FALSE))
 })
