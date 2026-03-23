@@ -80,17 +80,39 @@
 }
 
 
+#' Build an evaluation environment with permitted dplyr functions
+#'
+#' Creates a new environment parented by \code{caller_env} and populates it with
+#' permitted dplyr functions so they are available during tidy evaluation.
+#'
+#' @param caller_env The environment containing the data objects (e.g. the DataSHIELD server environment).
+#' @return A new environment with permitted dplyr functions, parented by \code{caller_env}.
+#' @noRd
+.build_eval_env <- function(caller_env) {
+  eval_env <- new.env(parent = caller_env)
+  permitted <- listPermittedTidyverseFunctionsDS()
+  dplyr_ns <- asNamespace("dplyr")
+  for (fn in permitted) {
+    if (exists(fn, envir = dplyr_ns, inherits = FALSE)) {
+      eval_env[[fn]] <- get(fn, envir = dplyr_ns)
+    }
+  }
+  eval_env
+}
+
 #' Evaluate an expression and handle errors gracefully.
 #'
+#' @param fun The name of the calling function, used in error messages.
 #' @param string_as_expr An expression to be evaluated.
-#' @param .data The data environment in which the expression should be evaluated.
 #' @importFrom cli cli_abort
 #' @importFrom rlang eval_tidy
 #' @return The result of evaluating the expression, or an error message if evaluation fails.
 #' @noRd
 .execute_with_error_handling <- function(fun, string_as_expr) {
+  caller_env <- parent.frame(2)
+  eval_env <- .build_eval_env(caller_env)
   object_out <- tryCatch(
-    eval_tidy(string_as_expr, env = parent.frame(2)),
+    eval_tidy(string_as_expr, env = eval_env),
     error = function(e) {
       cli_abort(
         c("`{fun}DS` returned the following error:", "i" = conditionMessage(e)),
@@ -98,7 +120,6 @@
       )
     }
   )
-
   return(object_out)
 }
 
