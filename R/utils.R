@@ -172,7 +172,7 @@ listPermittedTidyverseFunctionsDS <- function() {
   defaultFunctions <- c(
     "everything", "last_col", "group_cols", "starts_with", "ends_with", "contains",
     "matches", "num_range", "all_of", "any_of", "where", "rename", "mutate", "if_else",
-    "case_when", "mean", "median", "mode", "desc", "last_col", "where", "num_range",
+    "case_when", "mean", "median", "desc", "last_col", "where", "num_range",
     "exp", "sqrt", "scale", "round", "floor", "ceiling", "abs", "sd", "var",
     "sin", "cos", "tan", "asin", "acos", "atan", "c", "as.character", "as.integer", "as.numeric",
     "lag", "diff", "cumsum", "is.na", "as.Date"
