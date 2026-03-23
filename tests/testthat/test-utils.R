@@ -391,7 +391,7 @@ test_that(".listPermittedTidyverseFunctionsDS returns correct default function l
       "case_when", "mean", "median", "desc",
       "exp", "sqrt", "scale", "round", "floor", "ceiling", "abs", "sd", "var",
       "sin", "cos", "tan", "asin", "acos", "atan", "c", "as.character", "as.integer", "as.numeric",
-      "lag", "diff", "cumsum", "is.na", "as.Date"
+      "lag", "cumsum", "is.na", "as.Date"
     )
   )
 
