@@ -185,6 +185,8 @@ listDisclosureSettingsDS <- function() {
 #'
 #' This function returns a vector of function names that are permitted to be passed within the
 #' dsTidyverse functions, e.g. within the `tidy_select` argument of `ds.mutate.`
+#' Additional functions can be added via the \code{tidyverse.permitted.functions} R option.
+#' Only functions from base R, dplyr, or tidyselect are supported.
 #'
 #' @return A character vector of function names, each representing a permitted function. Functions
 #' not included in this list will be blocked.
