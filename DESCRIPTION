@@ -29,18 +29,18 @@ LazyData: true
 RoxygenNote: 7.3.3
 Imports:
   rlang,
-  cli
-Suggests: 
-  testthat (>= 3.0.0), 
+  cli,
+  dplyr
+Suggests:
+  testthat (>= 3.0.0),
   tibble,
-  DSLite, 
-  dsBaseClient, 
-  dsBase, 
-  DSI, 
-  dplyr, 
-  purrr, 
+  DSLite,
+  dsBaseClient,
+  dsBase,
+  DSI,
+  purrr,
   mockery,
-  knitr, 
+  knitr,
   rmarkdown
 Config/testthat/edition: 3
 Additional_repositories: https://cran.obiba.org/
