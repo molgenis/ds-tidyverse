@@ -31,5 +31,5 @@ to add to the right hand side). See \code{relocate} for more details.}
 An object of the same type as \code{df.name}, typically a data frame or tibble.
 }
 \description{
-DataSHIELD implentation of \code{mutate}.
+DataSHIELD implementation of \code{mutate}.
 }

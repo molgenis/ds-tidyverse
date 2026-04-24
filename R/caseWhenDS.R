@@ -1,5 +1,5 @@
 #' @title Performs dplyr case_when
-#' @description DataSHIELD implentation of \code{dplyr::case_when}.
+#' @description DataSHIELD implementation of \code{dplyr::case_when}.
 #' @param tidy_expr A sequence of two-sided formulas. The left hand side (LHS) determines which
 #' values match this case. The right hand side (RHS) provides the replacement value.
 #' The LHS inputs must evaluate to logical vectors.

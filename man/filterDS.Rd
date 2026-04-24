@@ -23,5 +23,5 @@ the grouping structure is recalculated based on the resulting data, otherwise th
 An object of the same type as \code{df.name}, typically a data frame or tibble.
 }
 \description{
-DataSHIELD implentation of \code{dplyr::filter}.
+DataSHIELD implementation of \code{dplyr::filter}.
 }

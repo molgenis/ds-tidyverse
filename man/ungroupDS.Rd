@@ -15,5 +15,5 @@ ungroupDS(tidy_expr, x)
 An ungrouped data frame or tibble.
 }
 \description{
-DataSHIELD implentation of \code{dplyr::ungroup}.
+DataSHIELD implementation of \code{dplyr::ungroup}.
 }

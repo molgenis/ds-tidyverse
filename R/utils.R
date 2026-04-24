@@ -125,7 +125,7 @@
 }
 
 #' @title listDisclosureSettingsDS
-#' @description This serverside function is an aggregate function that is called by the
+#' @description This server-side function is an aggregate function that is called by the
 #' ds.listDisclosureSettings
 #' @details For more details see the extensive header for ds.listDisclosureSettings
 #' @author Paul Burton, Demetris Avraam for DataSHIELD Development Team
@@ -298,7 +298,7 @@ listPermittedTidyverseFunctionsDS <- function() {
     cli_abort(
       "The difference in row length between the original dataframe and the new dataframe is {diff},
       which is lower than the value of nfilter.subset ({nfilter.subset}). This could indicate a potential subsetting
-      attack which will be recorded in the serverside logs. Please review the filter expression.",
+      attack which will be recorded in the server-side logs. Please review the filter expression.",
       call = NULL
     )
   }
@@ -469,7 +469,7 @@ listPermittedTidyverseFunctionsDS <- function() {
 
 #'
 #' @title checkPermissivePrivacyControlLevel
-#' @description This serverside function check that the server is running in "permissive" privacy control level.
+#' @description This server-side function check that the server is running in "permissive" privacy control level.
 #' @details Tests whether the R option "datashield.privacyControlLevel" is set to "permissive", if it isn't
 #' will cause a call to stop() with the message "BLOCKED: The server is running in 'non-permissive' mode which
 #' has caused this method to be blocked".

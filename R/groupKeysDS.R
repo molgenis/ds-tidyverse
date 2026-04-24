@@ -1,5 +1,5 @@
 #' @title Performs dplyr \code{group_keys}.
-#' @description DataSHIELD implentation of \code{dplyr::group_keys}
+#' @description DataSHIELD implementation of \code{dplyr::group_keys}
 #' @param tidy_select Unused in this function.
 #' @param x a grouped tibble.
 #' @return A data frame describing the groups.

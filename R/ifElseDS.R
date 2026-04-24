@@ -1,5 +1,5 @@
 #' @title Vectorised if-else
-#' @description DataSHIELD implentation of \code{dply::if_else}.
+#' @description DataSHIELD implementation of \code{dplyr::if_else}.
 #' @param condition A list, specifying a logical vector in tidyverse syntax, ie data and column names unquoted.
 #' @param true Vector to use for TRUE value of condition.
 #' @param false Vector to use for FALSE value of condition.

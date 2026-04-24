@@ -19,5 +19,5 @@ only.}
 An object of the same type as \code{df.name}, typically a data frame or tibble.
 }
 \description{
-DataSHIELD implentation of \code{dplyr::arrange}.
+DataSHIELD implementation of \code{dplyr::arrange}.
 }

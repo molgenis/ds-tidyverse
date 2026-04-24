@@ -26,5 +26,5 @@ NULL inputs are ignored.}
 A vector with the same size as the common size computed from the inputs in \code{tidy_expr} and the same type as the common type of the RHS inputs in \code{tidy_expr}.
 }
 \description{
-DataSHIELD implentation of \code{dplyr::case_when}.
+DataSHIELD implementation of \code{dplyr::case_when}.
 }

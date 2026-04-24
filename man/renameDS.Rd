@@ -15,5 +15,5 @@ renameDS(tidy_expr, df.name)
 An object of the same type as \code{df.name}, typically a data frame or tibble.
 }
 \description{
-DataSHIELD implentation of\code{dplyr::rename}.
+DataSHIELD implementation of \code{dplyr::rename}.
 }

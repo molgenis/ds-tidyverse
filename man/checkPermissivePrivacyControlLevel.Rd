@@ -13,7 +13,7 @@ checkPermissivePrivacyControlLevel(privacyControlLevels)
 Returns an error if the method is not permitted; otherwise, no value is returned.
 }
 \description{
-This serverside function check that the server is running in "permissive" privacy control level.
+This server-side function check that the server is running in "permissive" privacy control level.
 }
 \details{
 Tests whether the R option "datashield.privacyControlLevel" is set to "permissive", if it isn't

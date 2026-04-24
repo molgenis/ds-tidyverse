@@ -1,5 +1,5 @@
 #' @title Keep or drop columns using their names and types
-#' @description DataSHIELD implentation of \code{dplyr::select}.
+#' @description DataSHIELD implementation of \code{dplyr::select}.
 #' @details Performs dplyr select
 #' @param df.name A data frame or tibble.
 #' @param tidy_expr One or more unquoted expressions separated by commas.

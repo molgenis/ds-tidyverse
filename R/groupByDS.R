@@ -1,5 +1,5 @@
 #' @title Group by one or more variables
-#' @description DataSHIELD implentation of \code{dplyr::group_by}.
+#' @description DataSHIELD implementation of \code{dplyr::group_by}.
 #' @param tidy_expr Diffused grouping expression.
 #' @param df.name A data frame, data frame extension (e.g. a tibble), or a lazy data frame
 #' (e.g. from dbplyr or dtplyr).
@@ -21,7 +21,7 @@ groupByDS <- function(tidy_expr, df.name, .add, .drop) {
 }
 
 #' @title Remove grouping from a tibble or data frame
-#' @description DataSHIELD implentation of \code{dplyr::ungroup}.
+#' @description DataSHIELD implementation of \code{dplyr::ungroup}.
 #' @param tidy_expr Unused in this function.
 #' @param x A tibble.
 #' @return An ungrouped data frame or tibble.
