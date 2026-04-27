@@ -23,5 +23,5 @@ A grouped data frame with class grouped_df, unless the combination of \code{tidy
 and \code{.add} yields a empty set of grouping columns, in which case a tibble will be returned.
 }
 \description{
-DataSHIELD implentation of \code{dplyr::group_by}.
+DataSHIELD implementation of \code{dplyr::group_by}.
 }

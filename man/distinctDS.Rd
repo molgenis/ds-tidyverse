@@ -21,5 +21,5 @@ this keeps the first row of values.}
 An object of the same type as \code{df.name}, typically a data frame or tibble.
 }
 \description{
-DataSHIELD implentation of \code{dplyr::distinct}.
+DataSHIELD implementation of \code{dplyr::distinct}.
 }

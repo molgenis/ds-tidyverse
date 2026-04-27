@@ -1,5 +1,5 @@
 #' @title Rename columns
-#' @description DataSHIELD implentation of\code{dplyr::rename}.
+#' @description DataSHIELD implementation of \code{dplyr::rename}.
 #' @param df.name A data frame or tibble.
 #' @param tidy_expr list containing diffused expression.
 #' @return An object of the same type as \code{df.name}, typically a data frame or tibble.

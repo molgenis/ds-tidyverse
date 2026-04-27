@@ -15,7 +15,7 @@ selectDS(tidy_expr, df.name)
 An object of the same type as \code{df.name}, typically a data frame or tibble.
 }
 \description{
-DataSHIELD implentation of \code{dplyr::select}.
+DataSHIELD implementation of \code{dplyr::select}.
 }
 \details{
 Performs dplyr select

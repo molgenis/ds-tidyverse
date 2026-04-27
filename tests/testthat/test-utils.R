@@ -351,7 +351,7 @@ test_that("checkPermissivePrivacyControlLevel blocks certain functions when not 
   cally <- call("filterDS", "carb$SPACE$$EQU$$EQU$$SPACE$4", "mtcars", NULL, FALSE)
 
   options(datashield.privacyControlLevel =  "banana")
-  expect_silent(
+  expect_no_error(
     datashield.assign(conns, "test", cally)
   )
 

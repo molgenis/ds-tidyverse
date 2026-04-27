@@ -1,5 +1,5 @@
 #' @title Create, modify, and delete columns
-#' @description DataSHIELD implentation of \code{mutate}.
+#' @description DataSHIELD implementation of \code{mutate}.
 #' @param df.name A data frame, data frame extension (e.g. a tibble), or a lazy data frame (e.g. from dbplyr or dtplyr).
 #' @param tidy_expr Name-value pairs. The name gives the name of the column in the output.
 #' @param .keep .keep Control which columns from \code{df.name} are retained in the output. Grouping

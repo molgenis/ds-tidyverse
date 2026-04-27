@@ -30,5 +30,5 @@ ifElseDS(
 A vector with the same size as \code{condition} and the same type as the common type of \code{true}, \code{false}, and \code{missing}.
 }
 \description{
-DataSHIELD implentation of \code{dply::if_else}.
+DataSHIELD implementation of \code{dplyr::if_else}.
 }

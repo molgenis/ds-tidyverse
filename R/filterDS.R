@@ -1,5 +1,5 @@
 #' @title Performs dplyr filter
-#' @description DataSHIELD implentation of \code{dplyr::filter}.
+#' @description DataSHIELD implementation of \code{dplyr::filter}.
 #' @param tidy_expr Diffused expression that return a logical value, and are defined in terms of the
 #' variables in \code{df.name}.
 #' @param df.name A data frame, data frame extension (e.g. a tibble), or a lazy data frame

@@ -19,8 +19,8 @@ Tidyverse packages can be included.
 - **`select`**: Choose columns from a data frame.
 - **`rename`**: Rename columns in a data frame.
 - **`mutate`**: Create or modify columns.
-- **`if_else`**: A vectorized conditional function.
-- **`case_when`**: A general vectorized conditional function.
+- **`if_else`**: A vectorised conditional function.
+- **`case_when`**: A general vectorised conditional function.
 - **`bind_cols`**: Combine data frames by columns.
 - **`bind_rows`**: Combine data frames by rows.
 - **`filter`**: Filter rows based on conditions.

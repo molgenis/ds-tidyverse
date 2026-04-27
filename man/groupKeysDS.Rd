@@ -15,5 +15,5 @@ groupKeysDS(tidy_select, x)
 A data frame describing the groups.
 }
 \description{
-DataSHIELD implentation of \code{dplyr::group_keys}
+DataSHIELD implementation of \code{dplyr::group_keys}
 }

@@ -25,5 +25,5 @@ kept as is.}
 An object of the same type as \code{df.name}, typically a data frame or tibble.
 }
 \description{
-DataSHIELD implentation of \code{dplyr::slice}.
+DataSHIELD implementation of \code{dplyr::slice}.
 }
