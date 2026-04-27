@@ -23,7 +23,7 @@
 .prepare_dslite <- function(assign_method = NULL, aggregate_method = NULL, tables = NULL) {
   options(datashield.env = environment())
   dslite.server <- DSLite::newDSLiteServer(tables = tables)
-  dslite.server$config(defaultDSConfiguration(include = c("dsBase", "dsTidyverse")))
+  dslite.server$config(DSLite::defaultDSConfiguration(include = c("dsBase", "dsTidyverse")))
   dslite.server$aggregateMethod("exists", "base::exists")
   dslite.server$aggregateMethod("classDS", "dsBase::classDS")
   dslite.server$aggregateMethod("lsDS", "dsBase::lsDS")
